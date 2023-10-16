@@ -1,5 +1,4 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useLoginContext } from "../Hook/useLoginContext";
 
 interface NeedAuthProps {
     children: React.ReactNode;
@@ -7,9 +6,7 @@ interface NeedAuthProps {
 
 export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();
-    // const [loggedUser, setLoggedUser] = useContext<UserContextProps>(userContext);
-    // const { loggedUser, setLoggedUser } = useUserContext()
-    const { loggedIn } = useLoginContext()
+    const loggedIn = true;
 
     if (loggedIn) {
         return <>{props.children}</>;
