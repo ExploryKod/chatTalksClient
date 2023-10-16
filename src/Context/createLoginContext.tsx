@@ -1,10 +1,8 @@
-import React, { useState, createContext } from "react";
-
+import React, { useState } from "react";
+import { LoginContext } from "./loginContext";
 interface LoginProviderProps {
   children: React.ReactNode
 }
-
-export const LoginContext = createContext({ loggedIn: false, setLoggedIn: (loggedIn: boolean) => { } });
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
 

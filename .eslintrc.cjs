@@ -25,7 +25,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.js', '*.jsx', 'config.tsx', 'Connexion.tsx'],
+      files: ['*.js', '*.jsx', '*.tsx', 'config.tsx', 'Connexion.tsx', 'UserList.tsx'],
       extends: ['plugin:@typescript-eslint/disable-type-checked'],
     },
   ],
