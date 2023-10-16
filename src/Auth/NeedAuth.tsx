@@ -6,7 +6,7 @@ interface NeedAuthProps {
 
 export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();
-    const loggedIn = true;
+    const loggedIn = false;
 
     if (loggedIn) {
         return <>{props.children}</>;
