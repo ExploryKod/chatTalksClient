@@ -23,4 +23,10 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
+  overrides: [
+    {
+      files: ['*.js', '*.jsx', 'config.tsx', 'Connexion.tsx'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    },
+  ],
 }
