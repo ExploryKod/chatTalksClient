@@ -92,7 +92,12 @@ const Connexion = () => {
       if (response.ok) {
         console.log('réponse bien reçu');
         const data = await response.json();
-        setLogged(true);
+        if(data.token) {
+          console.log('token bien reçu ', data.token)
+          setLogged(true);
+        } else {
+          setLogged(false);
+        }
         navigate(data.redirect)
         // setFlashMessage(data.message);
         setTimeout(() => {
