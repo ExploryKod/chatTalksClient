@@ -50,23 +50,23 @@ export default function UserList() {
         }
     };
 
-    // fetchData();
+    fetchData();
 
-    const socket = new WebSocket("ws://localhost:8000/ws/1");
+    // const socket = new WebSocket("ws://localhost:8000/ws/1");
 
-    socket.onmessage = (event: MessageEvent) => {
-        try {
-            const data: { message: string } = JSON.parse(event.data);
-            console.log(data);
-            // Gérer ici les messages reçus du serveur
-        } catch (error) {
-            console.error("Error parsing WebSocket message:", error);
-        }
-    };
+    // socket.onmessage = (event: MessageEvent) => {
+    //     try {
+    //         const data: { message: string } = JSON.parse(event.data);
+    //         console.log(data);
+    //         // Gérer ici les messages reçus du serveur
+    //     } catch (error) {
+    //         console.error("Error parsing WebSocket message:", error);
+    //     }
+    // };
 
-    return () => {
-        socket.close();
-    };
+    // return () => {
+    //     socket.close();
+    // };
 }, [getUserList]);
 
   return (
