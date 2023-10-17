@@ -6,20 +6,21 @@
   line-height: 50px;
   padding: 0 35px 0 35px;
   font-size: 15px;
-  background-color: black;
+  background-color: rgb(28, 26, 26);
   color: white;
   text-transform: uppercase;
   font-family: 'Open Sans Condensed';
   font-weight: bolder;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   display: flex;
   justify-content: center;
+  transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
     background-color: white;
     color: black;
-    border: 1px solid black;
+    border: 1px solid #4285f4;
   }
 
   &.social {

@@ -159,7 +159,7 @@ return (
               </div>
              
               <div className="form-elem">
-                <button className="btn-1" type="submit">Créer son compte</button>
+                <button className="button-container" type="submit">Créer son compte</button>
               </div>
               <div className="form-elem">
                 <p> Déjà inscris ?
@@ -179,7 +179,7 @@ return (
                   <input type="text" name="password" id="password" placeholder="Mot de passe" onChange={handleChange} required />
                 </div>
                 <div className="form-elem">
-                  <button type="submit" className="btn-1">Se connecter</button>
+                  <button type="submit" className="button-container">Se connecter</button>
                 </div>
                 <div className="form-elem">
                 <p>
