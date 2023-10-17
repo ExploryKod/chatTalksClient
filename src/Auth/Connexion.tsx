@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLoggedStore } from '../StateManager/userStore';
 
 interface Session {
   session?: boolean;
@@ -12,6 +13,7 @@ const Connexion = () => {
   const [flashMessage, setFlashMessage] = useState('');
   const [sessionStatus, setSessionStatus] = useState<Session>({});
   const navigate = useNavigate();
+  const { setLogged } = useLoggedStore();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -90,6 +92,7 @@ const Connexion = () => {
       if (response.ok) {
         console.log('réponse bien reçu');
         const data = await response.json();
+        setLogged(true);
         navigate(data.redirect)
         // setFlashMessage(data.message);
         setTimeout(() => {

@@ -17,7 +17,9 @@ function App() {
                     }/>
                     
                     <Route path='/profile' element={
-                        <Profile/>
+                        <NeedAuth>
+                            <Profile/>
+                        </NeedAuth>
                     }/>
                 
                     <Route path='/connexion' element={<Connexion/>}/>

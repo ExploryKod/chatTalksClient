@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { useLoggedStore } from '../StateManager/userStore';
 
 interface NeedAuthProps {
     children: React.ReactNode;
@@ -6,9 +7,9 @@ interface NeedAuthProps {
 
 export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();
-    const loggedIn = false;
-
-    if (loggedIn) {
+    const { logged } = useLoggedStore();
+    
+    if (logged) {
         return <>{props.children}</>;
     } else {
         return <Navigate to="/connexion" state={{ from: location }} />;
