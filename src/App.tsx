@@ -4,7 +4,7 @@ import UserList from "./Component/UserList";
 import Connexion from "./Auth/Connexion";
 import Profile from "./Page/Profile";
 import "./App.css";
-import "./main.scss";
+
 
 function App() {
     return (
