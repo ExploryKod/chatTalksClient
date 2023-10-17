@@ -23,21 +23,51 @@ export default function UserList() {
     console.log(e.target);
   };
 
+  // useEffect(() => {
+  //   getUserList().then((data) => setUserList(data.users));
+
+  //   const url = new URL("http://localhost:9090/.well-known/mercure");
+  //   url.searchParams.append("topic", "https://example.com/my-private-topic");
+
+  //   const eventSource = new EventSource(url.toString(), {
+  //     withCredentials: true,
+  //   });
+  //   eventSource.onmessage = handleMessage;
+
+  //   return () => {
+  //     eventSource.close();
+  //   };
+  // }, [getUserList]);
+
   useEffect(() => {
-    getUserList().then((data) => setUserList(data.users));
-
-    const url = new URL("http://localhost:9090/.well-known/mercure");
-    url.searchParams.append("topic", "https://example.com/my-private-topic");
-
-    const eventSource = new EventSource(url.toString(), {
-      withCredentials: true,
-    });
-    eventSource.onmessage = handleMessage;
-
-    return () => {
-      eventSource.close();
+    const fetchData = async () => {
+        try {
+            const data = await getUserList();
+            console.log('userlist data', data)
+            setUserList(data.users);
+        } catch (error) {
+            console.error("Erreur dans la requête des listes utilisateurs: ", error);
+        }
     };
-  }, [getUserList]);
+
+    fetchData();
+
+    // const socket = new WebSocket("ws://localhost:8000/ws");
+
+    // socket.onmessage = (event: MessageEvent) => {
+    //     try {
+    //         const data: { message: string } = JSON.parse(event.data);
+    //         console.log(data);
+    //         // Gérer ici les messages reçus du serveur
+    //     } catch (error) {
+    //         console.error("Error parsing WebSocket message:", error);
+    //     }
+    // };
+
+    // return () => {
+    //     socket.close();
+    // };
+}, [getUserList]);
 
   return (
     <div>

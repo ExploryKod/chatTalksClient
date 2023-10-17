@@ -10,13 +10,13 @@ function App() {
     return (
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={
+                    <Route path='/profile' element={
                         <NeedAuth>
                             <UserList/>
                         </NeedAuth>
                     }/>
                     
-                    <Route path='/profile' element={
+                    <Route path='/pr' element={
                         <NeedAuth>
                             <Profile/>
                         </NeedAuth>
