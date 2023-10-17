@@ -1,5 +1,9 @@
 # Frontend du chat fait avec chatTalks repository as backend
 
+## Site en ligne
+####  Pour voir le site en ligne <a href="https://chat-talks-client.vercel.app/profile">cliquer ici</a>
+(site en cours de développement) 
+
 ## Commands to start
 
 - Pour développer : aller sur la branch dev
