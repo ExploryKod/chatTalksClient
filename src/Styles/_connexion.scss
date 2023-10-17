@@ -1,5 +1,4 @@
 .page-connexion{
-    
     .outer-connexion{
         position:absolute;
         top:0;
@@ -9,19 +8,19 @@
         background-image: url('https://images.pexels.com/photos/18110326/pexels-photo-18110326/free-photo-of-rue-mignon-chats-chaussee.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
         background-repeat: no-repeat;
         background-position: center;
-        background-size: 100%;
+        background-size: cover;
         background-color: $blue;
-        background-blend-mode: multiply;
+        background-blend-mode:luminosity;
         
 
         .inner-connexion{
-            background-color: $blue-2;
+            background-color: $blue;
             position:absolute;
-            top:50%;
+            top:2%;
             left:50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%,-2%);
             min-width:320px;
-            max-height:600px;
+            max-height:400px;
             border-radius:35px;
             box-shadow: 0 11px 34px 0 rgb(0 0 0 / 20%);
             padding: 20px;
@@ -56,6 +55,7 @@
                         flex-direction: column;
                         align-items: center;
                         margin:20px 0;
+
                         input{
                             border: 1px solid #d6d6d6;
                             width: 100%;
@@ -69,13 +69,17 @@
                             padding-left: 10px;
                             background-color: $grey-2;
                         }
-                        .btn-1{
-                            margin-top:20px;
+                        .to-connexion-link {
+                            margin-top: 20px;
+                            color: $lightLavender;
+                            cursor: pointer;
+                            &:hover{
+                                color: $darkBlue;
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }
