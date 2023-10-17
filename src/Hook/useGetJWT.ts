@@ -2,7 +2,7 @@
 
 export default function useGetJWT() {
 
-    return function (username, password) {
+    return function (username: string, password:string) {
         const credentials = btoa(`${username}:${password}`);
 
         return fetch('http://localhost:8245/login', {
