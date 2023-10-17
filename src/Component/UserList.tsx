@@ -44,13 +44,13 @@ export default function UserList() {
         try {
             const data = await getUserList();
             console.log('userlist data', data)
-            setUserList(data.users);
+            setUserList(data);
         } catch (error) {
             console.error("Erreur dans la requête des listes utilisateurs: ", error);
         }
     };
 
-    fetchData();
+    // fetchData();
 
     // const socket = new WebSocket("ws://localhost:8000/ws");
 
