@@ -16,7 +16,10 @@
   ```
 - Assurez-vous d'avoir accés aux commandes de make : un utilitaire pour executer le script du Makefile.
  
-  Sur Windows il n'est pas nativement installé > utiliser chocolatey pour l'installer (voir docs sur internet)
+  Sur Windows il n'est pas nativement installé > utiliser chocolatey pour l'installer (https://gnuwin32.sourceforge.net/packages/make.html)
+  Si vous avez chocolatey : choco install make 
+
+  Vous pouvez donc utiliser les commande make sur votre terminal dans windows.
 
 - Démarrer l'environnement de dévelopmement avec docker
   ```
