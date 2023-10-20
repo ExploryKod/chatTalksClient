@@ -51,50 +51,6 @@
 
 - Avant ou aprés vous devez avoir démarrer le backend et vérifier la validité des ports
     
-## Ce repo a été construit avec Vite + React + TypeScript - voici la doc:
-# Frontend du chat fait avec chatTalks repository as backend
-
-## Commands to start
-
-- Pour développer : aller sur la branch dev
-  ```
-  git checkout dev
-  ```
-- Créer une branche de feature ou aller sur une branche existante
-  ```
-  git checkout -b feature/monnomdebranch
-  ```
-- Assurez-vous d'avoir accés aux commandes de make : un utilitaire pour executer le script du Makefile.
- 
-  Sur Windows il n'est pas nativement installé > utiliser chocolatey pour l'installer (voir docs sur internet)
-
-- Démarrer l'environnement de dévelopmement avec docker
-  ```
-  make first
-  ```
-  Cela va démarer le docker compose up -d suivi des commande permettant le hot reloading.
-
-  Vous pourrez alors travailler avec un hot relaod tout en bénéficiant de la contenairisation.
-
-  Si make ne marche pas:
-
-  1/ Démarrer le container
-  ```
-  docker-compose up --build --no-recreate -d
-  ```
-  PS: les autres fois cette commande est suffisante : ``` docker compose up -d ```
-
-  2/ Envoyer à docker les bonnes commandes pour le dev
-
-- Vérifier avec un ``` docker-compose ps ``` que le nom du container c'est toujours vite-docker
-  
-  ``` docker exec -it vite_docker sh ```
-
-- Une fois dans le container : ``` npm i && npm run dev ```
-
-- Si nécessaire, ajouter un .env avec : (A compléter)
-
-- Avant ou aprés vous devez avoir démarrer le backend et vérifier la validité des ports
     
 ## Ce repo a été construit avec Vite + React + TypeScript - voici la doc:
 
