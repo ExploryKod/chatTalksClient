@@ -18,6 +18,7 @@
  
   Sur Windows il n'est pas nativement installé
   >> Si vous avez chocolatey : choco install make 
+  Info si pas de chocolatey : https://earthly.dev/blog/makefiles-on-windows/
 
   >> Sinon : https://gnuwin32.sourceforge.net/packages/make.html
 
