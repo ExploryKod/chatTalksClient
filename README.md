@@ -18,6 +18,7 @@
  
   Sur Windows il n'est pas nativement installé
   >> Si vous avez chocolatey : choco install make 
+
   >> Sinon : https://gnuwin32.sourceforge.net/packages/make.html
 
   Vous pouvez donc utiliser les commande make sur votre terminal dans windows.
