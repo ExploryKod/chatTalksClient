@@ -23,22 +23,6 @@ export default function UserList() {
     console.log(e.target);
   };
 
-  // useEffect(() => {
-  //   getUserList().then((data) => setUserList(data.users));
-
-  //   const url = new URL("http://localhost:9090/.well-known/mercure");
-  //   url.searchParams.append("topic", "https://example.com/my-private-topic");
-
-  //   const eventSource = new EventSource(url.toString(), {
-  //     withCredentials: true,
-  //   });
-  //   eventSource.onmessage = handleMessage;
-
-  //   return () => {
-  //     eventSource.close();
-  //   };
-  // }, [getUserList]);
-
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -50,7 +34,7 @@ export default function UserList() {
         }
     };
 
-    fetchData();
+    // fetchData();
 
     // const socket = new WebSocket("ws://localhost:8000/ws/1");
 
