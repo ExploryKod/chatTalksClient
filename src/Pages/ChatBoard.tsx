@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import ChatPreview  from './ChatPreview';
 import ChatRoom from './ChatRoom';
 
-const Shop: React.FC<{}> = () => {
+const ChatBoard: React.FC<{}> = () => {
 
   return (
       <Routes>
@@ -12,6 +12,6 @@ const Shop: React.FC<{}> = () => {
   );
 };
 
-export default Shop;
+export default ChatBoard;
 
 
