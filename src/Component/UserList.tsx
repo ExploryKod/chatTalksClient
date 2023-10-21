@@ -19,10 +19,6 @@ export default function UserList() {
     backendPing(userId).then((data) => console.log(data));
   };
 
-  const handleMessage = (e: MessageEvent) => {
-    console.log(e.target);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -34,7 +30,10 @@ export default function UserList() {
         }
     };
 
-    // fetchData();
+    // setInterval(() => {
+    //   fetchData();
+    // }, 10000)
+    
 
     // const socket = new WebSocket("ws://localhost:8000/ws/1");
 
@@ -55,7 +54,7 @@ export default function UserList() {
 
   return (
     <div>
-      <h1 className="m-5 text-center">Ping a user</h1>
+      <h1 className="m-5 text-center">Utilisateurs</h1>
       {userList.map((user, index) => (
         <form key={index} className="w-75 mx-auto mb-3" onSubmit={handleSubmit}>
           <button className="btn btn-dark w-100" type="submit" value={user.id}>
