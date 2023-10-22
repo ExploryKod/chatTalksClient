@@ -19,6 +19,17 @@ export default function UserList() {
     backendPing(userId).then((data) => console.log(data));
   };
 
+  // useEffect(() => {
+  //   const DeleteUser = async () => {
+  //       try {
+  //           const data = await useDeleteUser(id);
+  //       } catch (error) {
+  //           console.error("Erreur dans la requête des listes utilisateurs: ", error);
+  //       }
+  //   };
+  // }, [getUserList]);
+
+
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -30,9 +41,9 @@ export default function UserList() {
         }
     };
 
-    // setInterval(() => {
-    //   fetchData();
-    // }, 10000)
+    setInterval(() => {
+      fetchData();
+    }, 10000)
     
 
     // const socket = new WebSocket("ws://localhost:8000/ws/1");
