@@ -6,16 +6,25 @@ import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
 
 function App() {
+
     return (
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/' element={<Navigation/>}>
-                        <Route index element={<NeedAuth><UserList/></NeedAuth>}/>
-                        <Route path='chat/*' element={<ChatBoard/>}/>
-                    </Route>
-                    <Route path='/connexion' element={<Connexion/>}/>
-                </Routes>
-            </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+                <Route path='/' element={<Navigation/>}>
+                    <Route index element={
+                        <NeedAuth>
+                            <UserList/>
+                        </NeedAuth>
+                    }/>
+                    <Route path='chat/*' element={
+                        <NeedAuth>
+                            <ChatBoard/>
+                        </NeedAuth>
+                    }/>
+                </Route>
+                <Route path='/connexion' element={<Connexion/>}/>
+            </Routes>
+        </BrowserRouter>
     );
 }
 

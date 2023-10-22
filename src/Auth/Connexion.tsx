@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 
@@ -95,9 +95,9 @@ const Connexion = () => {
         const data = await response.json();
         if(data.token) {
           console.log('token bien reçu ', data.token)
-          setLogged(true);
+          setLogged(data.token);
         } else {
-          setLogged(false);
+          setLogged('');
         }
         navigate(data.redirect)
         // setFlashMessage(data.message);
