@@ -25,6 +25,7 @@ const Connexion = () => {
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
+        mode: "no-cors",
         body: new URLSearchParams({
           ...registerData
         })
