@@ -2,26 +2,17 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NeedAuth from "./Auth/NeedAuth";
 import UserList from "./Component/UserList";
 import Connexion from "./Auth/Connexion";
-import Profile from "./Page/Profile";
-import "./App.css";
-
+import ChatBoard from "./Pages/ChatBoard";
+import Navigation from "./Pages/Navigation";
 
 function App() {
     return (
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={
-                        <NeedAuth>
-                            <UserList/>
-                        </NeedAuth>
-                    }/>
-                    
-                    <Route path='/profile' element={
-                        <NeedAuth>
-                            <Profile/>
-                        </NeedAuth>
-                    }/>
-                
+                    <Route path='/' element={<Navigation/>}>
+                        <Route index element={<NeedAuth><UserList/></NeedAuth>}/>
+                        <Route path='chat/*' element={<ChatBoard/>}/>
+                    </Route>
                     <Route path='/connexion' element={<Connexion/>}/>
                 </Routes>
             </BrowserRouter>

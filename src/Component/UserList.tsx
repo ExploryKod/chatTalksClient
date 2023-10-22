@@ -19,29 +19,42 @@ export default function UserList() {
     backendPing(userId).then((data) => console.log(data));
   };
 
-  const handleMessage = (e: MessageEvent) => {
-    console.log(e.target);
-  };
-
   useEffect(() => {
-    getUserList().then((data) => setUserList(data.users));
-
-    const url = new URL("http://localhost:9090/.well-known/mercure");
-    url.searchParams.append("topic", "https://example.com/my-private-topic");
-
-    const eventSource = new EventSource(url.toString(), {
-      withCredentials: true,
-    });
-    eventSource.onmessage = handleMessage;
-
-    return () => {
-      eventSource.close();
+    const fetchData = async () => {
+        try {
+            const data = await getUserList();
+            console.log('userlist data', data)
+            setUserList(data);
+        } catch (error) {
+            console.error("Erreur dans la requête des listes utilisateurs: ", error);
+        }
     };
-  }, [getUserList]);
+
+    // setInterval(() => {
+    //   fetchData();
+    // }, 10000)
+    
+
+    // const socket = new WebSocket("ws://localhost:8000/ws/1");
+
+    // socket.onmessage = (event: MessageEvent) => {
+    //     try {
+    //         const data: { message: string } = JSON.parse(event.data);
+    //         console.log(data);
+    //         // Gérer ici les messages reçus du serveur
+    //     } catch (error) {
+    //         console.error("Error parsing WebSocket message:", error);
+    //     }
+    // };
+
+    // return () => {
+    //     socket.close();
+    // };
+}, [getUserList]);
 
   return (
     <div>
-      <h1 className="m-5 text-center">Ping a user</h1>
+      <h1 className="m-5 text-center">Utilisateurs</h1>
       {userList.map((user, index) => (
         <form key={index} className="w-75 mx-auto mb-3" onSubmit={handleSubmit}>
           <button className="btn btn-dark w-100" type="submit" value={user.id}>

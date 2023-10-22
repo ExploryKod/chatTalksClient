@@ -4,7 +4,7 @@ interface Config {
 }
 
 const config:Config = {
-    serverPort: 7001,
+    serverPort: 8000,
 };
   
 export default config;
