@@ -1,8 +1,8 @@
-import config from '../config/config.js';
+// import config from '../config/config.js';
 
 export default function useGetChat() {
 
-    const serverPort:number | string = config.serverPort;
+    // const serverPort:number | string = config.serverPort;
 
     return function () {
         return fetch(`http://localhost:8080/chat`, {
