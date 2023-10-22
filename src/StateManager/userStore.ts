@@ -7,13 +7,13 @@ interface CounterState {
 }
 
 interface LoggedState {
-    logged: boolean;
-    setLogged: (logged: boolean) => void;
+    logged: string;
+    setLogged: (logged: string) => void;
 }
 
 export const useLoggedStore = create<LoggedState>((set) => ({
-    logged: false,
-    setLogged: (logged: boolean) => set({ logged }),
+    logged: '',
+    setLogged: (logged: string) => set({ logged }),
 }));
 
 export const useCounterStore = create<CounterState>((set) => ({
