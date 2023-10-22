@@ -12,17 +12,9 @@ export default function UserList() {
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
   const backendPing = useBackendPing();
-  ;
+  
 
-  const handleDelete = (userId: number) => {
-    // Call the delete user hook
-    try {
-      const data = useDeleteUser(userId);
-      console.log('delete userlist data ', data)
-    } catch (error) {
-      console.error("Erreur dans la requête pour supprimer un utilisateur: ", error);
-    }
-  }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +30,28 @@ export default function UserList() {
     fetchData();
 
   },[]);
+
+  const handleDelete = (userId: number) => {
+    fetch(`http://localhost:8000/delete-user/${userId}`, {
+            method: 'GET',
+            mode: "cors"
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+            
+        })
+        .then(data => {
+          setUserList(prevUserList => prevUserList.filter(user => user.id !== userId));
+          console.log('User deleted successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error deleting user:', error);
+            throw error; // Re-throw the error to propagate it to the calling code
+        });
+  }
 
   return (
     <div>

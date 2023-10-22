@@ -147,7 +147,7 @@ return (
     <div className="outer-connexion">
       <div className="inner-connexion">
       {flashMessage && <div className="output-message x-center-position">{flashMessage}</div>}
-        {toggle ? (
+        {!toggle ? (
           <div className="container-inscription">
             <form className="form-container" onSubmit={handleRegisterSubmit} method="post">
               <div className="form-elem">

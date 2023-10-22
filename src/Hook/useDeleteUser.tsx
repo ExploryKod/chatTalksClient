@@ -9,6 +9,5 @@ export default function useDeleteUser(id: number | string) {
             method: 'GET',
             mode: "cors"
         })
-            .then(data => data.json())
     }
 }
