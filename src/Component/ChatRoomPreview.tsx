@@ -30,8 +30,11 @@ export const ChatRoomPreview = ({ id, title } : ICategory) => {
         }
     };
 
+
+
     return(
         <div className='category-preview-container'>
+
             <h2>
                 <Link onClick={handleClick} className='title' to={id.toString()}>
                     {title}
