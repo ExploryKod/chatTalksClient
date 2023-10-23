@@ -21,7 +21,7 @@ const ChatRoom: React.FC<{}> = () => {
   };
 
   useEffect(() => {
-    const newSocket = new WebSocket('ws://localhost:8000/ws');
+    const newSocket = new WebSocket('ws://localhost:8000/ws?name=chatchat');
 
     newSocket.onclose = (event) => {
       console.log('WebSocket closed:', event);
