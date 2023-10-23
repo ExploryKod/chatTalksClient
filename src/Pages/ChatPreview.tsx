@@ -34,7 +34,7 @@ const ChatPreview: React.FC<{}> = () => {
                 const data = await response.json();
                 console.log(data)
             } else {
-                console.log('échec de la réponse create room');
+                console.log('échec de la création de room');
             }
 
         } catch (error) {
