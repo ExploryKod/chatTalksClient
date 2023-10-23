@@ -5,7 +5,7 @@ interface ProfileProps {
     userId: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({ userId, username }) => {
+const Profile: React.FC<ProfileProps> = () => {
     // const [isDeleting, setIsDeleting] = useState(false);
 
     // const handleDelete = async () => {
@@ -21,7 +21,7 @@ const Profile: React.FC<ProfileProps> = ({ userId, username }) => {
 
     return (
         <div>
-            <h1 className="category-title">Bienvenue {username}</h1>
+            <h1 className="category-title">Bienvenue !</h1>
     
             <UserList />
           
