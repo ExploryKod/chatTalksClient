@@ -1,6 +1,6 @@
 .button-container {
-  min-width: 165px;
-  width: auto;
+  min-width: 250px;
+  
   height: 50px;
   letter-spacing: 0.5px;
   line-height: 50px;
@@ -17,6 +17,10 @@
   display: flex;
   justify-content: center;
   transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out, color 0.25s ease-in-out;
+
+  &.room-button {
+    margin-top: 20px;
+  }
 
   &:hover {
     background-color: white;

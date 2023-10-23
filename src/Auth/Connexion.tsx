@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 
@@ -25,6 +25,7 @@ const Connexion = () => {
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
+        mode: "no-cors",
         body: new URLSearchParams({
           ...registerData
         })
@@ -94,9 +95,9 @@ const Connexion = () => {
         const data = await response.json();
         if(data.token) {
           console.log('token bien reçu ', data.token)
-          setLogged(true);
+          setLogged(data.token);
         } else {
-          setLogged(false);
+          setLogged('');
         }
         navigate(data.redirect)
         // setFlashMessage(data.message);
@@ -146,7 +147,7 @@ return (
     <div className="outer-connexion">
       <div className="inner-connexion">
       {flashMessage && <div className="output-message x-center-position">{flashMessage}</div>}
-        {toggle ? (
+        {!toggle ? (
           <div className="container-inscription">
             <form className="form-container" onSubmit={handleRegisterSubmit} method="post">
               <div className="form-elem">
