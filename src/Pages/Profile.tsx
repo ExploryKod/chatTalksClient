@@ -1,11 +1,7 @@
 import UserList from "../Component/UserList";
-interface ProfileProps {
-    isAdmin: boolean;
-    username: string;
-    userId: string;
-}
 
-const Profile: React.FC<ProfileProps> = () => {
+
+const Profile = () => {
     // const [isDeleting, setIsDeleting] = useState(false);
 
     // const handleDelete = async () => {
