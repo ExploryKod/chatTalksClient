@@ -14,9 +14,6 @@ const Navigation = () => {
                     <Link className='nav-link' to='/chat'>
                         CHAT ROOMS
                     </Link>
-                    <Link className='nav-link' to='/connexion'>
-                        PROFILE
-                    </Link>
                 </div>
             </div>
 
