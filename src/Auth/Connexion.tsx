@@ -13,7 +13,7 @@ const Connexion = () => {
   const [flashMessage, setFlashMessage] = useState('');
   const [sessionStatus, setSessionStatus] = useState<Session>({});
   const navigate = useNavigate();
-  const { setLogged } = useLoggedStore();
+  const { setToken } = useLoggedStore();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -95,9 +95,9 @@ const Connexion = () => {
         const data = await response.json();
         if(data.token) {
           console.log('token bien reçu ', data.token)
-          setLogged(data.token);
+          setToken(data.token);
         } else {
-          setLogged('');
+          setToken('');
         }
         navigate(data.redirect)
         // setFlashMessage(data.message);
