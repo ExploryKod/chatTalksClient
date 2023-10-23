@@ -50,7 +50,7 @@ const ChatRoom: React.FC<{}> = () => {
     <h1 className="category-title"> Chat room n° {room}</h1>
       <div className="input-log">
         {messages.map((message, index) => (
-          <div className="message-log" key={index}><BiSolidUserVoice/>{message}</div>
+          <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{message}</div>
         ))}
       </div>
       <form className="message-form" onSubmit={sendMessage}>
