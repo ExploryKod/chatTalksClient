@@ -45,17 +45,18 @@ const ChatRoom: React.FC<{}> = () => {
 
   return (
     <>
-    <h1> Chat room n° {room}</h1>
-      <div id="log">
+    <h1 className="category-title"> Chat room n° {room}</h1>
+      <div className="input-log">
         {messages.map((message, index) => (
-          <div key={index}>{message}</div>
+          <div className="message-log" key={index}>{message}</div>
         ))}
       </div>
-      <form id="form" onSubmit={sendMessage}>
-        <input type="submit" value="Send" />
+      <form className="message-form" onSubmit={sendMessage}>
+        <input type="submit" className="message-send" value="Send" />
         <input
           type="text"
           id="msg"
+          placeholder='Ecrivez votre message'
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
         />

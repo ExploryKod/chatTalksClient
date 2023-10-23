@@ -13,9 +13,6 @@ export default function UserList() {
   const getUserList = useGetUserList();
   const backendPing = useBackendPing();
   
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {

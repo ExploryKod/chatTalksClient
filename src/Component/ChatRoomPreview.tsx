@@ -4,7 +4,7 @@ import { ICategory } from '../Pages/ChatPreview';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
 export const ChatRoomPreview = ({ id, title } : ICategory) => {
-
+    const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {logged} = useLoggedStore();
     const handleClick = async () => {
         try {
@@ -35,10 +35,18 @@ export const ChatRoomPreview = ({ id, title } : ICategory) => {
     return(
         <div className='category-preview-container'>
 
-            <h2>
-                <Link onClick={handleClick} className='title' to={id.toString()}>
-                    {title}
+<div className={`product-card-container card-${title}`}>
+            <img src={imageUrl} alt={`${title}`} />
+            <div className='footer'>
+                <span className='name'>{title}</span>
+            </div>
+            <Link onClick={handleClick} className='card-link title' to={id.toString()}>
+                    Rejoindre la salle
                 </Link>
+        </div>
+
+            <h2>
+             
             </h2>
         </div>
     )

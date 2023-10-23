@@ -48,13 +48,15 @@ const ChatPreview: React.FC<{}> = () => {
 
     return (
         <>
-            <div className="categories-container">
+            <div className="">
                 <form method={'post'} onSubmit={createRoom}>
                     <input name={'roomName'} type={'text'} placeholder={'Create a room'} onChange={handleChange}/>
                     <button type={'submit'}>Create Room</button>
                 </form>
+                <div className="categories-container">
                 {rooms.map((item, index) => (
                     <ChatRoomPreview key={index} title={item.title} id={item.id}/>))}
+                </div>
             </div>
         </>
     );
