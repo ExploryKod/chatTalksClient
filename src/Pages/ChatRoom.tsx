@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { GiTalk } from 'react-icons/gi';
+import {BiSolidUserVoice} from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
 
 const ChatRoom: React.FC<{}> = () => {
@@ -48,10 +50,11 @@ const ChatRoom: React.FC<{}> = () => {
     <h1 className="category-title"> Chat room n° {room}</h1>
       <div className="input-log">
         {messages.map((message, index) => (
-          <div className="message-log" key={index}>{message}</div>
+          <div className="message-log" key={index}><BiSolidUserVoice/>{message}</div>
         ))}
       </div>
       <form className="message-form" onSubmit={sendMessage}>
+        <GiTalk className="talk-icon"/>
         <input type="submit" className="message-send" value="Send" />
         <input
           type="text"

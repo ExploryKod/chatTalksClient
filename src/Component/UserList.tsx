@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useGetUserList from "../Hook/useGetUserList";
 import useBackendPing from "../Hook/useBackendPing";
-import useDeleteUser from "../Hook/useDeleteUser";
+
 
 export default function UserList() {
   interface IUser {
@@ -12,6 +12,7 @@ export default function UserList() {
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
   const backendPing = useBackendPing();
+  const isAdmin = true;
   
   useEffect(() => {
     const fetchData = async () => {
@@ -52,15 +53,16 @@ export default function UserList() {
 
   return (
     <div>
-      <h1 className="m-5 text-center">Utilisateurs</h1>
+      <h1 className="m-5 text-center"> Utilisateurs du chat : </h1>
       {userList.map((user, index) => (
         <div key={index} className="w-75 mx-auto mb-3">
           <button className="btn btn-dark w-100" type="button" onClick={() => backendPing(user.id)}>
             {user.username}
           </button>
+          {isAdmin &&
           <button className="btn btn-danger w-100 mt-2" type="button" onClick={() => handleDelete(user.id)}>
             Delete {user.username}
-          </button>
+          </button>}
         </div>
       ))}
     </div>

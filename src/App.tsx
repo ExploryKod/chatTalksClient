@@ -1,6 +1,6 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NeedAuth from "./Auth/NeedAuth";
-import UserList from "./Component/UserList";
+import Profile from "./Pages/Profile";
 import Connexion from "./Auth/Connexion";
 import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
@@ -13,7 +13,7 @@ function App() {
                 <Route path='/' element={<Navigation/>}>
                     <Route index element={
                         <NeedAuth>
-                            <UserList/>
+                            <Profile userId={} isAdmin{true} />
                         </NeedAuth>
                     }/>
                     <Route path='chat/*' element={
