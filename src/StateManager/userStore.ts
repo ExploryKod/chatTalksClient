@@ -2,14 +2,15 @@ import { create } from 'zustand';
 
 interface LoggedState {
     token: string;
-    user: string;
+    username: string;
     setToken: (logged: string) => void;
+    setUsername: (username: string) => void;
 }
 
 export const useLoggedStore = create<LoggedState>((set) => ({
     token: '',
-    user: '',
+    username: '',
     setToken: (token: string) => set({ token: token }),
-    setUser: (user: string) => set({ user }),
+    setUsername: (username: string) => set({ username: username }),
 }));
 
