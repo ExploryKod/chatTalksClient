@@ -46,7 +46,7 @@ export default function UserList() {
           console.log('User deleted successfully:', data);
         })
         .catch(error => {
-            console.error('Error deleting user:', error);
+            console.error('Error deleting username:', error);
             throw error; // Re-throw the error to propagate it to the calling code
         });
   }

@@ -13,7 +13,7 @@ const Connexion = () => {
   const [flashMessage, setFlashMessage] = useState('');
   const [sessionStatus, setSessionStatus] = useState<Session>({});
   const navigate = useNavigate();
-  const { setToken } = useLoggedStore();
+  const { setToken, setUsername } = useLoggedStore();
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -96,6 +96,7 @@ const Connexion = () => {
         if(data.token) {
           console.log('token bien reçu ', data.token)
           setToken(data.token);
+          setUsername(formData.username);
         } else {
           setToken('');
         }
