@@ -53,7 +53,9 @@ export default function UserList() {
 
   return (
     <div>
-      <h1 className="m-5 text-center"> Utilisateurs du chat : </h1>
+      {!userList || !userList.length ?
+      (<h1 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h1>): 
+      <h1 className="category-text"> Utilisateurs du chat : </h1> }
       {userList.map((user, index) => (
         <div key={index} className="w-75 mx-auto mb-3">
           <button className="btn btn-dark w-100" type="button" onClick={() => backendPing(user.id)}>
