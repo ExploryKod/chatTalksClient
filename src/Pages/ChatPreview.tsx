@@ -1,24 +1,32 @@
 import ChatRoomPreview from '../Component/ChatRoomPreview';
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
 export interface ICategory {
     id: number,
-    title: string,
+    name: string,
+    description: string,
 }
-
-const rooms: ICategory[] = [{
-    id: 1,
-    title: 'Chat room 1',
-},
-    {
-        id: 2,
-        title: 'Chat room 2'
-    }];
 
 const ChatPreview: React.FC<{}> = () => {
 
     const [roomName, setRoomName] = useState('');
+    const [roomsList, setRoomsList] = useState<ICategory[]>([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getRoomsList();
+          console.log('userlist data', data);
+          setRoomsList(data);
+        } catch (error) {
+          console.error("Erreur dans la requête des listes utilisateurs: ", error);
+        }
+      };
+
+      fetchData();
+
+    },[]);
 
     const {token} = useLoggedStore();
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
@@ -62,8 +70,8 @@ const ChatPreview: React.FC<{}> = () => {
                     <button className="button-container room-button" type={'submit'}>Créer une salle</button>
                 </form>
                 <div className="categories-container">
-                {rooms.map((item, index) => (
-                    <ChatRoomPreview key={index} title={item.title} id={item.id}/>))}
+                {roomsList.map((item, index) => (
+                    <ChatRoomPreview key={index} name={item.name} id={item.id} description={item.description}/>))}
                 </div>
             </div>
         </>

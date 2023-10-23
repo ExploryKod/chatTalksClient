@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ICategory } from '../Pages/ChatPreview';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
-export const ChatRoomPreview = ({ id, title } : ICategory) => {
+export const ChatRoomPreview = ({ id, name, description } : ICategory) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const handleClick = async () => {
@@ -33,10 +33,11 @@ export const ChatRoomPreview = ({ id, title } : ICategory) => {
     return(
         <div className='category-preview-container'>
 
-<div className={`room-card-container card-${title}`}>
-            <img src={imageUrl} alt={`${title}`} />
+<div className={`room-card-container card-${name}`}>
+            <img src={imageUrl} alt={`${name}`} />
+            <div className='body'>{description}</div>
             <div className='footer'>
-                <span className='name'>{title}</span>
+                <span className='name'>{name}</span>
             </div>
             <Link onClick={handleClick} className='card-link title' to={id.toString()}>
                     Rejoindre la salle
