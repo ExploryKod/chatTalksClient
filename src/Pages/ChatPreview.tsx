@@ -1,5 +1,6 @@
 import ChatRoomPreview from '../Component/ChatRoomPreview';
 import {ChangeEvent, FormEvent, useState} from "react";
+import {useLoggedStore} from "../StateManager/userStore.ts";
 
 export interface ICategory {
     id: number,
@@ -19,6 +20,7 @@ const ChatPreview: React.FC<{}> = () => {
 
     const [roomName, setRoomName] = useState('');
 
+    const {token} = useLoggedStore();
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
@@ -26,7 +28,12 @@ const ChatPreview: React.FC<{}> = () => {
                 method: 'POST',
                 body: new URLSearchParams({
                     'roomName': roomName,
-                })
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`,
+                },
+                credentials: 'same-origin'
             });
 
             if (response.ok) {

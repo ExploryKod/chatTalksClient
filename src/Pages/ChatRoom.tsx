@@ -3,11 +3,16 @@ import { GiTalk } from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
 
+type Message = {
+  action: string;
+  text: string;
+}
 const ChatRoom: React.FC<{}> = () => {
   const { room } = useParams();
   const [messages, setMessages] = useState<string[]>([]);
-  const [messageInput, setMessageInput] = useState<string>('');
+  const [messageInput, setMessageInput] = useState<Message>({ action: "send-message", text: "" });
   const [socket, setSocket] = useState<WebSocket | null>(null);
+
 
   const sendMessage = (event: React.FormEvent) => {
     event.preventDefault();
@@ -16,12 +21,16 @@ const ChatRoom: React.FC<{}> = () => {
       return;
     }
 
-    socket.send(messageInput);
-    setMessageInput('');
+    socket.send(JSON.stringify(messageInput));
+    setMessageInput({ action: "send-message", text: "" });
   };
 
   useEffect(() => {
-    const newSocket = new WebSocket('ws://localhost:8000/ws?name=chatchat');
+    const newSocket = new WebSocket(`ws://localhost:8000/ws?name=nass`);
+
+    newSocket.onopen = () => {
+        console.log('WebSocket connected');
+    }
 
     newSocket.onclose = (event) => {
       console.log('WebSocket closed:', event);
@@ -45,6 +54,7 @@ const ChatRoom: React.FC<{}> = () => {
     };
   }, []);
 
+
   return (
     <>
     <h1 className="category-title"> Chat room n° {room}</h1>
@@ -60,8 +70,8 @@ const ChatRoom: React.FC<{}> = () => {
           type="text"
           id="msg"
           placeholder='Ecrivez votre message'
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
+          value={messageInput.text}
+          onChange={(e) => setMessageInput({ action: "send-message", text: e.target.value })}
         />
       </form>
     </>

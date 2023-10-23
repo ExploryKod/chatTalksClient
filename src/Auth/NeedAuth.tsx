@@ -7,10 +7,10 @@ interface NeedAuthProps {
 
 export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();
-    const { logged } = useLoggedStore();
+    const { token } = useLoggedStore();
 
     
-    if (logged) {
+    if (token) {
         return <>{props.children}</>;
     } else {
         return <Navigate to="/connexion" state={{ from: location }} />;

@@ -13,7 +13,7 @@ function App() {
                 <Route path='/' element={<Navigation/>}>
                     <Route index element={
                         <NeedAuth>
-                            <Profile />
+                            <Profile userId={''} username={''}  isAdmin={false}/>
                         </NeedAuth>
                     }/>
                     <Route path='chat/*' element={

@@ -5,13 +5,13 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 
 export const ChatRoomPreview = ({ id, title } : ICategory) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
-    const {logged} = useLoggedStore();
+    const {token} = useLoggedStore();
     const handleClick = async () => {
         try {
             const response = await fetch(`http://localhost:8000/chat/${id}`, {
                 method: 'GET',
                 headers: {
-                    Authorization : `Bearer ${logged}`,
+                    Authorization : `Bearer ${token}`,
                 },
                 credentials: 'same-origin'
             });
