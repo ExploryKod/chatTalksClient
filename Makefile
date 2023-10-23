@@ -6,6 +6,7 @@ DOCKER_COMPOSE?=docker-compose
 DOCKER_EXEC_TOOLS_APP=$(CURRENT_USER) docker exec -it $(DOCKER_NAME) sh
 NODE_INSTALL="npm i"
 SERVER_RUN="npm run dev"
+SERVER_BUILD="npm run build"
 
 
 .PHONY: build install dev up start first stop restart clear
@@ -26,9 +27,14 @@ dev:
 up:
 	$(DOCKER_COMPOSE) up -d
 
+server_build:
+	$(DOCKER_EXEC_TOOLS_APP) -c $(SERVER_BUILD)
+
 start: up dev
 
 first: build install dev
+
+npm_build: server_build
 
 stop:	$(ROOT_DIR)/docker-compose.yml
 	$(DOCKER_COMPOSE) kill || true
