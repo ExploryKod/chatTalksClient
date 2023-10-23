@@ -30,12 +30,10 @@ export const ChatRoomPreview = ({ id, title } : ICategory) => {
         }
     };
 
-
-
     return(
         <div className='category-preview-container'>
 
-<div className={`product-card-container card-${title}`}>
+<div className={`room-card-container card-${title}`}>
             <img src={imageUrl} alt={`${title}`} />
             <div className='footer'>
                 <span className='name'>{title}</span>
@@ -43,11 +41,7 @@ export const ChatRoomPreview = ({ id, title } : ICategory) => {
             <Link onClick={handleClick} className='card-link title' to={id.toString()}>
                     Rejoindre la salle
                 </Link>
-        </div>
-
-            <h2>
-             
-            </h2>
+            </div>
         </div>
     )
 }
