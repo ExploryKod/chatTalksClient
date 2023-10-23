@@ -1,6 +1,7 @@
 import ChatRoomPreview from '../Component/ChatRoomPreview';
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useLoggedStore} from "../StateManager/userStore.ts";
+import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
 
 export interface ICategory {
     id: number,
@@ -12,6 +13,7 @@ const ChatPreview: React.FC<{}> = () => {
 
     const [roomName, setRoomName] = useState('');
     const [roomsList, setRoomsList] = useState<ICategory[]>([]);
+    const getRoomsList = useGetRoomsList();
 
     useEffect(() => {
       const fetchData = async () => {
