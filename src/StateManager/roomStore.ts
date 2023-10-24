@@ -1,12 +1,17 @@
-// import { create } from 'zustand';
+import { create } from 'zustand';
 
-// export interface ICategory {
-//     id: number,
-//     title: string,
-// }
+interface RoomState {
+    id: number;
+    roomName: string;
+    roomDescription: string;
+    setRoomName: (name: string) => void;
+    setRoomDescription: (description: string) => void;
+}
 
-// export const useRoomStore = create<ICategory[]>(() => ());    
-
-
-
-
+export const useRoomStore = create<RoomState>((set) => ({
+    id: 0,
+    roomName: '',
+    roomDescription: '',
+    setRoomName: (name: string) => set({ roomName: name }),
+    setRoomDescription: (description: string) => set({ roomDescription: description }),
+}));
