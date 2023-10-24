@@ -7,7 +7,7 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 
 type Message = {
     action: string;
-    text: string;
+    message: string;
     target: string;
 }
 
@@ -25,7 +25,7 @@ const ChatRoom: React.FC<{}> = () => {
     const {username} = useLoggedStore();
     const {room} = useParams();
     const [messages, setMessages] = useState<string[]>([]);
-    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", text: "", target: roomName});
+    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: roomName});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
@@ -36,7 +36,7 @@ const ChatRoom: React.FC<{}> = () => {
         }
 
         socket.send(JSON.stringify(messageInput));
-        setMessageInput({action: "send-message", text: "", target: roomName});
+        setMessageInput({action: "send-message", message: "", target: roomName});
     };
 
     const handleJoinRoom = () => {
@@ -117,8 +117,8 @@ const ChatRoom: React.FC<{}> = () => {
                     type="text"
                     id="msg"
                     placeholder='Ecrivez votre message'
-                    value={messageInput.text}
-                    onChange={(e) => setMessageInput({action: "send-message", text: e.target.value, target: roomName})}
+                    value={messageInput.message}
+                    onChange={(e) => setMessageInput({action: "send-message", message: e.target.value, target: roomName})}
                 />
             </form>
         </>
