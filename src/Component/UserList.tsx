@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import useGetUserList from "../Hook/useGetUserList";
-import useBackendPing from "../Hook/useBackendPing";
+// import useBackendPing from "../Hook/useBackendPing";
+// import {Link} from "react-router-dom";
 
 
 export default function UserList() {
   interface IUser {
     id: number;
     username: string;
+    role: string;
   }
 
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
-  const backendPing = useBackendPing();
-  const isAdmin = true;
-  
+  // const backendPing = useBackendPing();
+  // const isAdmin = true;
+  //
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,44 +31,49 @@ export default function UserList() {
 
   },[]);
 
-  const handleDelete = (userId: number) => {
-    fetch(`http://localhost:8000/delete-user/${userId}`, {
-            method: 'GET',
-            mode: "cors"
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-            
-        })
-        .then(data => {
-          setUserList(prevUserList => prevUserList.filter(user => user.id !== userId));
-          console.log('User deleted successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error deleting username:', error);
-            throw error; // Re-throw the error to propagate it to the calling code
-        });
-  }
+  // const handleDelete = (userId: number) => {
+  //   fetch(`http://localhost:8000/delete-user/${userId}`, {
+  //           method: 'GET',
+  //           mode: "cors"
+  //       })
+  //       .then(response => {
+  //           if (!response.ok) {
+  //               throw new Error(`HTTP error! Status: ${response.status}`);
+  //           }
+  //           return response.json();
+  //
+  //       })
+  //       .then(data => {
+  //         setUserList(prevUserList => prevUserList.filter(user => user.id !== userId));
+  //         console.log('User deleted successfully:', data);
+  //       })
+  //       .catch(error => {
+  //           console.error('Error deleting username:', error);
+  //           throw error; // Re-throw the error to propagate it to the calling code
+  //       });
+  // }
 
   return (
-    <div>
+    <div className={"user-list__container"}>
       {!userList || !userList.length ?
       (<h1 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h1>): 
       <h1 className="category-text"> Utilisateurs du chat : </h1> }
-      {userList.map((user, index) => (
-        <div key={index} className="w-75 mx-auto mb-3">
-          <button className="btn btn-dark w-100" type="button" onClick={() => backendPing(user.id)}>
-            {user.username}
-          </button>
-          {isAdmin &&
-          <button className="btn btn-danger w-100 mt-2" type="button" onClick={() => handleDelete(user.id)}>
-            Delete {user.username}
-          </button>}
-        </div>
-      ))}
+          <section className="table-container">
+              <div className="table">
+                  <div className="table-row table-header">
+                    <div>Identifiant</div>
+                    <div>Nom</div>
+                    <div>Statut</div>
+                  </div>
+                {userList.map((user) => (
+                  <div key={user.id} className="body-row">
+                    <div>{user.id}</div>
+                    <div>{user.username}</div>
+                    <div>{user.role}</div>
+                  </div>
+                ))}
+              </div>
+          </section>
     </div>
   );
 }

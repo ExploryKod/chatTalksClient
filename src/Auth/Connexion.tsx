@@ -55,23 +55,23 @@ const Connexion = () => {
   };
 
 
-//   useEffect(() => {
-//     const fetchSessionStatus = async () => {
-//       try {
-//         const response = await fetch('http://localhost:5000/auth/session');
-//         if (response.ok) {
-//           const data = await response.json();
-//           setSessionStatus({data});
-//         } else {
-//           console.error('Error fetching images:', response.status);
-//         }
-//       } catch (error) {
-//         console.error('Error fetching images:', error);
-//       }
-//     };
+  // useEffect(() => {
+  //   const fetchSessionStatus = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:5000/auth/session');
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setSessionStatus({data});
+  //       } else {
+  //         console.error('Error fetching images:', response.status);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching images:', error);
+  //     }
+  //   };
 
-//     fetchSessionStatus();
-//   }, []);
+  //   fetchSessionStatus();
+  // }, []);
 
   useEffect(() => {
     setSessionStatus({session: false});
