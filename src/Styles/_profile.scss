@@ -8,10 +8,11 @@
 
 
   .table-container {
+    max-width: 1000px;
     width: 80%;
     height: auto;
     overflow: hidden;
-    box-shadow: 0 0 20px var(--box-shadow-color);
+    box-shadow: 0 0 20px $box-shadow-color;
 
     .table {
       display: block;
@@ -23,7 +24,7 @@
         display: grid;
         text-decoration: none;
         color: inherit;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
         column-gap: 1em;
         justify-items: center;
         align-items: center;
@@ -56,9 +57,9 @@
     border-bottom: 2px solid #03045e;
   }
 
-  .table a:hover {
-    background-color: var(--table-row-hover-color);
-    color: var(--table-text-hover-color);
+  .table .body-row:hover {
+    background-color: $table-row-hover-color;
+    color: $table-text-hover-color;
     cursor: pointer;
   }
 

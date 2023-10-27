@@ -1,4 +1,12 @@
 @charset "UTF-8";
+/* Breakpoints */
+/* Spacings */
+/* General Colors */
+/* User list colors */
+/* Couleurs des boutons */
+/* Couleurs du tableau des clients */
+/* Couleurs du formulaire */
+/* Couleur de la fenêtre de confirmation */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -38,14 +46,6 @@ li {
   list-style: none;
 }
 
-/* Breakpoints */
-/* Spacings */
-/* General Colors */
-/* User list colors */
-/* Couleurs des boutons */
-/* Couleurs du tableau des clients */
-/* Couleurs du formulaire */
-/* Couleur de la fenêtre de confirmation */
 .button-container {
   min-width: 250px;
   height: 50px;
@@ -397,10 +397,11 @@ li {
   padding: 20px 0;
 }
 .user-list__container .table-container {
+  max-width: 1000px;
   width: 80%;
   height: auto;
   overflow: hidden;
-  box-shadow: 0 0 20px var(--box-shadow-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 .user-list__container .table-container .table {
   display: block;
@@ -412,7 +413,7 @@ li {
   display: grid;
   text-decoration: none;
   color: inherit;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   column-gap: 1em;
   justify-items: center;
   align-items: center;
@@ -432,9 +433,9 @@ li {
 .user-list__container .body-row:nth-last-of-type(1) {
   border-bottom: 2px solid #03045e;
 }
-.user-list__container .table a:hover {
-  background-color: var(--table-row-hover-color);
-  color: var(--table-text-hover-color);
+.user-list__container .table .body-row:hover {
+  background-color: #508AA8;
+  color: #fff;
   cursor: pointer;
 }
 

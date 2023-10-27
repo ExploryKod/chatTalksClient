@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import useGetUserList from "../Hook/useGetUserList";
+import { IconContext } from "react-icons";
+import { RiDeleteBin6Line }from "react-icons/ri";
 // import useBackendPing from "../Hook/useBackendPing";
 // import {Link} from "react-router-dom";
 
@@ -10,6 +12,8 @@ export default function UserList() {
     username: string;
     role: string;
   }
+
+
 
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
@@ -60,16 +64,24 @@ export default function UserList() {
       <h1 className="category-text"> Utilisateurs du chat : </h1> }
           <section className="table-container">
               <div className="table">
+                {userList && userList.length > 0 && (
                   <div className="table-row table-header">
                     <div>Identifiant</div>
                     <div>Nom</div>
                     <div>Statut</div>
-                  </div>
+                    <div>Actions</div>
+                  </div>)}
                 {userList.map((user) => (
                   <div key={user.id} className="body-row">
                     <div>{user.id}</div>
-                    <div>{user.username}</div>
-                    <div>{user.role}</div>
+                    <div>{user.username ? user.username : "Anonyme"}</div>
+                    <div>{user.role ? user.role : "Utilisateur"}</div>
+                    {user.role !== "admin" &&
+                      <IconContext.Provider value={{ color: "red", className: "trash-icon" }}>
+                        <div>
+                      <RiDeleteBin6Line className={"trash-icon"} /> </div>
+                      </IconContext.Provider>}
+
                   </div>
                 ))}
               </div>
