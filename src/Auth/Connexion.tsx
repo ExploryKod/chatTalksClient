@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
+import '../Styles/_flashMessage.scss';
 
 interface Session {
   session?: boolean;
@@ -144,10 +145,13 @@ const Connexion = () => {
 
 return (
   <main className="page-connexion">
-    {!sessionStatus.session ? ( 
+
+    {!sessionStatus.session ? (
+
     <div className="outer-connexion">
+      {flashMessage && <div className="output-message">{flashMessage}</div>}
       <div className="inner-connexion">
-      {flashMessage && <div className="output-message x-center-position">{flashMessage}</div>}
+
         {!toggle ? (
           <div className="container-inscription">
             <form className="form-container" onSubmit={handleRegisterSubmit} method="post">

@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import useGetUserList from "../Hook/useGetUserList";
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
+import {useNavigate} from "react-router-dom";
 // import useBackendPing from "../Hook/useBackendPing";
 // import {Link} from "react-router-dom";
 
 
 export default function UserList() {
+  const navigate = useNavigate();
+
   interface IUser {
     id: number;
     username: string;
@@ -35,8 +38,22 @@ export default function UserList() {
 
   },[]);
 
-  // const handleDelete = (userId: number) => {
-  //   fetch(`http://localhost:8000/delete-user/${userId}`, {
+  const deleteUser = (id: string) => {
+    fetch(`http://localhost:8000/delete-user/${id}`, {
+      method: "DELETE",
+    })
+        .then(response => response.json())
+        .then(() => {
+          navigate("/");
+          // setUserList(values => {
+          //   // @ts-ignore
+          //   return values.filter(item => item.id !== id)
+          // })
+        })
+  }
+
+  // const handleDelete = (userId: string) => {
+  //   fetch(`http://localhost:8000/delete-user?user=${userId}`, {
   //           method: 'GET',
   //           mode: "cors"
   //       })
@@ -48,14 +65,18 @@ export default function UserList() {
   //
   //       })
   //       .then(data => {
-  //         setUserList(prevUserList => prevUserList.filter(user => user.id !== userId));
+  //         setUserList(prevUserList => prevUserList.filter(user => user.id.toString() !== userId));
   //         console.log('User deleted successfully:', data);
   //       })
   //       .catch(error => {
   //           console.error('Error deleting username:', error);
   //           throw error; // Re-throw the error to propagate it to the calling code
   //       });
+  //
   // }
+
+
+
 
   return (
     <div className={"user-list__container"}>
@@ -79,9 +100,9 @@ export default function UserList() {
                     {user.role !== "admin" &&
                       <IconContext.Provider value={{ color: "red", className: "trash-icon" }}>
                         <div>
-                      <RiDeleteBin6Line className={"trash-icon"} /> </div>
+                      <RiDeleteBin6Line className={"trash-icon"} onClick={() => deleteUser(user.id.toString())} />
+                        </div>
                       </IconContext.Provider>}
-
                   </div>
                 ))}
               </div>
