@@ -2,6 +2,7 @@ import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import useGetUserList from "../Hook/useGetUserList";
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
+import { FaUserCog } from "react-icons/fa";
 import useToggleModal from "../Hook/useToggleModal.tsx";
 // import { ModalInfoUser} from "./ModalInfoUser.tsx";
 
@@ -146,21 +147,31 @@ export default function UserList() {
                     <div>Statut</div>
                     <div>Actions</div>
                   </div>)}
+
                 {userList.map((user) => (
                   <div key={user.id} className="body-row">
                     <div>{user.id}</div>
                     <div>{user.username ? user.username : "Anonyme"}</div>
                     <div>{user.role ? user.role : "Utilisateur"}</div>
+
                     {user.role !== "admin" &&
-                      <IconContext.Provider value={{ color: "red", className: "trash-icon" }}>
+                        <div className={"table-row__actions"}>
+                      <IconContext.Provider value={{ color: "red", className: "trash-icon"}}>
                         <div>
                       <RiDeleteBin6Line className={"trash-icon"} onClick={toggleModal} />
                             <ConfirmModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} />
-
                         </div>
-                      </IconContext.Provider>}
+                      </IconContext.Provider>
+
+                        <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
+                            <div>
+                                <FaUserCog className={"update-icon"} />
+                            </div>
+                        </IconContext.Provider>
+                        </div>}
                   </div>
                 ))}
+
               </div>
           </section>
     </div>
