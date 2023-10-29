@@ -1,22 +1,64 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import useGetUserList from "../Hook/useGetUserList";
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
-import {useNavigate} from "react-router-dom";
+import useToggleModal from "../Hook/useToggleModal.tsx";
+// import { ModalInfoUser} from "./ModalInfoUser.tsx";
+
+import { ConfirmModal } from "./ConfirmModal.tsx";
 // import useBackendPing from "../Hook/useBackendPing";
 // import {Link} from "react-router-dom";
 
-
-export default function UserList() {
-  const navigate = useNavigate();
-
-  interface IUser {
+export interface IUser {
     id: number;
     username: string;
     role: string;
-  }
+}
+
+export interface IProfile extends IUser {
+    description: string;
+    hobbies: Ihobbies[];
+}
+
+export interface Ihobbies {
+    id: number;
+    name: string;
+}
+
+export interface IProfileModal {
+    profile: IProfile;
+    setToggle: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface IConfirmModal {
+    user: IUser;
+    isVisible: boolean;
+    hideModal: () => void;
+    deleteUser: (id: string) => void;
+}
+
+const PROFILE: IProfile = {
+    id: 1,
+    username: "test",
+    role: "admin",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae ali",
+    hobbies: [
+        {
+            id: 1,
+            name: "sport"
+        },
+        {
+            id: 1,
+            name: "sport"
+        }
+    ],
+}
 
 
+
+export default function UserList() {
+  const [flashMessage, setFlashMessage] = useState('');
+  const {isVisible, toggleModal} = useToggleModal();
 
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
@@ -43,13 +85,22 @@ export default function UserList() {
       method: "DELETE",
     })
         .then(response => response.json())
-        .then(() => {
-          navigate("/");
-          // setUserList(values => {
-          //   // @ts-ignore
-          //   return values.filter(item => item.id !== id)
-          // })
+        .then((data) => {
+            console.log(data)
+            toggleModal()
+          setUserList(values => {
+            return values.filter(item => item.id.toString() !== id)
+          })
+            setFlashMessage(data.message);
+            setTimeout(() => {
+                setFlashMessage('');
+            }, 3000);
+
         })
+        .catch(error => {
+                console.error('Il y a une erreur dans la requête de suppression:', error);
+                throw error;
+        });
   }
 
   // const handleDelete = (userId: string) => {
@@ -79,6 +130,9 @@ export default function UserList() {
 
 
   return (
+      <>
+          {flashMessage && <div className="output-message">{flashMessage}
+     </div>}
     <div className={"user-list__container"}>
       {!userList || !userList.length ?
       (<h1 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h1>): 
@@ -86,7 +140,7 @@ export default function UserList() {
           <section className="table-container">
               <div className="table">
                 {userList && userList.length > 0 && (
-                  <div className="table-row table-header">
+                  <div className="table-header table-row">
                     <div>Identifiant</div>
                     <div>Nom</div>
                     <div>Statut</div>
@@ -100,7 +154,9 @@ export default function UserList() {
                     {user.role !== "admin" &&
                       <IconContext.Provider value={{ color: "red", className: "trash-icon" }}>
                         <div>
-                      <RiDeleteBin6Line className={"trash-icon"} onClick={() => deleteUser(user.id.toString())} />
+                      <RiDeleteBin6Line className={"trash-icon"} onClick={toggleModal} />
+                            <ConfirmModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} />
+
                         </div>
                       </IconContext.Provider>}
                   </div>
@@ -108,6 +164,7 @@ export default function UserList() {
               </div>
           </section>
     </div>
+   </>
   );
 }
 

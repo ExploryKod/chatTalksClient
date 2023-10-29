@@ -93,6 +93,101 @@ li {
   border: none;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease-out;
+}
+
+.modal-body {
+  padding: 20px;
+}
+.modal-body.small {
+  min-height: 200px;
+  min-width: 200px;
+}
+.modal-body.medium {
+  min-height: 400px;
+  min-width: 300px;
+}
+
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.modal-header {
+  min-width: 80%;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  padding: 0;
+  border-bottom: 1px solid #333;
+}
+.modal-header.no-header {
+  display: none;
+}
+
+.modal-footer {
+  background-color: transparent;
+  color: black;
+  padding: 10px;
+  border-top: 1px solid #333;
+}
+.modal-footer .footer__button-cancel {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.modal-footer .footer__button-confirm {
+  background-color: #e81212;
+  opacity: 0.8;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.modal-footer.no-footer {
+  display: none;
+}
+
+.close {
+  font-size: 40px;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+}
+.close:hover {
+  color: #161c3d;
+}
+
 .page-connexion .outer-connexion {
   position: absolute;
   top: 0;
@@ -410,11 +505,15 @@ li {
   width: 100%;
   height: auto;
 }
+.user-list__container .table-container .table .table-header {
+  color: #fff;
+  background-color: #03045e;
+}
 .user-list__container .table-container .table .table-row,
 .user-list__container .table-container .table .body-row {
   display: grid;
   text-decoration: none;
-  color: inherit;
+  color: #03045e;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   column-gap: 1em;
   justify-items: center;
@@ -422,23 +521,23 @@ li {
   cursor: pointer;
   padding: 1em;
 }
-.user-list__container #table-header {
-  color: #fff;
-  background-color: #03045e;
-}
-.user-list__container .address-cell {
-  grid-column: 4/span 2;
-}
-.user-list__container .body-row:nth-of-type(odd) {
+.user-list__container .table-container .table .table-row:nth-of-type(odd),
+.user-list__container .table-container .table .body-row:nth-of-type(odd) {
   background-color: #caf0f8;
 }
-.user-list__container .body-row:nth-last-of-type(1) {
+.user-list__container .table-container .table .table-row:nth-last-of-type(1),
+.user-list__container .table-container .table .body-row:nth-last-of-type(1) {
   border-bottom: 2px solid #03045e;
 }
-.user-list__container .table .body-row:hover {
+.user-list__container .table-container .table .table-row:hover,
+.user-list__container .table-container .table .body-row:hover {
   background-color: #508AA8;
   color: #fff;
   cursor: pointer;
+}
+
+.close-modal {
+  background-color: red;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -26,14 +26,13 @@ const Connexion = () => {
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
-        mode: "no-cors",
+        mode: "cors",
         body: new URLSearchParams({
           ...registerData
         })
       });
 
       if (response.ok) {
-        console.log('réponse register bien reçu');
         const data = await response.json();
         console.log(data)
         setFlashMessage(data.message);
@@ -41,11 +40,7 @@ const Connexion = () => {
           setFlashMessage('');
         }, 3000);
         handleToggle();
-       
-      } else {
-        console.log('échec de la réponse register');
       }
-
     } catch(error) {
       console.error('log failed:', error);
       setFlashMessage('Il y a eu une erreur dans la requête');
@@ -117,8 +112,9 @@ const Connexion = () => {
     } catch (error) {
       console.error('log failed:', error);
       setFlashMessage('Il y a eu une erreur dans la requête');
+
       setTimeout(() => {
-        setFlashMessage('');
+        setFlashMessage( `${error}`);
       }, 3000);
     }
   };
