@@ -4,7 +4,7 @@ import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import useToggleModal from "../Hook/useToggleModal.tsx";
-// import { ModalInfoUser} from "./ModalInfoUser.tsx";
+import { UpdateUserModal } from "./UpdateUserModal.tsx";
 
 import { ConfirmModal } from "./ConfirmModal.tsx";
 // import useBackendPing from "../Hook/useBackendPing";
@@ -36,6 +36,13 @@ export interface IConfirmModal {
     isVisible: boolean;
     hideModal: () => void;
     deleteUser: (id: string) => void;
+}
+
+export interface IUpdateModal {
+    user: IUser;
+    isVisible: boolean;
+    hideModal: () => void;
+    updateUser: (id: string) => void;
 }
 
 const PROFILE: IProfile = {
@@ -104,6 +111,29 @@ export default function UserList() {
         });
   }
 
+    const updateUser = (id: string) => {
+        fetch(`http://localhost:8000/update-user/${id}`, {
+            method: "DELETE",
+        })
+            .then(response => response.json())
+            .then((data) => {
+                console.log(data)
+                toggleModal()
+                setUserList(values => {
+                    return values.filter(item => item.id.toString() !== id)
+                })
+                setFlashMessage(data.message);
+                setTimeout(() => {
+                    setFlashMessage('');
+                }, 3000);
+
+            })
+            .catch(error => {
+                console.error('Il y a une erreur dans la requête de suppression:', error);
+                throw error;
+            });
+    }
+
   // const handleDelete = (userId: string) => {
   //   fetch(`http://localhost:8000/delete-user?user=${userId}`, {
   //           method: 'GET',
@@ -166,6 +196,7 @@ export default function UserList() {
                         <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                             <div>
                                 <FaUserCog className={"update-icon"} />
+                                <UpdateUserModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} />
                             </div>
                         </IconContext.Provider>
                         </div>}

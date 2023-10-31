@@ -72,7 +72,7 @@ const ChatPreview: React.FC<{}> = () => {
                     <button className="button-container room-button" type={'submit'}>Créer une salle</button>
                 </form>
                 <div className="categories-container">
-                {roomsList.map((item, index) => (
+                {roomsList?.map((item, index) => (
                     <ChatRoomPreview key={index} name={item.name} id={item.id} description={item.description}/>))}
                 </div>
             </div>

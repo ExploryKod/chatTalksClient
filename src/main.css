@@ -240,6 +240,14 @@ li {
 .table-container .table .body-row .table-row__actions .update-icon {
   cursor: pointer;
 }
+.table-container .table .table-row .table-row__actions .trash-icon.deactivate,
+.table-container .table .body-row .table-row__actions .trash-icon.deactivate {
+  pointer-events: none;
+}
+.table-container .table .table-row .table-row__actions .update-icon.deactivate,
+.table-container .table .body-row .table-row__actions .update-icon.deactivate {
+  pointer-events: none;
+}
 
 .page-connexion .outer-connexion {
   position: absolute;
@@ -535,6 +543,12 @@ li {
 }
 .navigation .nav-links-container .nav-link:hover {
   color: #A3298B;
+}
+.navigation .nav-links-container button.nav-link {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .user-list__container {

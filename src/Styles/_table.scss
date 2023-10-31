@@ -48,6 +48,15 @@
         .trash-icon, .update-icon {
           cursor: pointer;
         }
+
+        .trash-icon.deactivate {
+          pointer-events: none;
+        }
+
+        .update-icon.deactivate {
+          pointer-events: none;
+        }
+
       }
     }
   }
