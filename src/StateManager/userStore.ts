@@ -24,5 +24,35 @@ export const useLoggedStore = create<LoggedState>((set) => ({
 
 
 
+// export const useLoggedStore = create<LoggedState>((set) => ({
+//     accessToken: '',
+//     refreshToken: '', // Optionally manage the refresh token on the client side
+//     setTokens: (accessToken, refreshToken) => {
+//         set({ accessToken, refreshToken });
+//     },
+//     removeTokens: () => {
+//         set({ accessToken: '', refreshToken: '' });
+//     },
+//     setUsername: (username) => set({ username }),
+// }));
 
+// const refreshAccessToken = async (refreshToken) => {
+//     try {
+//         const response = await fetch('http://localhost:8000/auth/refresh', {
+//             method: 'POST',
+//             headers: {
+//                 Authorization: `Bearer ${refreshToken}`,
+//             },
+//         });
+//
+//         if (response.ok) {
+//             const data = await response.json();
+//             setAccessToken(data.accessToken);
+//         } else {
+//             // Handle refresh token failure
+//         }
+//     } catch (error) {
+//         // Handle refresh token request error
+//     }
+// };
 

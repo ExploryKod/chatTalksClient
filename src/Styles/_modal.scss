@@ -1,3 +1,5 @@
+@import 'bases/variables';
+
 .modal {
   position: fixed;
   top: 0;
@@ -14,6 +16,13 @@
 .modal-body {
   padding: 20px;
 
+  p {
+    color: $darkBlue;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 20px auto;
+  }
+
   &.small {
     min-height: 200px;
     min-width: 200px;
@@ -23,7 +32,6 @@
     min-height: 400px;
     min-width: 300px;
   }
-
 }
 
 .modal-content {
@@ -42,18 +50,25 @@
   line-height: 1.5;
   text-align: center;
 }
+
 .modal-header {
-  min-width: 80%;
+  width: 100%;
+  border-radius: 5px;
+  padding: 0 20px;
+
+  h2 {
+    width: 100%;
+    color: $darkBlue;
+    text-align: left;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
 
   &.no-header {
     display: none;
   }
 
-  border-radius: 5px;
-  background-color: #333;
-  color: white;
-  padding: 0;
-  border-bottom: 1px solid #333;
 }
 
 .modal-footer {
@@ -69,7 +84,7 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 30px;
   }
 
   .footer__button-confirm {

@@ -5,6 +5,7 @@ import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import useToggleModal from "../Hook/useToggleModal.tsx";
 import { UpdateUserModal } from "./UpdateUserModal.tsx";
+import { Tooltip } from "./Tooltip.tsx";
 
 import { ConfirmModal } from "./ConfirmModal.tsx";
 // import useBackendPing from "../Hook/useBackendPing";
@@ -36,6 +37,7 @@ export interface IConfirmModal {
     isVisible: boolean;
     hideModal: () => void;
     deleteUser: (id: string) => void;
+    title: string;
 }
 
 export interface IUpdateModal {
@@ -45,22 +47,22 @@ export interface IUpdateModal {
     updateUser: (id: string) => void;
 }
 
-const PROFILE: IProfile = {
-    id: 1,
-    username: "test",
-    role: "admin",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae ali",
-    hobbies: [
-        {
-            id: 1,
-            name: "sport"
-        },
-        {
-            id: 1,
-            name: "sport"
-        }
-    ],
-}
+// const PROFILE: IProfile = {
+//     id: 1,
+//     username: "test",
+//     role: "admin",
+//     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae ali",
+//     hobbies: [
+//         {
+//             id: 1,
+//             name: "sport"
+//         },
+//         {
+//             id: 1,
+//             name: "sport"
+//         }
+//     ],
+// }
 
 
 
@@ -186,19 +188,22 @@ export default function UserList() {
 
                     {user.role !== "admin" &&
                         <div className={"table-row__actions"}>
+                            <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "red", className: "trash-icon"}}>
                         <div>
                       <RiDeleteBin6Line className={"trash-icon"} onClick={toggleModal} />
-                            <ConfirmModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} />
+                            <ConfirmModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} title={""} />
                         </div>
                       </IconContext.Provider>
-
+                            </Tooltip>
+                            <Tooltip content="Modifier" direction="top">
                         <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                             <div>
                                 <FaUserCog className={"update-icon"} />
-                                <UpdateUserModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} />
+                                <UpdateUserModal isVisible={isVisible} hideModal={toggleModal} user={user} updateUser={updateUser} />
                             </div>
                         </IconContext.Provider>
+                            </Tooltip>
                         </div>}
                   </div>
                 ))}
