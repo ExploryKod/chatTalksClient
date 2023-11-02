@@ -39,18 +39,12 @@ export const ChatRoomPreview = ({ id, name, description } : ICategory) => {
     };
 
     return(
-        <div className='category-preview-container'>
-
-<div className={`room-card-container card-${name}`}>
+        <div className={`room-card-container card-${name}`}>
             <img src={imageUrl} alt={`${name}`} />
-            <div className='body'>{description}</div>
-            <div className='footer'>
-                <span className='name'>{name}</span>
-            </div>
+            <div className='body'>Thème du chat: <span>{description}</span></div>
             <Link onClick={handleClick} className='card-link title' to={id.toString()}>
                     Rejoindre la salle
                 </Link>
-            </div>
         </div>
     )
 }
