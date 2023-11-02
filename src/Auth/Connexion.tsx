@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
+import '../Styles/_flashMessage.scss';
 
 interface Session {
   session?: boolean;
@@ -25,14 +26,13 @@ const Connexion = () => {
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
-        mode: "no-cors",
+        mode: "cors",
         body: new URLSearchParams({
           ...registerData
         })
       });
 
       if (response.ok) {
-        console.log('réponse register bien reçu');
         const data = await response.json();
         console.log(data)
         setFlashMessage(data.message);
@@ -40,11 +40,7 @@ const Connexion = () => {
           setFlashMessage('');
         }, 3000);
         handleToggle();
-       
-      } else {
-        console.log('échec de la réponse register');
       }
-
     } catch(error) {
       console.error('log failed:', error);
       setFlashMessage('Il y a eu une erreur dans la requête');
@@ -55,23 +51,23 @@ const Connexion = () => {
   };
 
 
-//   useEffect(() => {
-//     const fetchSessionStatus = async () => {
-//       try {
-//         const response = await fetch('http://localhost:5000/auth/session');
-//         if (response.ok) {
-//           const data = await response.json();
-//           setSessionStatus({data});
-//         } else {
-//           console.error('Error fetching images:', response.status);
-//         }
-//       } catch (error) {
-//         console.error('Error fetching images:', error);
-//       }
-//     };
+  // useEffect(() => {
+  //   const fetchSessionStatus = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:5000/auth/session');
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setSessionStatus({data});
+  //       } else {
+  //         console.error('Error fetching images:', response.status);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching images:', error);
+  //     }
+  //   };
 
-//     fetchSessionStatus();
-//   }, []);
+  //   fetchSessionStatus();
+  // }, []);
 
   useEffect(() => {
     setSessionStatus({session: false});
@@ -116,8 +112,9 @@ const Connexion = () => {
     } catch (error) {
       console.error('log failed:', error);
       setFlashMessage('Il y a eu une erreur dans la requête');
+
       setTimeout(() => {
-        setFlashMessage('');
+        setFlashMessage( `${error}`);
       }, 3000);
     }
   };
@@ -144,10 +141,13 @@ const Connexion = () => {
 
 return (
   <main className="page-connexion">
-    {!sessionStatus.session ? ( 
+
+    {!sessionStatus.session ? (
+
     <div className="outer-connexion">
+      {flashMessage && <div className="output-message">{flashMessage}</div>}
       <div className="inner-connexion">
-      {flashMessage && <div className="output-message x-center-position">{flashMessage}</div>}
+
         {!toggle ? (
           <div className="container-inscription">
             <form className="form-container" onSubmit={handleRegisterSubmit} method="post">

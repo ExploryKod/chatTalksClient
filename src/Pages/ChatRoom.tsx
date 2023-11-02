@@ -57,7 +57,7 @@ const ChatRoom: React.FC<{}> = () => {
     }
 
     useEffect(() => {
-        const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username}`);
+        const newSocket = new WebSocket(`ws://localhost:8000/ws?name=amaury`);
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');

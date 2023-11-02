@@ -42,7 +42,7 @@ export const ChatRoomPreview = ({ id, name, description } : ICategory) => {
         <div className='category-preview-container'>
 
 <div className={`room-card-container card-${name}`}>
-            <img src={imageUrl+"o"} alt={`${name}`} />
+            <img src={imageUrl} alt={`${name}`} />
             <div className='body'>{description}</div>
             <div className='footer'>
                 <span className='name'>{name}</span>
