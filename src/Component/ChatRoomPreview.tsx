@@ -43,7 +43,7 @@ export const ChatRoomPreview = ({ id, name, description } : ICategory) => {
             <img src={imageUrl} alt={`${name}`} />
             <div className='body'>Thème du chat: <span>{description}</span></div>
             <Link onClick={handleClick} className='card-link title' to={id.toString()}>
-                    Rejoindre la salle
+                    Entrez dans {name.toLowerCase()}
                 </Link>
         </div>
     )

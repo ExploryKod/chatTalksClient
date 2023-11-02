@@ -68,7 +68,7 @@ const ChatPreview: React.FC<{}> = () => {
           <h1 className="category-title">Créer ou entrez dans une salle pour chatter !</h1>
             <div className="rooms-container">
                 <form className="message-form" method={'post'} onSubmit={createRoom}>
-                    <input className="input-log" name={'roomName'} type={'text'} placeholder={'Donner un nom à votre salle'} onChange={handleChange}/>
+                    <input className="input-log" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChange}/>
                     <button className="button-container room-button" type={'submit'}>Créer une salle</button>
                 </form>
                 <div className="categories-container">
