@@ -487,17 +487,13 @@ li {
   border-right: 6px solid #A3298B;
   border-radius: 30px;
   padding: 30px 60px;
-  width: 100%;
   min-width: 250px;
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
+  max-width: 600px;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0;
+  margin: 20px auto;
 }
 .message-form .talk-icon {
   width: 50px;
@@ -552,7 +548,7 @@ li {
 .rooms-container {
   width: 100%;
   display: flex;
-  flex-direction: columun;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 10px;
 }
