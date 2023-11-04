@@ -12,10 +12,6 @@ export interface ITodo {
     updateTodo: (id: number) => void;
   };
 
-export interface IUser {
-    user: string;
-}
-
 export interface UserContextProps {
     user: IUser[];
     setUser: Dispatch<SetStateAction<IUser[]>>;

@@ -1,74 +1,28 @@
-import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import {useEffect, useState, useRef} from "react";
+
+import type { IUser } from "../Types/typeUsers.d.ts";
+
 import useGetUserList from "../Hook/useGetUserList";
+import useToggleModal from "../Hook/useToggleModal.tsx";
+
+import { UpdateUserModal } from "./UpdateUserModal.tsx";
+import { ConfirmModal } from "./ConfirmModal.tsx";
+
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
-import useToggleModal from "../Hook/useToggleModal.tsx";
-import { UpdateUserModal } from "./UpdateUserModal.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 
-import { ConfirmModal } from "./ConfirmModal.tsx";
-// import useBackendPing from "../Hook/useBackendPing";
-// import {Link} from "react-router-dom";
 
-export interface IUser {
-    id: number;
-    username: string;
-    role: string;
-}
-
-export interface IProfile extends IUser {
-    description: string;
-    hobbies: Ihobbies[];
-}
-
-export interface Ihobbies {
-    id: number;
-    name: string;
-}
-
-export interface IProfileModal {
-    profile: IProfile;
-    setToggle: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface IConfirmModal {
-    user: IUser;
-    isVisible: boolean;
-    hideModal: () => void;
-    deleteUser: (id: string) => void;
-    title: string;
-}
-
-export interface IUpdateModal {
-    user: IUser;
-    isVisible: boolean;
-    hideModal: () => void;
-    updateUser: (id: string) => void;
-}
-
-// const PROFILE: IProfile = {
-//     id: 1,
-//     username: "test",
-//     role: "admin",
-//     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl vitae aliquam ultricies, nunc nisl ultricies nunc, vitae ali",
-//     hobbies: [
-//         {
-//             id: 1,
-//             name: "sport"
-//         },
-//         {
-//             id: 1,
-//             name: "sport"
-//         }
-//     ],
-// }
 
 
 
 export default function UserList() {
   const [flashMessage, setFlashMessage] = useState('');
   const {isVisible, toggleModal} = useToggleModal();
+  const modalConfirmRef = useRef<HTMLDivElement | null>(null);
+  const buttonDeleteUserRef = useRef<HTMLButtonElement | null>(null);
+  const buttonUpdateUserRef = useRef<HTMLButtonElement | null>(null);
 
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUserList = useGetUserList();
@@ -90,77 +44,47 @@ export default function UserList() {
 
   },[]);
 
-  const deleteUser = (id: string) => {
-    fetch(`http://localhost:8000/delete-user/${id}`, {
-      method: "DELETE",
-    })
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data)
-            toggleModal()
-          setUserList(values => {
-            return values.filter(item => item.id.toString() !== id)
-          })
-            setFlashMessage(data.message);
-            setTimeout(() => {
-                setFlashMessage('');
-            }, 3000);
+  const [selectedUser, setSelectedUser] = useState<IUser>();
 
-        })
-        .catch(error => {
-                console.error('Il y a une erreur dans la requête de suppression:', error);
-                throw error;
-        });
-  }
+  const openModal = (user: IUser) => {
+    setSelectedUser(user);
+  };
 
-    const updateUser = (id: string) => {
-        fetch(`http://localhost:8000/update-user/${id}`, {
-            method: "DELETE",
-        })
-            .then(response => response.json())
-            .then((data) => {
-                console.log(data)
-                toggleModal()
-                setUserList(values => {
-                    return values.filter(item => item.id.toString() !== id)
-                })
-                setFlashMessage(data.message);
-                setTimeout(() => {
-                    setFlashMessage('');
-                }, 3000);
+  const closeModal = () => {
+    setSelectedUser(undefined);
+  };
 
-            })
-            .catch(error => {
-                console.error('Il y a une erreur dans la requête de suppression:', error);
-                throw error;
-            });
-    }
-
-  // const handleDelete = (userId: string) => {
-  //   fetch(`http://localhost:8000/delete-user?user=${userId}`, {
-  //           method: 'GET',
-  //           mode: "cors"
-  //       })
-  //       .then(response => {
-  //           if (!response.ok) {
-  //               throw new Error(`HTTP error! Status: ${response.status}`);
-  //           }
-  //           return response.json();
-  //
-  //       })
-  //       .then(data => {
-  //         setUserList(prevUserList => prevUserList.filter(user => user.id.toString() !== userId));
-  //         console.log('User deleted successfully:', data);
-  //       })
-  //       .catch(error => {
-  //           console.error('Error deleting username:', error);
-  //           throw error; // Re-throw the error to propagate it to the calling code
-  //       });
-  //
-  // }
+  const handleDelete = () => {
+    // Ici, tu peux gérer la suppression de l'utilisateur, par exemple, en faisant une requête API
+    console.log(`Supprimer l'utilisateur avec l'ID : ${selectedUser?.id}`);
+    // Ensuite, tu peux fermer la modale
+    closeModal();
+  };
 
 
 
+    // const updateUser = (id: string) => {
+    //     fetch(`http://localhost:8000/update-user/${id}`, {
+    //         method: "DELETE",
+    //     })
+    //         .then(response => response.json())
+    //         .then((data) => {
+    //             console.log(data)
+    //             toggleModal()
+    //             setUserList(values => {
+    //                 return values.filter(item => item.id.toString() !== id)
+    //             })
+    //             setFlashMessage(data.message);
+    //             setTimeout(() => {
+    //                 setFlashMessage('');
+    //             }, 3000);
+
+    //         })
+    //         .catch(error => {
+    //             console.error('Il y a une erreur dans la requête de suppression:', error);
+    //             throw error;
+    //         });
+    // }
 
   return (
       <>
@@ -189,24 +113,40 @@ export default function UserList() {
                     {user.role !== "admin" &&
                         <div className={"table-row__actions"}>
                             <Tooltip content="Supprimer" direction="top">
-                      <IconContext.Provider value={{ color: "red", className: "trash-icon"}}>
+                      <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
                         <div>
-                      <RiDeleteBin6Line className={"trash-icon"} onClick={toggleModal} />
-                            <ConfirmModal isVisible={isVisible} hideModal={toggleModal} user={user} deleteUser={deleteUser} title={""} />
+                          <button title="delete user" type="button" className="btn-reset" onClick={() => openModal(user)}>
+                            <RiDeleteBin6Line className={"trash-icon"} />
+                          </button>
+                            
                         </div>
                       </IconContext.Provider>
                             </Tooltip>
                             <Tooltip content="Modifier" direction="top">
                         <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                             <div>
+                            <button title="delete user" type="button" className="btn-reset" >
                                 <FaUserCog className={"update-icon"} />
-                                <UpdateUserModal isVisible={isVisible} hideModal={toggleModal} user={user} updateUser={updateUser} />
+                            </button>
+                                {/* <UpdateUserModal isVisible={isVisible} hideModal={toggleModal} user={user} updateUser={updateUser} /> */}
                             </div>
                         </IconContext.Provider>
                             </Tooltip>
                         </div>}
                   </div>
                 ))}
+                  {selectedUser && (
+                    <ConfirmModal 
+                    setUserList={setUserList} 
+                    modalConfirmRef={modalConfirmRef} 
+                    isVisible={isVisible} 
+                    hideModal={toggleModal} 
+                    onDelete={handleDelete}
+                    onClose={closeModal}
+                    user={userList.find((user) => user === selectedUser)} 
+                    title={""} />
+      
+      )}
 
               </div>
           </section>
