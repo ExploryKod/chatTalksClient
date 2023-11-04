@@ -7,7 +7,7 @@ const ChatBoard: React.FC<{}> = () => {
   return (
       <Routes>
           <Route index element={<ChatPreview />} />      
-          <Route path=':room' element={<ChatRoom/>} />
+          <Route path=':roomNumber' element={<ChatRoom/>} />
       </Routes>
   );
 };

@@ -8,17 +8,13 @@ import {useEffect} from "react";
 export const ChatRoomPreview = ({id, name, description}: ICategory) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
-    const {setRoomName, setRoomId, setRoomDescription, roomName} = useRoomStore();
-
-    useEffect(() => {
-        console.log("NAME SETTED ", roomName)
-    }, [setRoomName])
+    const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
 
     useEffect(() => {
         console.log("NAME ", name)
         setRoomName(name);
         // display console.log of prevstate
-console.log("ID SETTED ", id)
+        console.log("ID SETTED ", id)
         setRoomId(id);
         setRoomDescription(description);
     }, []);

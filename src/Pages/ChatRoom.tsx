@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams} from 'react-router-dom';
-import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
 type Target = {
-    id: number;
-    name: string;
+    id: string;
+    name: string|undefined;
 }
 type Message = {
     action: string;
@@ -21,16 +20,16 @@ type RoomMessage = {
 }
 
 type Room = {
-    name: string;
+    name: string|undefined;
     messages: string[];
 }
 const ChatRoom: React.FC<{}> = () => {
-    const {roomName, roomId} = useRoomStore();
-    console.log('store NAME :', roomName)
+    // const {roomName} = useRoomStore();
+    // console.log('roomName', roomName)
     const {username} = useLoggedStore();
-    const {room} = useParams();
+    const {roomNumber} = useParams();
     const [messages, setMessages] = useState<string[]>([]);
-    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: 0, name: roomName}});
+    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
@@ -47,8 +46,8 @@ const ChatRoom: React.FC<{}> = () => {
         socket.send(JSON.stringify(messageInput));
         setMessageInput({
             action: "send-message", message: "", target: {
-                id: roomId,
-                name: roomName
+                id: "d0d73e6a-dfba-4f9d-bbd9-9491bfc4021e",
+                name: roomNumber
             }
         });
     };
@@ -57,9 +56,9 @@ const ChatRoom: React.FC<{}> = () => {
         if (!socket) {
             return;
         }
-        socket.send(JSON.stringify({action: 'join-room', message: roomName} as RoomMessage));
+        socket.send(JSON.stringify({action: 'join-hub', message: roomNumber} as RoomMessage));
 
-        setRooms((prevRooms) => [...prevRooms, {name: roomName, messages: []}]);
+        setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
     }
 
     const findRoom = (roomName: string) => {
@@ -86,11 +85,15 @@ const ChatRoom: React.FC<{}> = () => {
         newSocket.onmessage = (event) => {
             let data = event.data;
             data = data.split(/\r?\n/);
+            console.log('WebSocket data:', data)
             for (let i = 0; i < data.length; i++) {
                 let msg = JSON.parse(data[i]);
+                console.log('WebSocket msg:', msg)
                 const room = findRoom(msg.target);
+                console.log('WebSocket room:', room)
                 if (typeof room !== "undefined") {
-                    room.messages.push(msg.text);
+                    room.messages.push(msg.message);
+                    console.log('WebSocket room-message:', room.messages)
                 }
             }
             setMessages((prevMessages) => [...prevMessages, data]);
@@ -110,14 +113,13 @@ const ChatRoom: React.FC<{}> = () => {
         if (!socket) {
             return;
         }
-        console.log('roomName FRERE', roomName)
         handleJoinRoom();
-    }, [socket, roomName]);
+    }, [socket, roomNumber]);
 
 
     return (
         <>
-            <h1 className="category-title"> Chat room n° {room}</h1>
+            <h1 className="category-title"> Chat room n° {roomNumber}</h1>
             <div className="input-log">
                 {messages.map((message, index) => (
                     <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{message}
@@ -136,8 +138,8 @@ const ChatRoom: React.FC<{}> = () => {
                         action: "send-message",
                         message: e.target.value,
                         target: {
-                            id: roomId,
-                            name: roomName}
+                            id: "1685691b-e1b5-492a-9394-d1e73818e580",
+                            name: roomNumber}
                     })}
                 />
             </form>
