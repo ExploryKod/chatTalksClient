@@ -29,7 +29,7 @@
     padding: 30px 60px;
     width: 100%;
     min-width: 250px;
-    position: absolute;
+    position: relative;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
@@ -98,7 +98,7 @@
 .rooms-container {
     width: 100%;
     display: flex;
-    flex-direction: columun;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 10px;
 }

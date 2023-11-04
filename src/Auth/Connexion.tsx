@@ -32,9 +32,9 @@ const Connexion = () => {
       });
 
       if (response.ok) {
-        console.log('réponse register bien reçu');
+        console.log('réponse register ok');
         const data = await response.json();
-        console.log(data)
+        console.log("register DATA ",data)
         setFlashMessage(data.message);
         setTimeout(() => {
           setFlashMessage('');
@@ -78,7 +78,6 @@ const Connexion = () => {
   }, []);
 
   
-  // console.log(sessionStatus);
   const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     

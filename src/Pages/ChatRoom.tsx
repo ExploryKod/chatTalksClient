@@ -5,10 +5,14 @@ import {useParams} from 'react-router-dom';
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
+type Target = {
+    id: number;
+    name: string;
+}
 type Message = {
     action: string;
     message: string;
-    target: string;
+    target: Target;
 }
 
 type RoomMessage = {
@@ -21,11 +25,12 @@ type Room = {
     messages: string[];
 }
 const ChatRoom: React.FC<{}> = () => {
-    const {roomName} = useRoomStore();
+    const {roomName, roomId} = useRoomStore();
+    console.log('store NAME :', roomName)
     const {username} = useLoggedStore();
     const {room} = useParams();
     const [messages, setMessages] = useState<string[]>([]);
-    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: roomName});
+    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: 0, name: roomName}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
@@ -35,20 +40,29 @@ const ChatRoom: React.FC<{}> = () => {
             return;
         }
 
+        if (messageInput.message === '') {
+            return;
+        }
+        console.log('messageInput', messageInput)
         socket.send(JSON.stringify(messageInput));
-        setMessageInput({action: "send-message", message: "", target: roomName});
+        setMessageInput({
+            action: "send-message", message: "", target: {
+                id: roomId,
+                name: roomName
+            }
+        });
     };
 
     const handleJoinRoom = () => {
         if (!socket) {
             return;
         }
-        socket.send(JSON.stringify({ action: 'join-room', message: roomName } as RoomMessage));
+        socket.send(JSON.stringify({action: 'join-room', message: roomName} as RoomMessage));
 
-        setRooms((prevRooms) => [...prevRooms, { name: roomName, messages: [] }]);
+        setRooms((prevRooms) => [...prevRooms, {name: roomName, messages: []}]);
     }
 
-    const findRoom = (roomName:string) => {
+    const findRoom = (roomName: string) => {
         for (let i = 0; i < rooms.length; i++) {
             if (rooms[i].name === roomName) {
                 return rooms[i];
@@ -118,7 +132,13 @@ const ChatRoom: React.FC<{}> = () => {
                     id="msg"
                     placeholder='Ecrivez votre message'
                     value={messageInput.message}
-                    onChange={(e) => setMessageInput({action: "send-message", message: e.target.value, target: roomName})}
+                    onChange={(e) => setMessageInput({
+                        action: "send-message",
+                        message: e.target.value,
+                        target: {
+                            id: roomId,
+                            name: roomName}
+                    })}
                 />
             </form>
         </>

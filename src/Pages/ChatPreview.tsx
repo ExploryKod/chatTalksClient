@@ -33,29 +33,34 @@ const ChatPreview: React.FC<{}> = () => {
     const {token} = useLoggedStore();
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8000/chat/create', {
-                method: 'POST',
-                body: new URLSearchParams({
-                    'roomName': roomName,
-                }),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: `Bearer ${token}`,
-                },
-                credentials: 'same-origin'
-            });
 
-            if (response.ok) {
-                console.log('room created');
-                const data = await response.json();
-                console.log(data)
-            } else {
-                console.log('échec de la création de room');
+        if (roomName !== '') {
+            try {
+                const response = await fetch('http://localhost:8000/chat/create', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        'roomName': roomName,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    credentials: 'same-origin'
+                });
+
+                if (response.ok) {
+                    console.log('room created');
+                    const data = await response.json();
+                    console.log("room created DATA :",data)
+                } else {
+                    console.log('échec de la création de room');
+                }
+
+            } catch (error) {
+                console.error('log failed:', error);
             }
-
-        } catch (error) {
-            console.error('log failed:', error);
+        }else{
+            alert('Veuillez donner un nom à votre salle');
         }
     };
 
