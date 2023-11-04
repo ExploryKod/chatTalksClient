@@ -24,19 +24,18 @@ type RoomMessage = {
     message: string;
 }
 
-type Room = {
-    name: string|undefined;
-    messages: string[];
-}
+// type Room = {
+//     name: string|undefined;
+//     messages: string[];
+// }
 const ChatRoom: React.FC<{}> = () => {
-    // const {roomName} = useRoomStore();
-    // console.log('roomName', roomName)
+
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
-    const [rooms, setRooms] = useState<Room[]>([]);
+    // const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -51,7 +50,7 @@ const ChatRoom: React.FC<{}> = () => {
         socket.send(JSON.stringify(messageInput));
         setMessageInput({
             action: "send-message", message: "", target: {
-                id: "d0d73e6a-dfba-4f9d-bbd9-9491bfc4021e",
+                id: "",
                 name: roomNumber
             }
         });
@@ -63,16 +62,16 @@ const ChatRoom: React.FC<{}> = () => {
         }
         socket.send(JSON.stringify({action: 'join-hub', message: roomNumber} as RoomMessage));
 
-        setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
+        // setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
     }
 
-    const findRoom = (roomName: string) => {
-        for (let i = 0; i < rooms.length; i++) {
-            if (rooms[i].name === roomName) {
-                return rooms[i];
-            }
-        }
-    }
+    // const findRoom = (roomName: string) => {
+    //     for (let i = 0; i < rooms.length; i++) {
+    //         if (rooms[i].name === roomName) {
+    //             return rooms[i];
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username}`);
@@ -91,22 +90,35 @@ const ChatRoom: React.FC<{}> = () => {
             let data = event.data;
             data = data.split(/\r?\n/);
             console.log('WebSocket data:', data)
-            for (let i = 0; i < data.length; i++) {
-                let msg = JSON.parse(data[i]);
+            data.forEach((element: string) => {
+                console.log('WebSocket element:', element)
+                let msg = JSON.parse(element);
                 console.log('WebSocket msg:', msg.message)
-                const room = findRoom(msg.target);
-                console.log('WebSocket room:', room)
-                if (typeof room !== "undefined") {
-                    room.messages.push(msg.message);
-                    console.log('WebSocket room-message:', room.messages)
-                }
-                setMessages((prevMessages) => [...prevMessages,
-                    {
-                        sendername: msg?.sender?.name,
-                        sendermessage: msg?.message
-                    }
-                ]);
-            }
+
+                    setMessages((prevMessages) => [...prevMessages,
+                        {
+                            sendername: msg?.sender?.name,
+                            sendermessage: msg?.message
+                        }
+                    ]);
+
+            })
+            // for (let i = 0; i < data.length; i++) {
+            //     let msg = JSON.parse(data);
+            //     console.log('WebSocket msg:', msg.message)
+            //     const room = findRoom(msg.target);
+            //     console.log('WebSocket room:', room)
+            //     if (typeof room !== "undefined") {
+            //         room.messages.push(msg.message);
+            //         console.log('WebSocket room-message:', room.messages)
+            //     }
+            //     setMessages((prevMessages) => [...prevMessages,
+            //         {
+            //             sendername: msg?.sender?.name,
+            //             sendermessage: msg?.message
+            //         }
+            //     ]);
+            // }
         };
 
         newSocket.onerror = (error) => {
@@ -126,12 +138,12 @@ const ChatRoom: React.FC<{}> = () => {
         handleJoinRoom();
     }, [socket, roomNumber]);
 
-
+    console.log('messages', messages)
     return (
         <>
             <h1 className="category-title"> Chat room n° {roomNumber}</h1>
             <div className="input-log">
-                
+
                 {messages.map((message, index) => (
                     <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
                         message.sendername + " : " + message?.sendermessage
