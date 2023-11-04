@@ -4,6 +4,11 @@ import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
+type SenderMessage = {
+    sendername: string;
+    sendermessage: string;
+}
+
 type Target = {
     id: string;
     name: string|undefined;
@@ -28,7 +33,7 @@ const ChatRoom: React.FC<{}> = () => {
     // console.log('roomName', roomName)
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [rooms, setRooms] = useState<Room[]>([]);
@@ -88,15 +93,20 @@ const ChatRoom: React.FC<{}> = () => {
             console.log('WebSocket data:', data)
             for (let i = 0; i < data.length; i++) {
                 let msg = JSON.parse(data[i]);
-                console.log('WebSocket msg:', msg)
+                console.log('WebSocket msg:', msg.message)
                 const room = findRoom(msg.target);
                 console.log('WebSocket room:', room)
                 if (typeof room !== "undefined") {
                     room.messages.push(msg.message);
                     console.log('WebSocket room-message:', room.messages)
                 }
+                setMessages((prevMessages) => [...prevMessages,
+                    {
+                        sendername: msg?.sender?.name,
+                        sendermessage: msg?.message
+                    }
+                ]);
             }
-            setMessages((prevMessages) => [...prevMessages, data]);
         };
 
         newSocket.onerror = (error) => {
@@ -121,8 +131,11 @@ const ChatRoom: React.FC<{}> = () => {
         <>
             <h1 className="category-title"> Chat room n° {roomNumber}</h1>
             <div className="input-log">
+                
                 {messages.map((message, index) => (
-                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{message}
+                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
+                        message.sendername + " : " + message?.sendermessage
+                    }
                     </div>
                 ))}
             </div>

@@ -11,7 +11,7 @@ interface RoomState {
 
 export const useRoomStore = create<RoomState>((set) => ({
     roomId: 0,
-    roomName: 'ecureuil',
+    roomName: '',
     roomDescription: '',
     setRoomName: (name: string) => set({ roomName: name }),
     setRoomDescription: (description: string) => set({ roomDescription: description }),
