@@ -7,14 +7,56 @@ interface Session {
   session?: boolean;
 }
 
+type passwordInput = {
+    password: string;
+}
+
 const Connexion = () => {
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
   const [flashMessage, setFlashMessage] = useState('');
-  const [sessionStatus, setSessionStatus] = useState<Session>({});
   const navigate = useNavigate();
   const { setToken, setUsername } = useLoggedStore();
+  const [passwordEntries, setPasswordEntries] = useState<passwordInput>({
+    password: "",
+  });
+  const [isError, setError] = useState<string | null>(null);
+
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let password = e.target.value;
+    setPasswordEntries({
+      ...passwordEntries,
+      password: e.target.value,
+    });
+    setError(null);
+    let caps, small, num, specialSymbol;
+
+    if (password.length < 4) {
+      setError(
+          "Au moins 4 caractères requis"
+      );
+      return;
+    } else {
+      caps = (password.match(/[A-Z]/g) || []).length;
+      small = (password.match(/[a-z]/g) || []).length;
+      num = (password.match(/[0-9]/g) || []).length;
+      specialSymbol = (password.match(/\W/g) || []).length;
+      if (caps < 1) {
+        setError("Majuscule requise");
+        return;
+      } else if (small < 1) {
+        setError("Ajoutez au moins une lettre minuscule");
+        return;
+      } else if (num < 1) {
+        setError("Ajoutez un nombre");
+        return;
+      } else if (specialSymbol < 1) {
+        setError("Ajoutez un symbol: @$! % * ? &");
+        return;
+      }
+    }
+  };
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -49,30 +91,6 @@ const Connexion = () => {
       }, 3000);
     }
   };
-
-
-  // useEffect(() => {
-  //   const fetchSessionStatus = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:5000/auth/session');
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setSessionStatus({data});
-  //       } else {
-  //         console.error('Error fetching images:', response.status);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching images:', error);
-  //     }
-  //   };
-
-  //   fetchSessionStatus();
-  // }, []);
-
-  useEffect(() => {
-    setSessionStatus({session: false});
-  }, []);
-
 
   const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,6 +137,10 @@ const Connexion = () => {
   };
 
   const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
+    if(e.target.name === "password") {
+      onPasswordChange(e);
+    }
+
     setRegisterData(prevState => {
         return {
             ...prevState,
@@ -140,9 +162,6 @@ const Connexion = () => {
 
 return (
   <main className="page-connexion">
-
-    {!sessionStatus.session ? (
-
     <div className="outer-connexion">
       {flashMessage && <div className="output-message">{flashMessage}</div>}
       <div className="inner-connexion">
@@ -157,6 +176,7 @@ return (
               <div className="form-elem">
                 <label htmlFor="password-register"></label>
                 <input type="text" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
+                {isError && <p className={"output-message"}>{isError}</p>}
               </div>
              
               <div className="form-elem">
@@ -193,7 +213,6 @@ return (
         )}
       </div>
     </div>
-    ): (<div className="no-session">Vous êtes déjà connecté</div>)}
   </main>
 );
 };
