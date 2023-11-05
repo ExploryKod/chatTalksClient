@@ -6,14 +6,16 @@ export interface IProfileModal {
 }
 
 export interface IConfirmModal {
-    modalConfirmRef:HTMLDivElement,
-    user: IUser;
-    isVisible: boolean;
-    hideModal: () => void;
+    // modalConfirmRef:HTMLDivElement,
+    userList: IUser[];
+    selectedUser: IUser;
     title: string;
+    setOpenConfirmModal: Dispatch<SetStateAction<boolean>>;
+    // isLoading: boolean;
+    // setIsLoading: Dispatch<SetStateAction<boolean>>;
     setUserList: Dispatch<SetStateAction<IUser[]>>;
-    onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    // onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    // onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface IUpdateModal {
