@@ -6,7 +6,6 @@ export interface IProfileModal {
 }
 
 export interface IConfirmModal {
-    // modalConfirmRef:HTMLDivElement,
     userList: IUser[];
     selectedUser: IUser;
     title: string;
@@ -14,8 +13,16 @@ export interface IConfirmModal {
     // isLoading: boolean;
     // setIsLoading: Dispatch<SetStateAction<boolean>>;
     setUserList: Dispatch<SetStateAction<IUser[]>>;
-    // onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    // onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export interface IConfirmRoomModal {
+    roomList: IRoom[];
+    selectedRoom: IRoom;
+    title: string;
+    setOpenConfirmRoomModal: Dispatch<SetStateAction<boolean>>;
+    setRoomList: Dispatch<SetStateAction<IRoom[]>>;
+    // isLoading: boolean;
+    // setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IUpdateModal {

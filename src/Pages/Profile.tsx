@@ -1,5 +1,6 @@
 import UserList from "../Component/UserList";
 import { useLoggedStore } from '../StateManager/userStore';
+import RoomList from "../Component/RoomList.tsx";
 interface ProfileProps {
     isAdmin: boolean;
     username: string;
@@ -28,6 +29,7 @@ const Profile: React.FC<ProfileProps> = () => {
         <div>
             <h1 className="category-title">Bienvenue {username} !</h1>
                 <UserList />
+                <RoomList />
         </div>
     );
 };
