@@ -2,13 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams} from 'react-router-dom';
-import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 
+type SenderMessage = {
+    sendername: string;
+    sendermessage: string;
+}
+
+type Target = {
+    id: string;
+    name: string|undefined;
+}
 type Message = {
     action: string;
     message: string;
-    target: string;
+    target: Target;
 }
 
 type RoomMessage = {
@@ -16,18 +24,18 @@ type RoomMessage = {
     message: string;
 }
 
-type Room = {
-    name: string;
-    messages: string[];
-}
+// type Room = {
+//     name: string|undefined;
+//     messages: string[];
+// }
 const ChatRoom: React.FC<{}> = () => {
-    const {roomName} = useRoomStore();
+
     const {username} = useLoggedStore();
-    const {room} = useParams();
-    const [messages, setMessages] = useState<string[]>([]);
-    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: roomName});
+    const {roomNumber} = useParams();
+    const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
+    const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
-    const [rooms, setRooms] = useState<Room[]>([]);
+    // const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -35,26 +43,35 @@ const ChatRoom: React.FC<{}> = () => {
             return;
         }
 
+        if (messageInput.message === '') {
+            return;
+        }
+        console.log('messageInput', messageInput)
         socket.send(JSON.stringify(messageInput));
-        setMessageInput({action: "send-message", message: "", target: roomName});
+        setMessageInput({
+            action: "send-message", message: "", target: {
+                id: "",
+                name: roomNumber
+            }
+        });
     };
 
     const handleJoinRoom = () => {
         if (!socket) {
             return;
         }
-        socket.send(JSON.stringify({ action: 'join-room', message: roomName } as RoomMessage));
+        socket.send(JSON.stringify({action: 'join-hub', message: roomNumber} as RoomMessage));
 
-        setRooms((prevRooms) => [...prevRooms, { name: roomName, messages: [] }]);
+        // setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
     }
 
-    const findRoom = (roomName:string) => {
-        for (let i = 0; i < rooms.length; i++) {
-            if (rooms[i].name === roomName) {
-                return rooms[i];
-            }
-        }
-    }
+    // const findRoom = (roomName: string) => {
+    //     for (let i = 0; i < rooms.length; i++) {
+    //         if (rooms[i].name === roomName) {
+    //             return rooms[i];
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username ? username : "amaury"}`);
@@ -72,14 +89,36 @@ const ChatRoom: React.FC<{}> = () => {
         newSocket.onmessage = (event) => {
             let data = event.data;
             data = data.split(/\r?\n/);
-            for (let i = 0; i < data.length; i++) {
-                let msg = JSON.parse(data[i]);
-                const room = findRoom(msg.target);
-                if (typeof room !== "undefined") {
-                    room.messages.push(msg.text);
-                }
-            }
-            setMessages((prevMessages) => [...prevMessages, data]);
+            console.log('WebSocket data:', data)
+            data.forEach((element: string) => {
+                console.log('WebSocket element:', element)
+                let msg = JSON.parse(element);
+                console.log('WebSocket msg:', msg.message)
+
+                    setMessages((prevMessages) => [...prevMessages,
+                        {
+                            sendername: msg?.sender?.name,
+                            sendermessage: msg?.message
+                        }
+                    ]);
+
+            })
+            // for (let i = 0; i < data.length; i++) {
+            //     let msg = JSON.parse(data);
+            //     console.log('WebSocket msg:', msg.message)
+            //     const room = findRoom(msg.target);
+            //     console.log('WebSocket room:', room)
+            //     if (typeof room !== "undefined") {
+            //         room.messages.push(msg.message);
+            //         console.log('WebSocket room-message:', room.messages)
+            //     }
+            //     setMessages((prevMessages) => [...prevMessages,
+            //         {
+            //             sendername: msg?.sender?.name,
+            //             sendermessage: msg?.message
+            //         }
+            //     ]);
+            // }
         };
 
         newSocket.onerror = (error) => {
@@ -96,17 +135,19 @@ const ChatRoom: React.FC<{}> = () => {
         if (!socket) {
             return;
         }
-        console.log('roomName FRERE', roomName)
         handleJoinRoom();
-    }, [socket, roomName]);
+    }, [socket, roomNumber]);
 
-
+    console.log('messages', messages)
     return (
         <>
-            <h1 className="category-title"> Chat room n° {room}</h1>
+            <h1 className="category-title"> Chat room n° {roomNumber}</h1>
             <div className="input-log">
+
                 {messages.map((message, index) => (
-                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{message}
+                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
+                        message.sendername + " : " + message?.sendermessage
+                    }
                     </div>
                 ))}
             </div>
@@ -118,7 +159,13 @@ const ChatRoom: React.FC<{}> = () => {
                     id="msg"
                     placeholder='Ecrivez votre message'
                     value={messageInput.message}
-                    onChange={(e) => setMessageInput({action: "send-message", message: e.target.value, target: roomName})}
+                    onChange={(e) => setMessageInput({
+                        action: "send-message",
+                        message: e.target.value,
+                        target: {
+                            id: "1685691b-e1b5-492a-9394-d1e73818e580",
+                            name: roomNumber}
+                    })}
                 />
             </form>
         </>

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import sass from 'sass'
+// import sass from 'sass'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,11 +14,11 @@ export default defineConfig({
        usePolling: true
      }
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        implementation: sass,
-      },
-    },
-  },
+  // css: {
+  //   preprocessorOptions: {
+  //     scss: {
+  //       implementation: sass,
+  //     },
+  //   },
+  // },
 })

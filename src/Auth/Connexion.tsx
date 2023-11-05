@@ -34,7 +34,7 @@ const Connexion = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        console.log("register DATA ",data)
         setFlashMessage(data.message);
         setTimeout(() => {
           setFlashMessage('');
@@ -73,8 +73,7 @@ const Connexion = () => {
     setSessionStatus({session: false});
   }, []);
 
-  
-  // console.log(sessionStatus);
+
   const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
