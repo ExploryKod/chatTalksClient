@@ -1,7 +1,18 @@
 import { Fragment } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useLoggedStore } from '../StateManager/userStore';
 
 const Navigation = () => {
+
+    const navigate = useNavigate();
+
+    const { removeToken } = useLoggedStore();
+
+    const handleLogout = () => {
+        removeToken();
+        // Redirect to the login page or any other desired page after logout
+        navigate('/');
+    };
 
     return (
         <Fragment>
@@ -14,6 +25,9 @@ const Navigation = () => {
                     <Link className='nav-link' to='/chat'>
                         CHAT ROOMS
                     </Link>
+                    <button className='nav-link' onClick={handleLogout}>
+                        LOGOUT
+                    </button>
                 </div>
             </div>
 

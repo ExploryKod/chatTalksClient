@@ -1,8 +1,15 @@
 import UserList from "../Component/UserList";
+import { useLoggedStore } from '../StateManager/userStore';
+interface ProfileProps {
+    isAdmin: boolean;
+    username: string;
+    userId: string;
+}
 
-
-const Profile = () => {
+const Profile: React.FC<ProfileProps> = () => {
+    const { username } = useLoggedStore();
     // const [isDeleting, setIsDeleting] = useState(false);
+
 
     // const handleDelete = async () => {
     //     setIsDeleting(true);
@@ -15,12 +22,12 @@ const Profile = () => {
     //     }
     // };
 
+
+
     return (
         <div>
-            <h1 className="category-title">Bienvenue !</h1>
-    
-            <UserList />
-          
+            <h1 className="category-title">Bienvenue {username} !</h1>
+                <UserList />
         </div>
     );
 };

@@ -5,7 +5,7 @@ export default function useGetChat() {
     // const serverPort:number | string = config.serverPort;
 
     return function () {
-        return fetch(`http://localhost:8080/chat`, {
+        return fetch(`http://localhost:8000/chat`, {
             method: 'GET',
             mode: "cors"
         })

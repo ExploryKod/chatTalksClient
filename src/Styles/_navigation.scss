@@ -26,6 +26,7 @@
     justify-content: space-around;
 
     .nav-link {
+      font-size: 18px;
       padding: 10px 20px;
       color: white;
       font-weight: 600;
@@ -35,6 +36,12 @@
         color: $darkpink;
        
       }
+    }
+    button.nav-link {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
     }
   }
 }

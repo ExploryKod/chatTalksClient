@@ -1,7 +1,12 @@
-@import './Styles/bases/reset';
 @import './Styles/bases/variables';
+@import './Styles/bases/reset';
 @import './Styles/bases/responsive';
+@import './Styles/flashMessage';
+@import './Styles/tooltip';
 @import './Styles/button';
+@import './Styles/modal';
+@import './Styles/table';
 @import './Styles/connexion';
 @import './Styles/chat';
 @import './Styles/navigation';
+@import './Styles/user-list';
