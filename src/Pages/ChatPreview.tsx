@@ -72,10 +72,13 @@ const ChatPreview: React.FC<{}> = () => {
         <>
           <h1 className="category-title">Créer ou entrez dans une salle pour chatter !</h1>
             <div className="rooms-container">
-                <form className="message-form" method={'post'} onSubmit={createRoom}>
+                {roomsList.length >= 6 ? (<div>
+                    <h2 className="category-title">Choisissez une des 6 salles : </h2>
+                    <p className={"category-text"}> Vous avez atteint le nombre maximal de salles</p>
+                </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
                     <input className="input-log" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChange}/>
                     <button className="button-container room-button" type={'submit'}>Créer une salle</button>
-                </form>
+                </form>) }
                 <div className="categories-container">
                     <div className={"category-preview-container"} >
                 {roomsList?.map((item, index) => (
