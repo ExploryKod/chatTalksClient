@@ -12,6 +12,9 @@ new_css_filename="src/css/index.css"
 
 .PHONY: build install dev up start first stop restart clear
 
+down:
+	$(DOCKER_COMPOSE) down
+
 build:
 	$(DOCKER_COMPOSE) up --build --no-recreate -d
 
@@ -53,7 +56,7 @@ watch_sass:
 
 start: up dev
 
-first: build install dev
+first: down build install dev
 
 npm_build: server_build
 
