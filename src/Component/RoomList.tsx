@@ -61,6 +61,7 @@ export default function RoomList() {
                             <div className="table-header table-row">
                                 <div>Identifiant</div>
                                 <div>Nom de salle</div>
+                                <div>Thème</div>
                                 <div>Actions</div>
                             </div>)}
 
@@ -68,6 +69,7 @@ export default function RoomList() {
                             <div key={room.id} className="body-row">
                                 <div>{room.id}</div>
                                 <div>{room.name ? room.name : "salle de chat"}</div>
+                                <div>{room.description? room.description : "Aucun thème"}</div>
                                     <div className={"table-row__actions"}>
                                         <Tooltip content="Supprimer" direction="top">
                                             <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
