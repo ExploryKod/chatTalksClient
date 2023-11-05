@@ -1,4 +1,5 @@
 import {useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import type { IRoom } from "../Types/typeRooms.d.ts";
 
@@ -53,8 +54,13 @@ export default function RoomList() {
         <>
             <div className={"user-list__container"}>
                 {!roomList || !roomList.length ?
-                    (<h1 className="category-text"> Aucune salle en vue...</h1>):
-                    <h1 className="category-text"> Rooms: </h1> }
+                    (<div>
+                        <h1 className="category-text"> Aucune salle de chat en vue... Soyez le premier à en créer une</h1>
+                        <Link to="/chat" className="button-container width-50-centered">Créer ma salle</Link>
+                    </div>
+
+                    ):
+                    <h1 className="category-text"> Liste des salles de chat: </h1> }
                 <section className="table-container">
                     <div className="table">
                         {roomList && roomList.length > 0 && (
