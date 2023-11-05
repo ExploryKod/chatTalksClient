@@ -2,6 +2,7 @@ import ChatRoomPreview from '../Component/ChatRoomPreview';
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
+import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 export interface ICategory {
     id: number,
@@ -14,6 +15,7 @@ const ChatPreview: React.FC<{}> = () => {
     const [roomName, setRoomName] = useState('');
     const [roomsList, setRoomsList] = useState<ICategory[]>([]);
     const getRoomsList = useGetRoomsList();
+    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -64,6 +66,10 @@ const ChatPreview: React.FC<{}> = () => {
         }
     };
 
+    useEffect(() => {
+        setFlashMessage('Nombre maximale de salles atteintes, vous ne pouvez plus en créer');
+    }, []);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setRoomName(e.target.value)
     }
@@ -74,7 +80,7 @@ const ChatPreview: React.FC<{}> = () => {
             <div className="rooms-container">
                 {roomsList.length >= 6 ? (<div>
                     <h2 className="category-title">Choisissez une des 6 salles : </h2>
-                    <p className={"category-text"}> Vous avez atteint le nombre maximal de salles</p>
+                    {<p className={`category-text ${opacityMessage}`}>{flashMessage}</p>}
                 </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
                     <input className="input-log" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChange}/>
                     <button className="button-container room-button" type={'submit'}>Créer une salle</button>
