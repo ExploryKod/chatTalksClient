@@ -1,15 +1,8 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import '../Styles/_flashMessage.scss';
-
-interface Session {
-  session?: boolean;
-}
-
-type passwordInput = {
-    password: string;
-}
+import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
 
 const Connexion = () => {
   const [toggle, setToggle] = useState(true);
@@ -18,45 +11,7 @@ const Connexion = () => {
   const [flashMessage, setFlashMessage] = useState('');
   const navigate = useNavigate();
   const { setToken, setUsername } = useLoggedStore();
-  const [passwordEntries, setPasswordEntries] = useState<passwordInput>({
-    password: "",
-  });
-  const [isError, setError] = useState<string | null>(null);
-
-  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let password = e.target.value;
-    setPasswordEntries({
-      ...passwordEntries,
-      password: e.target.value,
-    });
-    setError(null);
-    let caps, small, num, specialSymbol;
-
-    if (password.length < 4) {
-      setError(
-          "Au moins 4 caractères requis"
-      );
-      return;
-    } else {
-      caps = (password.match(/[A-Z]/g) || []).length;
-      small = (password.match(/[a-z]/g) || []).length;
-      num = (password.match(/[0-9]/g) || []).length;
-      specialSymbol = (password.match(/\W/g) || []).length;
-      if (caps < 1) {
-        setError("Majuscule requise");
-        return;
-      } else if (small < 1) {
-        setError("Ajoutez au moins une lettre minuscule");
-        return;
-      } else if (num < 1) {
-        setError("Ajoutez un nombre");
-        return;
-      } else if (specialSymbol < 1) {
-        setError("Ajoutez un symbol: @$! % * ? &");
-        return;
-      }
-    }
-  };
+  const { isError, onPasswordChange } = usePasswordMeter()
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -64,7 +19,7 @@ const Connexion = () => {
 
   const handleRegisterSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
@@ -82,6 +37,13 @@ const Connexion = () => {
           setFlashMessage('');
         }, 3000);
         handleToggle();
+      } else if (response.status !== 500) {
+        const errorData = await response.json();
+        console.error("Registration failed:", errorData);
+        setFlashMessage(`${errorData.message}`);
+        setTimeout(() => {
+          setFlashMessage('');
+        }, 3000);
       }
     } catch(error) {
       console.error('log failed:', error);

@@ -14,4 +14,8 @@ export interface Ihobbies {
     name: string;
 }
 
+export type passwordInput = {
+    password: string;
+}
+
 
