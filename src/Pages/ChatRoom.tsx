@@ -142,15 +142,17 @@ const ChatRoom: React.FC<{}> = () => {
     return (
         <>
             <h1 className="category-title"> Chat room n° {roomNumber}</h1>
-            <div className="input-log">
 
                 {messages.map((message, index) => (
-                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
-                        message.sendername + " : " + message?.sendermessage
-                    }
-                    </div>
+                    (message.sendermessage != "" && message.sendername != undefined && message.sendername != "") && (
+                        <div className="input-log">
+                            <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
+                                message.sendername + " : " + message?.sendermessage
+                            }
+                            </div>
+                        </div>)
                 ))}
-            </div>
+
             <form className="message-form" onSubmit={sendMessage}>
                 <GiTalk className="talk-icon"/>
                 <input type="submit" className="message-send" value="Send"/>
