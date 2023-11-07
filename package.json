@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "overlayscrollbars": "^2.4.4",
+    "overlayscrollbars-react": "^0.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",

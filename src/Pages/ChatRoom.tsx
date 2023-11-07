@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
+import 'overlayscrollbars/styles/overlayscrollbars.css';
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+
 
 type SenderMessage = {
     sendername: string;
@@ -139,10 +142,26 @@ const ChatRoom: React.FC<{}> = () => {
     }, [socket, roomNumber]);
 
     console.log('messages', messages)
+
     return (
         <>
             <h1 className="category-title"> Chat room n° {roomNumber}</h1>
 
+                <div className="logs-container">
+                    <OverlayScrollbarsComponent
+                        options={{
+                            scrollbars: { autoHide: 'leave', autoHideDelay: 300, theme: 'os-theme-dark' },
+                            overflow: { x: 'hidden' },
+                        } as any}
+
+                        // events = {{  scroll: () => {
+                        //     if(messagesEndRef.current) {
+                        //         messagesEndRef.current.scrollIntoView({block: "end", inline: "nearest", behavior: "smooth"})
+                        //     }
+                        //
+                        //     } }}
+                        defer
+                    >
                 {messages.map((message, index) => (
                     (message.sendermessage != "" && message.sendername != undefined && message.sendername != "") && (
                         <div className="input-log">
@@ -152,6 +171,9 @@ const ChatRoom: React.FC<{}> = () => {
                             </div>
                         </div>)
                 ))}
+                    </OverlayScrollbarsComponent>
+                </div>
+
 
             <form className="message-form" onSubmit={sendMessage}>
                 <GiTalk className="talk-icon"/>
