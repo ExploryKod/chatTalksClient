@@ -157,7 +157,7 @@ const ChatRoom = () => {
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
 
-                <div className={`logs-container margin-y-20
+                <div className={`logs-container margin-y-40
                         ${messages && messages.some(message => message.sendername === username) && messages.length > 2 ? "chat-active" : "" }
                       `} ref={messageContainerRef}
                     >
@@ -182,9 +182,12 @@ const ChatRoom = () => {
                 </div>
 
 
-            <form className="message-form" onSubmit={sendMessage}>
-                <GiTalk className="talk-icon"/>
-                <input type="submit" className="message-send" value="Send"/>
+            <form className="message-form margin-top-20" onSubmit={sendMessage}>
+                <div className="message-form__submit">
+                    <GiTalk className="talk-icon"/>
+                    <input type="submit" className="message-send" value="Parler"/>
+                </div>
+
                 <input
                     type="text"
                     id="msg"

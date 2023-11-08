@@ -82,22 +82,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin:20px auto;
+    margin:60px auto;
 
-    .talk-icon {
-        width: 50px;
-        height: 50px;
-        color: $darkpink;
-    }
+  .message-form__submit {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr minmax(100px, 2fr);
+      column-gap: 20px;
+      align-items: center;
+      justify-content: center;
+
+      .talk-icon {
+          grid-column: 2;
+          grid-row: 1;
+          justify-self: start;
+          width: 50px;
+          height: 50px;
+          color: $darkpink;
+      }
     
-    .message-send {
+      .message-send {
+        grid-column: 1;
+        grid-row: 1;
+        flex-basis: 40%;
         border: 1px solid #d6d6d6;
         padding: 10px 30px;
         margin: 20px 0;
         border-radius: 6px;
         font-size: 24px;
         font-weight: 700;
-        font-weight: 400;
         font-family: Arial, Helvetica, sans-serif;
         background-color: $blue;
         color: $light;
@@ -105,8 +118,9 @@
         transition: all 0.3s ease-in-out;
 
         &:hover {
-            background-color: $darkpink;
+          background-color: $darkpink;
         }
+      }
     }
 
     input[type="text"] {
