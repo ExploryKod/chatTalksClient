@@ -4,7 +4,7 @@ import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import 'overlayscrollbars/styles/overlayscrollbars.css';
-import {IRoom} from "../Types/typeRooms";
+// import {IRoom} from "../Types/typeRooms";
 // import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 
@@ -40,9 +40,9 @@ const ChatRoom = () => {
     const queryParams = new URLSearchParams(location.search);
 
     // Access the values like this
-    const id: string = queryParams.get('id');
-    const name: string = queryParams.get('name');
-    const description: string = queryParams.get('description');
+    // const id: string | null = queryParams.get('id');
+    const name: string | null = queryParams.get('name');
+    const description: string | null = queryParams.get('description');
 
     useEffect(() => {
         const messageContainer = messageContainerRef.current;
