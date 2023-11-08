@@ -48,13 +48,22 @@ neat_place:
 install_sass:
 	$(DOCKER_EXEC_TOOLS_APP) -c "npm install -g sass"
 
+install_toast:
+	$(DOCKER_EXEC_TOOLS_APP) -c "npm install --save react-toastify"
+
 run_sass:
 	$(DOCKER_EXEC_TOOLS_APP) -c "sass src/main.scss:src/css/index.css"
 
 watch_sass:
 	$(DOCKER_EXEC_TOOLS_APP) -c "sass --watch src/main.scss:src/css/index.css"
 
+install_new: install_sass install_toast
+
+toasty: install_toast
+
 start: up dev
+
+uppy: build install dev
 
 first: down build install dev
 

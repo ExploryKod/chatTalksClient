@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
+import useFlashMessage from '../Hook/useFlashMessage';
 import '../Styles/_flashMessage.scss';
 import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
+
 
 const Connexion = () => {
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
-  const [flashMessage, setFlashMessage] = useState('');
+  const { flashMessage, setFlashMessage, toastMessage } = useFlashMessage('')
   const navigate = useNavigate();
   const { setToken, setUsername } = useLoggedStore();
   const { isError, onPasswordChange } = usePasswordMeter()
@@ -40,16 +42,16 @@ const Connexion = () => {
       } else if (response.status !== 500) {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
-        setFlashMessage(`${errorData.message}`);
+        setFlashMessage({alert: errorData.message, name: 'alert'});
         setTimeout(() => {
           setFlashMessage('');
         }, 3000);
       }
     } catch(error) {
       console.error('log failed:', error);
-      setFlashMessage('Il y a eu une erreur dans la requête');
+      setFlashMessage({alert: 'Il y a eu une erreur dans la requête', name: 'alert'});
       setTimeout(() => {
-        setFlashMessage('');
+        setFlashMessage({alert: "", name: 'alert'});
       }, 3000);
     }
   };
@@ -76,25 +78,13 @@ const Connexion = () => {
           setToken('');
         }
         navigate(data.redirect)
-        // setFlashMessage(data.message);
-        setTimeout(() => {
-          setFlashMessage('');
-        }, 3000);
-      
       } else {
-        const errorData = await response.json(); 
-        setFlashMessage(`${errorData.message}`);
-        setTimeout(() => {
-          setFlashMessage('');
-        }, 3000);
+        const errorData = await response.json();
+        toastMessage(errorData.message);
       }
     } catch (error) {
       console.error('log failed:', error);
-      setFlashMessage('Il y a eu une erreur dans la requête');
-
-      setTimeout(() => {
-        setFlashMessage( `${error}`);
-      }, 3000);
+      toastMessage(`Mot de passe et/ou identifiant incorrect`);
     }
   };
 
@@ -106,7 +96,6 @@ const Connexion = () => {
     setRegisterData(prevState => {
         return {
             ...prevState,
-           
             [e.target.name]: e.target.value
         }
     }) 
@@ -116,7 +105,6 @@ const Connexion = () => {
     setFormData(prevState => {
         return {
             ...prevState,
-            
             [e.target.name]: e.target.value
         }
     }) 
@@ -125,7 +113,7 @@ const Connexion = () => {
 return (
   <main className="page-connexion">
     <div className="outer-connexion">
-      {flashMessage && <div className="output-message">{flashMessage}</div>}
+      {(flashMessage && flashMessage.alert != "") && <div className="output-message padding-5 width-50">{flashMessage.alert}</div>}
       <div className="inner-connexion">
 
         {!toggle ? (
