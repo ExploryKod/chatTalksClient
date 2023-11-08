@@ -1,20 +1,17 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import '../Styles/_flashMessage.scss';
-
-interface Session {
-  session?: boolean;
-}
+import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
 
 const Connexion = () => {
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
   const [flashMessage, setFlashMessage] = useState('');
-  const [sessionStatus, setSessionStatus] = useState<Session>({});
   const navigate = useNavigate();
   const { setToken, setUsername } = useLoggedStore();
+  const { isError, onPasswordChange } = usePasswordMeter()
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -22,7 +19,7 @@ const Connexion = () => {
 
   const handleRegisterSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:8000/auth/register', {
         method: 'POST',
@@ -40,6 +37,13 @@ const Connexion = () => {
           setFlashMessage('');
         }, 3000);
         handleToggle();
+      } else if (response.status !== 500) {
+        const errorData = await response.json();
+        console.error("Registration failed:", errorData);
+        setFlashMessage(`${errorData.message}`);
+        setTimeout(() => {
+          setFlashMessage('');
+        }, 3000);
       }
     } catch(error) {
       console.error('log failed:', error);
@@ -49,30 +53,6 @@ const Connexion = () => {
       }, 3000);
     }
   };
-
-
-  // useEffect(() => {
-  //   const fetchSessionStatus = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:5000/auth/session');
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setSessionStatus({data});
-  //       } else {
-  //         console.error('Error fetching images:', response.status);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching images:', error);
-  //     }
-  //   };
-
-  //   fetchSessionStatus();
-  // }, []);
-
-  useEffect(() => {
-    setSessionStatus({session: false});
-  }, []);
-
 
   const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,6 +99,10 @@ const Connexion = () => {
   };
 
   const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement> ) => {
+    if(e.target.name === "password") {
+      onPasswordChange(e);
+    }
+
     setRegisterData(prevState => {
         return {
             ...prevState,
@@ -140,9 +124,6 @@ const Connexion = () => {
 
 return (
   <main className="page-connexion">
-
-    {!sessionStatus.session ? (
-
     <div className="outer-connexion">
       {flashMessage && <div className="output-message">{flashMessage}</div>}
       <div className="inner-connexion">
@@ -157,6 +138,7 @@ return (
               <div className="form-elem">
                 <label htmlFor="password-register"></label>
                 <input type="text" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
+                {isError && <p className={"output-message"}>{isError}</p>}
               </div>
              
               <div className="form-elem">
@@ -193,7 +175,6 @@ return (
         )}
       </div>
     </div>
-    ): (<div className="no-session">Vous êtes déjà connecté</div>)}
   </main>
 );
 };

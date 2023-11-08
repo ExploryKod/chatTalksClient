@@ -1,25 +1,23 @@
+import {useState} from 'react';
 import {Link} from 'react-router-dom';
 // import { useRoomStore } from '../StateManager/roomStore';
-import {ICategory} from '../Pages/ChatPreview';
+import type {IRoom} from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useEffect} from "react";
 
-export const ChatRoomPreview = ({id, name, description}: ICategory) => {
+export const ChatRoomPreview = ({id, name, description}: IRoom) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
+    const [image, setImage] = useState<string>("https://picsum.photos/200");
 
     useEffect(() => {
-        console.log("NAME ", name)
         setRoomName(name);
-        // display console.log of prevstate
-        console.log("ID SETTED ", id)
         setRoomId(id);
         setRoomDescription(description);
+        setImage(`https://picsum.photos/200?random=${id}`);
     }, []);
-
-
 
     const handleClick = async () => {
         try {
@@ -47,7 +45,7 @@ export const ChatRoomPreview = ({id, name, description}: ICategory) => {
 
     return(
         <div className={`room-card-container card-${name}`}>
-            <img src={imageUrl} alt={`${name}`} />
+            <img className="room-image" src={image ? image : imageUrl} alt={`${name}`} />
             <div className='body'>Thème du chat: <span>{description}</span></div>
             <Link onClick={handleClick} className='card-link title' to={id.toString()}>
                 {name && name.length > 0 ? `Entrez dans ${name.toLowerCase()}` : 'Entrez dans cette salle'}

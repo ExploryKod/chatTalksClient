@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef } from 'react';
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
+import 'overlayscrollbars/styles/overlayscrollbars.css';
+// import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+
 
 type SenderMessage = {
     sendername: string;
@@ -35,6 +38,24 @@ const ChatRoom: React.FC<{}> = () => {
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
+    const messageContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleNodeInserted = (event: Event) => {
+            const { currentTarget: target } = event as { currentTarget: HTMLDivElement | null };
+            if (target) target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+        };
+
+        if (messageContainerRef.current) {
+            messageContainerRef.current.addEventListener('DOMNodeInserted', handleNodeInserted);
+
+            return () => {
+                // Cleanup: Remove the event listener when the component is unmounted
+                messageContainerRef.current?.removeEventListener('DOMNodeInserted', handleNodeInserted);
+            };
+        }
+    }, []);
+
     // const [rooms, setRooms] = useState<Room[]>([]);
     const sendMessage = (event: React.FormEvent) => {
         event.preventDefault();
@@ -138,19 +159,38 @@ const ChatRoom: React.FC<{}> = () => {
         handleJoinRoom();
     }, [socket, roomNumber]);
 
+
     console.log('messages', messages)
+
     return (
         <>
-            <h1 className="category-title"> Chat room n° {roomNumber}</h1>
-            <div className="input-log">
+            <h1 className="category-title"> Chat room n° {roomNumber} </h1>
 
+                <div className={`logs-container
+                        ${messages && messages.some(message => message.sendername === username) && messages.length > 2 ? "chat-active" : "" }
+                      `} ref={messageContainerRef}
+                    >
+                    {/*<OverlayScrollbarsComponent*/}
+                    {/*    options={{*/}
+                    {/*        scrollbars: { autoHide: 'leave', autoHideDelay: 300, theme: 'os-theme-dark' },*/}
+                    {/*        overflow: { x: 'hidden' },*/}
+                    {/*    } as any}*/}
+                    {/*    ref={messageContainerRef}*/}
+                    {/*    defer*/}
+                    {/*>*/}
                 {messages.map((message, index) => (
-                    <div className="message-log" key={index}><BiSolidUserVoice className="voice-icon"/>&nbsp;{
-                        message.sendername + " : " + message?.sendermessage
-                    }
-                    </div>
+                    (message.sendermessage != "" && message.sendername != undefined && message.sendername != "") && (
+                        <div className={`${index % 2 !== 0 ? 'bgd-odd' : ''} input-log`} key={index}>
+                            <div className="message-log"><BiSolidUserVoice className="voice-icon"/>&nbsp;{
+                                message.sendername + " : " + message?.sendermessage
+                            }
+                            </div>
+                        </div>)
                 ))}
-            </div>
+                    {/*</OverlayScrollbarsComponent>*/}
+                </div>
+
+
             <form className="message-form" onSubmit={sendMessage}>
                 <GiTalk className="talk-icon"/>
                 <input type="submit" className="message-send" value="Send"/>

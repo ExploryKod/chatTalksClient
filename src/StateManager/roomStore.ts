@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface RoomState {
+export interface RoomState {
     roomId: number;
     roomName: string;
     roomDescription: string;
