@@ -1,9 +1,8 @@
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState } from "react";
 
 import type { IUser } from "../Types/typeUsers.d.ts";
 
 import useGetUserList from "../Hook/useGetUserList";
-import useToggleModal from "../Hook/useToggleModal.tsx";
 
 import { ConfirmModal } from "./ConfirmModal.tsx";
 
