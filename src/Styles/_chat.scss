@@ -1,9 +1,10 @@
+@import 'bases/variables';
 
 .logs-container {
     max-height: 50vh;
     overflow: auto;
     background-color: transparent;
-    border: 2px solid $darkpink;
+
     border-radius:10px;
     width: 50%;
     display: flex;
@@ -11,9 +12,28 @@
     align-items: center;
     margin: 0 auto;
 
+
+    /* Mozilla firefox */
+    scrollbar-color: $darkpink transparent;
+    scrollbar-width: thin;
+
+    /* Global */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    /* Ascenseur */
+    &::-webkit-scrollbar-thumb {
+      background: $darkpink;
+      border-radius: 8px;
+    }
+
     div:nth-child(1) {
       width:100%;
     }
+
+  &.chat-active {
+    border: 2px solid $darkpink;
+  }
 
   .input-log {
     width: 100%;
@@ -21,12 +41,16 @@
     margin: 0 auto;
     padding: 15px 50px;
 
+    &.bgd-odd {
+      background-color: $darkLavender;
+    }
+
     &:nth-child(1) {
       border-radius: 10px 10px 0 0;
     }
 
     &:nth-last-child(1) {
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 0 10px;
     }
 
 

@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 // import { useRoomStore } from '../StateManager/roomStore';
-import {ICategory} from '../Pages/ChatPreview';
+import type {IRoom} from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useEffect} from "react";
 
-export const ChatRoomPreview = ({id, name, description}: ICategory) => {
+export const ChatRoomPreview = ({id, name, description}: IRoom) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
