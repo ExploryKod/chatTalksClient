@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useRef } from 'react';
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
-import {useParams} from 'react-router-dom';
+import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import 'overlayscrollbars/styles/overlayscrollbars.css';
+import {IRoom} from "../Types/typeRooms";
 // import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 
@@ -27,7 +28,7 @@ type RoomMessage = {
     message: string;
 }
 
-const ChatRoom: React.FC<{}> = () => {
+const ChatRoom = () => {
 
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
@@ -35,6 +36,13 @@ const ChatRoom: React.FC<{}> = () => {
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const messageContainerRef = useRef<HTMLDivElement>(null);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    // Access the values like this
+    const id: string = queryParams.get('id');
+    const name: string = queryParams.get('name');
+    const description: string = queryParams.get('description');
 
     useEffect(() => {
         const messageContainer = messageContainerRef.current;
@@ -91,7 +99,7 @@ const ChatRoom: React.FC<{}> = () => {
     }
 
     useEffect(() => {
-        const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username ? username : "amaury"}`);
+        const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');
@@ -144,9 +152,12 @@ const ChatRoom: React.FC<{}> = () => {
 
     return (
         <>
-            <h1 className="category-title"> Chat room n° {roomNumber} </h1>
+            <div className="flex-center-childs-column margin-y-40">
+                <h1 className="category-title"> Chat room {name} </h1>
+                <p className="category-text text-darkpink"> {description}</p>
+            </div>
 
-                <div className={`logs-container
+                <div className={`logs-container margin-y-40
                         ${messages && messages.some(message => message.sendername === username) && messages.length > 2 ? "chat-active" : "" }
                       `} ref={messageContainerRef}
                     >
@@ -171,9 +182,12 @@ const ChatRoom: React.FC<{}> = () => {
                 </div>
 
 
-            <form className="message-form" onSubmit={sendMessage}>
-                <GiTalk className="talk-icon"/>
-                <input type="submit" className="message-send" value="Send"/>
+            <form className="message-form margin-top-20" onSubmit={sendMessage}>
+                <div className="message-form__submit">
+                    <GiTalk className="talk-icon"/>
+                    <input type="submit" className="message-send" value="Parler"/>
+                </div>
+
                 <input
                     type="text"
                     id="msg"

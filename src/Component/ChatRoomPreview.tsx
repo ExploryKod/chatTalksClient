@@ -42,12 +42,16 @@ export const ChatRoomPreview = ({id, name, description}: IRoom) => {
         }
     };
     console.log(name)
-
+    const queryChat: string = `?id=${id.toString()}&name=${name}&description=${description}`
     return(
         <div className={`room-card-container card-${name}`}>
             <img className="room-image" src={image ? image : imageUrl} alt={`${name}`} />
             <div className='body'>Thème du chat: <span>{description}</span></div>
-            <Link onClick={handleClick} className='card-link title' to={id.toString()}>
+            <Link onClick={handleClick} className='card-link title'
+                  to={{
+                      pathname: `${id.toString()}`,
+                      search: queryChat
+                  }}>
                 {name && name.length > 0 ? `Entrez dans ${name.toLowerCase()}` : 'Entrez dans cette salle'}
                 </Link>
         </div>

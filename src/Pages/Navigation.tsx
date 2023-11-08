@@ -2,11 +2,13 @@ import { Fragment } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 
+
 const Navigation = () => {
 
     const navigate = useNavigate();
 
     const { removeToken } = useLoggedStore();
+
 
     const handleLogout = () => {
         removeToken();
@@ -20,10 +22,10 @@ const Navigation = () => {
             
                 <div className='nav-links-container'>
                     <Link className='nav-link' to='/'>
-                        ACCUEIL
+                        BOARD
                     </Link>
                     <Link className='nav-link' to='/chat'>
-                        CHAT ROOMS
+                        SALONS
                     </Link>
                     <button className='nav-link' onClick={handleLogout}>
                         LOGOUT
