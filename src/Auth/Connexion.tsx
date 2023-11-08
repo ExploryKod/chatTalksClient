@@ -36,7 +36,7 @@ const Connexion = () => {
         console.log("register DATA ",data)
         setFlashMessage(data.message);
         setTimeout(() => {
-          setFlashMessage('');
+          setFlashMessage({alert: "", name: 'alert'});
         }, 3000);
         handleToggle();
       } else if (response.status !== 500) {
@@ -44,7 +44,7 @@ const Connexion = () => {
         console.error("Registration failed:", errorData);
         setFlashMessage({alert: errorData.message, name: 'alert'});
         setTimeout(() => {
-          setFlashMessage('');
+          setFlashMessage({alert: "", name: 'alert'});
         }, 3000);
       }
     } catch(error) {
