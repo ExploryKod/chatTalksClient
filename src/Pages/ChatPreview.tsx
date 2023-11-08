@@ -13,7 +13,7 @@ export interface IWordLength {
     endMessage: string
 }
 
-const ChatPreview: React.FC<{}> = () => {
+const ChatPreview = () => {
     const navigate = useNavigate();
     const [roomName, setRoomName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
