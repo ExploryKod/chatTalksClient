@@ -27,10 +27,6 @@ type RoomMessage = {
     message: string;
 }
 
-// type Room = {
-//     name: string|undefined;
-//     messages: string[];
-// }
 const ChatRoom: React.FC<{}> = () => {
 
     const {username} = useLoggedStore();
@@ -41,19 +37,27 @@ const ChatRoom: React.FC<{}> = () => {
     const messageContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleNodeInserted = (event: Event) => {
-            const { currentTarget: target } = event as { currentTarget: HTMLDivElement | null };
-            if (target) target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+        const messageContainer = messageContainerRef.current;
+
+        if (!messageContainer) {
+            return;
+        }
+
+        // Function to scroll to the bottom
+        const scrollToBottom = () => {
+            messageContainer.scroll({ top: messageContainer.scrollHeight, behavior: 'smooth' });
         };
 
-        if (messageContainerRef.current) {
-            messageContainerRef.current.addEventListener('DOMNodeInserted', handleNodeInserted);
+        // Set up the MutationObserver
+        const observer = new MutationObserver(scrollToBottom);
 
-            return () => {
-                // Cleanup: Remove the event listener when the component is unmounted
-                messageContainerRef.current?.removeEventListener('DOMNodeInserted', handleNodeInserted);
-            };
-        }
+        // Configure and start observing
+        observer.observe(messageContainer, { childList: true });
+
+        // Cleanup: Disconnect the observer when the component is unmounted
+        return () => {
+            observer.disconnect();
+        };
     }, []);
 
     // const [rooms, setRooms] = useState<Room[]>([]);
@@ -86,14 +90,6 @@ const ChatRoom: React.FC<{}> = () => {
         // setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
     }
 
-    // const findRoom = (roomName: string) => {
-    //     for (let i = 0; i < rooms.length; i++) {
-    //         if (rooms[i].name === roomName) {
-    //             return rooms[i];
-    //         }
-    //     }
-    // }
-
     useEffect(() => {
         const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username ? username : "amaury"}`);
 
@@ -124,22 +120,6 @@ const ChatRoom: React.FC<{}> = () => {
                     ]);
 
             })
-            // for (let i = 0; i < data.length; i++) {
-            //     let msg = JSON.parse(data);
-            //     console.log('WebSocket msg:', msg.message)
-            //     const room = findRoom(msg.target);
-            //     console.log('WebSocket room:', room)
-            //     if (typeof room !== "undefined") {
-            //         room.messages.push(msg.message);
-            //         console.log('WebSocket room-message:', room.messages)
-            //     }
-            //     setMessages((prevMessages) => [...prevMessages,
-            //         {
-            //             sendername: msg?.sender?.name,
-            //             sendermessage: msg?.message
-            //         }
-            //     ]);
-            // }
         };
 
         newSocket.onerror = (error) => {
