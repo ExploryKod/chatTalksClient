@@ -6,7 +6,7 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useEffect} from "react";
 
-export const ChatRoomPreview = ({id, name, description}: IRoom) => {
+export const ChatRoomCard = ({id, name, description}: IRoom) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
@@ -58,4 +58,4 @@ export const ChatRoomPreview = ({id, name, description}: IRoom) => {
     )
 }
 
-export default ChatRoomPreview;
+export default ChatRoomCard;

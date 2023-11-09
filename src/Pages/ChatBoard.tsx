@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
-import ChatPreview  from './ChatPreview';
+import ChatRoomsPreview  from './ChatRoomsPreview.tsx';
 import ChatRoom from './ChatRoom';
 
 const ChatBoard: React.FC<{}> = () => {
 
   return (
       <Routes>
-          <Route index element={<ChatPreview />} />      
+          <Route index element={<ChatRoomsPreview />} />
           <Route path=':roomNumber' element={<ChatRoom/>} />
       </Routes>
   );

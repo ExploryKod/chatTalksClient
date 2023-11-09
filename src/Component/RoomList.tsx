@@ -66,7 +66,7 @@ export default function RoomList() {
                     <h1 className="category-text"> Liste des salles de chat: </h1> }
                 <section className="table-container">
                     <div className="table">
-                        {roomList && roomList.length > 0 && (
+                        {roomList && roomList?.length > 0 && (
                             <div className="table-header table-row">
                                 <div>Identifiant</div>
                                 <div>Nom de salle</div>
@@ -74,7 +74,7 @@ export default function RoomList() {
                                 <div>Actions</div>
                             </div>)}
 
-                        {roomList.map((room) => (
+                        {roomList && roomList?.map((room) => (
                             <div key={room.id} className="body-row">
                                 <div>{room.id}</div>
                                 <div>{room.name ? room.name : "salle de chat"}</div>

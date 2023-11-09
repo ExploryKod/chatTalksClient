@@ -1,4 +1,4 @@
-import ChatRoomPreview from '../Component/ChatRoomPreview';
+import ChatRoomCard from '../Component/ChatRoomCard';
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useLoggedStore} from "../StateManager/userStore.ts";
@@ -13,14 +13,18 @@ export interface IWordLength {
     endMessage: string
 }
 
-const ChatPreview = () => {
+const ChatRoomsPreview = () => {
+    // Hooks
     const navigate = useNavigate();
+    const {token} = useLoggedStore();
+    const getRoomsList = useGetRoomsList();
+    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
+
+    // UseStates
     const [roomName, setRoomName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
     const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
-    const getRoomsList = useGetRoomsList();
-    const { setFlashMessage, flashMessage, opacityMessage, toastMessage} = useFlashMessage('');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -29,8 +33,7 @@ const ChatPreview = () => {
           console.log('roomlist data', data);
           setRoomsList(data);
         } catch (error) {
-          console.error("Erreur dans la requête des listes de salles: ", error);
-          toastMessage('Erreur dans la requête des salles existantes');
+          console.error("Erreur dans la requête des listes utilisateurs: ", error);
         }
       };
 
@@ -38,7 +41,14 @@ const ChatPreview = () => {
 
     },[]);
 
-    const {token} = useLoggedStore();
+    useEffect(() => {
+        if(roomsList && roomsList.length >= 6) {
+            setFlashMessage({alert: 'Nombre maximal de salle atteinte', name: 'alert'});
+        }
+
+    }, [roomsList]);
+
+
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -64,10 +74,8 @@ const ChatPreview = () => {
                     if(data.id && data.name && data.description) {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
-                        toastMessage('Salle créée avec succès', {type: 'success', position: 'top-right', autoClose: 3000, hideProgressBar: false, closeOnClick: true, draggable: false, theme: 'dark',});
                     } else {
-                        // setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
-                        toastMessage('échec de l\'affichage des rooms: réponse incomplète du serveur');
+                        setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
                         console.error("Le serveur n'a pas donné la bonne structure de type IRoom en retour")
                         setTimeout(() => {
                             navigate('/chat')
@@ -81,18 +89,11 @@ const ChatPreview = () => {
                 console.error('log failed:', error);
             }
         }else{
-            // setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
-            toastMessage('Veuillez donner un nom et une description à votre salle');
+            setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
+
 
         }
     };
-
-    useEffect(() => {
-        if(roomsList && roomsList.length >= 6) {
-            setFlashMessage({alert: 'Nombre maximal de salle atteinte', name: 'alert'});
-        }
-
-    }, [roomsList]);
 
     const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setwordLength({num: 0, max: 0, text: "", endMessage: ""})
@@ -100,11 +101,11 @@ const ChatPreview = () => {
             setRoomName(e.target.value)
         }
         if (e.target.value.length > 1 && e.target.value.length < 30) {
-            setwordLength({num: e.target.value.length, max: 30, text: "nom de salle: ", endMessage: ""})
+            setwordLength({num: e.target.value.length, max: 30, text: "Nom, caractères: ", endMessage: ""})
             return
         }
         if (e.target.value.length === 30) {
-            setwordLength({num: 30, max: 30, text: "nom de salle: ", endMessage: "Maximum atteint"})
+            setwordLength({num: 30, max: 30, text: "Nom, caractères: ", endMessage: "Maximum atteint"})
             return
         }
     }
@@ -119,7 +120,7 @@ const ChatPreview = () => {
             return
         }
         if(e.target.value.length === 50) {
-            setwordLength({num: 50, max: 50, text: "Thème: ", endMessage: "Maximum atteint"})
+            setwordLength({num: 50, max: 50, text: "Thème, caratères: ", endMessage: "Maximum atteint"})
             return
         }
     }
@@ -135,7 +136,7 @@ const ChatPreview = () => {
                 </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
                     <div className="container-20 flex-center-childs-column">
                         <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
-                            {wordLength.max && wordLength.endMessage === "" ? wordLength.num+"/"+wordLength.max : wordLength.endMessage}
+                            {wordLength.max && wordLength.endMessage === "" ? wordLength.text+wordLength.num+"/"+wordLength.max : wordLength.endMessage}
                         </p>
                     </div>
 
@@ -146,7 +147,7 @@ const ChatPreview = () => {
                 <div className="categories-container">
                     <div className={"category-preview-container"} >
                 {roomsList?.map((item, index) => (
-                    <ChatRoomPreview key={index} name={item.name} id={item.id} description={item.description}/>))}
+                    <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
                     </div>
                 </div>
             </div>
@@ -154,4 +155,4 @@ const ChatPreview = () => {
     );
 };
 
-export default ChatPreview;
+export default ChatRoomsPreview;

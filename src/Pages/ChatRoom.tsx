@@ -3,44 +3,22 @@ import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import 'overlayscrollbars/styles/overlayscrollbars.css';
-// import {IRoom} from "../Types/typeRooms";
-// import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
-
-
-type SenderMessage = {
-    sendername: string;
-    sendermessage: string;
-}
-
-type Target = {
-    id: string;
-    name: string|undefined;
-}
-type Message = {
-    action: string;
-    message: string;
-    target: Target;
-}
-
-type RoomMessage = {
-    action: string;
-    message: string;
-}
+import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
 
 const ChatRoom = () => {
-
+    // Hooks
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
+
+    // UseStates
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
-    const messageContainerRef = useRef<HTMLDivElement>(null);
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
 
-    // Access the values like this
-    // const id: string | null = queryParams.get('id');
+    // UseRef and other queries
+    const messageContainerRef = useRef<HTMLDivElement>(null);
     const name: string | null = queryParams.get('name');
     const description: string | null = queryParams.get('description');
 
@@ -156,31 +134,24 @@ const ChatRoom = () => {
                 <h1 className="category-title"> Chat room {name} </h1>
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
-
                 <div className={`logs-container margin-y-40
                         ${messages && messages.some(message => message.sendername === username) && messages.length > 2 ? "chat-active" : "" }
                       `} ref={messageContainerRef}
-                    >
-                    {/*<OverlayScrollbarsComponent*/}
-                    {/*    options={{*/}
-                    {/*        scrollbars: { autoHide: 'leave', autoHideDelay: 300, theme: 'os-theme-dark' },*/}
-                    {/*        overflow: { x: 'hidden' },*/}
-                    {/*    } as any}*/}
-                    {/*    ref={messageContainerRef}*/}
-                    {/*    defer*/}
-                    {/*>*/}
+                >
                 {messages.map((message, index) => (
                     (message.sendermessage != "" && message.sendername != undefined && message.sendername != "") && (
-                        <div className={`${index % 2 !== 0 ? 'bgd-odd' : ''} input-log`} key={index}>
-                            <div className="message-log"><BiSolidUserVoice className="voice-icon"/>&nbsp;{
-                                message.sendername + " : " + message?.sendermessage
-                            }
+                        <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} logs-container__log`} key={index}>
+                            <div className="log__info">
+                                <span className="info__user">{message.sendername+ " : "}</span>
+                                <span className="info__time">{new Date().toLocaleTimeString()}</span>
                             </div>
+                            <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
+                                <span className="message__content">{message?.sendermessage}</span>
+                            </div>
+
                         </div>)
                 ))}
-                    {/*</OverlayScrollbarsComponent>*/}
                 </div>
-
 
             <form className="message-form margin-top-20" onSubmit={sendMessage}>
                 <div className="message-form__submit">

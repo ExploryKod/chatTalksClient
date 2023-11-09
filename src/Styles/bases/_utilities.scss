@@ -98,6 +98,14 @@
   background-color: $lightLavender;
 }
 
+.bgd-gradient-darkpink {
+  //background: linear-gradient(90deg, $darkpink 0%, $darkLavender 100%);
+  background: linear-gradient(135deg, #044f48, #2a7561);
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
 .bgd-white {
   background-color: #fff;
 }
@@ -244,6 +252,10 @@
 .margin-y-40 {
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+.margin-top-5 {
+  margin-top: 5px;
 }
 
 .margin-top-10 {

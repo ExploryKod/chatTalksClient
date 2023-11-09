@@ -10,7 +10,7 @@ const Connexion = () => {
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
-  const { flashMessage, setFlashMessage, toastMessage } = useFlashMessage('')
+  const { toastMessage } = useFlashMessage('')
   const navigate = useNavigate();
   const { setToken, setUsername } = useLoggedStore();
   const { isError, onPasswordChange } = usePasswordMeter()
@@ -33,26 +33,16 @@ const Connexion = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("register DATA ",data)
-        setFlashMessage(data.message);
-        setTimeout(() => {
-          setFlashMessage({alert: "", name: 'alert'});
-        }, 3000);
-        handleToggle();
+        toastMessage(data.message);
+        setToggle(!toggle)
       } else if (response.status !== 500) {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
-        setFlashMessage({alert: errorData.message, name: 'alert'});
-        setTimeout(() => {
-          setFlashMessage({alert: "", name: 'alert'});
-        }, 3000);
+        toastMessage(errorData.message);
       }
     } catch(error) {
       console.error('log failed:', error);
-      setFlashMessage({alert: 'Il y a eu une erreur dans la requête', name: 'alert'});
-      setTimeout(() => {
-        setFlashMessage({alert: "", name: 'alert'});
-      }, 3000);
+      toastMessage('Il y a eu une erreur dans la requête')
     }
   };
 
@@ -113,9 +103,7 @@ const Connexion = () => {
 return (
   <main className="page-connexion">
     <div className="outer-connexion">
-      {(flashMessage && flashMessage.alert != "") && <div className="output-message padding-5 width-50">{flashMessage.alert}</div>}
       <div className="inner-connexion">
-
         {!toggle ? (
           <div className="container-inscription">
             <form className="form-container" onSubmit={handleRegisterSubmit} method="post">
@@ -126,7 +114,10 @@ return (
               <div className="form-elem">
                 <label htmlFor="password-register"></label>
                 <input type="text" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
-                {isError && <p className={"output-message"}>{isError}</p>}
+                <div className="margin-top-5 padding-20">
+                  {(isError && isError != "") && <p className={`text-red`}>{isError}</p>}
+                </div>
+
               </div>
              
               <div className="form-elem">
