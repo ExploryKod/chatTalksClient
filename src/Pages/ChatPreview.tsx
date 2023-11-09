@@ -64,6 +64,7 @@ const ChatPreview = () => {
                     if(data.id && data.name && data.description) {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
+                        toastMessage('Salle créée avec succès', {type: 'success', position: 'top-right', autoClose: 3000, hideProgressBar: false, closeOnClick: true, draggable: false, theme: 'dark',});
                     } else {
                         // setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
                         toastMessage('échec de l\'affichage des rooms: réponse incomplète du serveur');
