@@ -11,12 +11,14 @@ import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
+import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 export default function RoomList() {
     // const {isVisible, toggleModal} = useToggleModal();
     // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
+    const { toastMessage } = useFlashMessage('');
 
     const [roomList, setRoomList] = useState<IRoom[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<IRoom>();
@@ -30,6 +32,7 @@ export default function RoomList() {
                 setRoomList(data);
             } catch (error) {
                 console.error("Erreur dans la requête des listes de rooms: ", error);
+                toastMessage('Erreur dans la requête des rooms existantes');
             }
         };
 

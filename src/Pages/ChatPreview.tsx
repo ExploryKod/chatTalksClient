@@ -20,7 +20,7 @@ const ChatPreview = () => {
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
     const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
     const getRoomsList = useGetRoomsList();
-    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
+    const { setFlashMessage, flashMessage, opacityMessage, toastMessage} = useFlashMessage('');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -29,7 +29,8 @@ const ChatPreview = () => {
           console.log('roomlist data', data);
           setRoomsList(data);
         } catch (error) {
-          console.error("Erreur dans la requête des listes utilisateurs: ", error);
+          console.error("Erreur dans la requête des listes de salles: ", error);
+          toastMessage('Erreur dans la requête des salles existantes');
         }
       };
 
@@ -64,7 +65,8 @@ const ChatPreview = () => {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
                     } else {
-                        setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
+                        // setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
+                        toastMessage('échec de l\'affichage des rooms: réponse incomplète du serveur');
                         console.error("Le serveur n'a pas donné la bonne structure de type IRoom en retour")
                         setTimeout(() => {
                             navigate('/chat')
@@ -78,7 +80,9 @@ const ChatPreview = () => {
                 console.error('log failed:', error);
             }
         }else{
-            setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
+            // setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
+            toastMessage('Veuillez donner un nom et une description à votre salle');
+
         }
     };
 

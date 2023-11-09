@@ -2,10 +2,10 @@
 import type { IConfirmRoomModal } from "../Types/typeModals.d.ts";
 import type { IRoom } from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
-// import useFlashMessage from "../Hook/useFlashMessage.tsx";
+import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 export const ConfirmRoomModal = ({title,selectedRoom, roomList, setRoomList, setOpenConfirmRoomModal}: IConfirmRoomModal) => {
-
+    const { toastMessage } = useFlashMessage('');
     const onClose = () => {
         setOpenConfirmRoomModal(false);
     }
@@ -29,10 +29,13 @@ export const ConfirmRoomModal = ({title,selectedRoom, roomList, setRoomList, set
                 setRoomList(values => {
                     return values.filter(item => item.id.toString() !== room.id.toString())
                 })
+                toastMessage(`Suppression réussie de ${selectedRoom.name}`, {type: 'success', position: 'top-right', autoClose: 3000, hideProgressBar: false, closeOnClick: true, draggable: false, theme: 'dark',});
                 setOpenConfirmRoomModal(false);
             })
             .catch(error => {
                 console.error('Il y a une erreur dans la requête de suppression:', error);
+                toastMessage('Suppression annulée', {type: 'error', position: 'top-right', autoClose: 3000, hideProgressBar: false, closeOnClick: true, draggable: false, theme: 'dark',});
+
                 throw error;
             });
     }
