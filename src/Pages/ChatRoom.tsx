@@ -135,11 +135,18 @@ const ChatRoom = () => {
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
                 <div className={`logs-container margin-y-40
-                        ${messages && messages.some(message => message.sendername === username) && messages.length > 2 ? "chat-active" : "" }
+                        ${messages 
+                        && messages.some(message => message.sendername === username) 
+                        && messages.length > 2
+                        ? "chat-active" : "" }
                       `} ref={messageContainerRef}
                 >
-                {messages.map((message, index) => (
-                    (message.sendermessage != "" && message.sendername != undefined && message.sendername != "") && (
+                {messages
+                    .filter((message) =>
+                        message.sendermessage != ""
+                        && message.sendername != undefined
+                        && message.sendername != "")
+                    .map((message, index) => (
                         <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
@@ -149,7 +156,7 @@ const ChatRoom = () => {
                                 <span className="message__content">{message?.sendermessage}</span>
                             </div>
 
-                        </div>)
+                        </div>
                 ))}
                 </div>
 

@@ -14,8 +14,6 @@ import { Tooltip } from "./Tooltip.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 export default function RoomList() {
-    // const {isVisible, toggleModal} = useToggleModal();
-    // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
     const { toastMessage } = useFlashMessage('');

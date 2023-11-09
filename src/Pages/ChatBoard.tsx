@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import ChatRoomsPreview  from './ChatRoomsPreview.tsx';
 import ChatRoom from './ChatRoom';
 
-const ChatBoard: React.FC<{}> = () => {
+const ChatBoard = () => {
 
   return (
       <Routes>

@@ -1,8 +1,6 @@
-
 import type { IConfirmModal } from "../Types/typeModals.d.ts";
 import type { IUser } from "../Types/typeUsers.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
-// import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpenConfirmModal}: IConfirmModal) => {
 

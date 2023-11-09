@@ -33,7 +33,7 @@ const ChatRoomsPreview = () => {
           console.log('roomlist data', data);
           setRoomsList(data);
         } catch (error) {
-          console.error("Erreur dans la requête des listes utilisateurs: ", error);
+          console.error("Erreur dans la requête des listes de salles: ", error);
         }
       };
 
