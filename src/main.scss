@@ -1,13 +1,25 @@
+/* Bases */
 @import './Styles/bases/variables';
 @import './Styles/bases/reset';
+
+/* utilities */
+@import './Styles/bases/mixins';
 @import './Styles/bases/responsive';
 @import './Styles/bases/utilities';
+
+/* Layouts */
+@import './Styles/navigation';
+@import './Styles/categories-containers';
+
+/* Components */
 @import './Styles/flashMessage';
-@import './Styles/tooltip';
 @import './Styles/button';
 @import './Styles/modal';
+@import './Styles/tooltip';
 @import './Styles/table';
+
+/* Pages */
+@import './Styles/room';
 @import './Styles/connexion';
 @import './Styles/chat';
-@import './Styles/navigation';
 @import './Styles/user-list';

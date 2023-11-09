@@ -95,11 +95,11 @@ const ChatPreview = () => {
             setRoomName(e.target.value)
         }
         if (e.target.value.length > 1 && e.target.value.length < 30) {
-            setwordLength({num: e.target.value.length, max: 30, text: "nom de salle: ", endMessage: ""})
+            setwordLength({num: e.target.value.length, max: 30, text: "Nom, caractères: ", endMessage: ""})
             return
         }
         if (e.target.value.length === 30) {
-            setwordLength({num: 30, max: 30, text: "nom de salle: ", endMessage: "Maximum atteint"})
+            setwordLength({num: 30, max: 30, text: "Nom, caractères: ", endMessage: "Maximum atteint"})
             return
         }
     }
@@ -114,7 +114,7 @@ const ChatPreview = () => {
             return
         }
         if(e.target.value.length === 50) {
-            setwordLength({num: 50, max: 50, text: "Thème: ", endMessage: "Maximum atteint"})
+            setwordLength({num: 50, max: 50, text: "Thème, caratères: ", endMessage: "Maximum atteint"})
             return
         }
     }
@@ -130,7 +130,7 @@ const ChatPreview = () => {
                 </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
                     <div className="container-20 flex-center-childs-column">
                         <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
-                            {wordLength.max && wordLength.endMessage === "" ? wordLength.num+"/"+wordLength.max : wordLength.endMessage}
+                            {wordLength.max && wordLength.endMessage === "" ? wordLength.text+wordLength.num+"/"+wordLength.max : wordLength.endMessage}
                         </p>
                     </div>
 
