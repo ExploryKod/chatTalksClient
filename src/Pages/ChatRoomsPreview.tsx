@@ -1,4 +1,4 @@
-import ChatRoomPreview from '../Component/ChatRoomPreview';
+import ChatRoomCard from '../Component/ChatRoomCard';
 import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useLoggedStore} from "../StateManager/userStore.ts";
@@ -13,14 +13,18 @@ export interface IWordLength {
     endMessage: string
 }
 
-const ChatPreview = () => {
+const ChatRoomsPreview = () => {
+    // Hooks
     const navigate = useNavigate();
+    const {token} = useLoggedStore();
+    const getRoomsList = useGetRoomsList();
+    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
+
+    // UseStates
     const [roomName, setRoomName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
     const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
-    const getRoomsList = useGetRoomsList();
-    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -37,7 +41,14 @@ const ChatPreview = () => {
 
     },[]);
 
-    const {token} = useLoggedStore();
+    useEffect(() => {
+        if(roomsList && roomsList.length >= 6) {
+            setFlashMessage({alert: 'Nombre maximal de salle atteinte', name: 'alert'});
+        }
+
+    }, [roomsList]);
+
+
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -81,13 +92,6 @@ const ChatPreview = () => {
             setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
         }
     };
-
-    useEffect(() => {
-        if(roomsList && roomsList.length >= 6) {
-            setFlashMessage({alert: 'Nombre maximal de salle atteinte', name: 'alert'});
-        }
-
-    }, [roomsList]);
 
     const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
         setwordLength({num: 0, max: 0, text: "", endMessage: ""})
@@ -141,7 +145,7 @@ const ChatPreview = () => {
                 <div className="categories-container">
                     <div className={"category-preview-container"} >
                 {roomsList?.map((item, index) => (
-                    <ChatRoomPreview key={index} name={item.name} id={item.id} description={item.description}/>))}
+                    <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
                     </div>
                 </div>
             </div>
@@ -149,4 +153,4 @@ const ChatPreview = () => {
     );
 };
 
-export default ChatPreview;
+export default ChatRoomsPreview;

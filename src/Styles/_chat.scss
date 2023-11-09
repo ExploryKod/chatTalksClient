@@ -1,17 +1,20 @@
 @import 'bases/variables';
+@Import 'bases/mixins';
 
 .logs-container {
-    max-height: 50vh;
+    position: relative;
+    max-height: 40vh;
+    max-width: 80%;
     overflow: auto;
     background-color: transparent;
 
     border-radius:10px;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     align-items: center;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
     margin: 0 auto;
-
 
     /* Mozilla firefox */
     scrollbar-color: $darkpink transparent;
@@ -24,7 +27,7 @@
     /* Ascenseur */
     &::-webkit-scrollbar-thumb {
       background: $darkpink;
-      border-radius: 8px;
+      border-radius: 10px;
     }
 
     div:nth-child(1) {
@@ -33,39 +36,97 @@
 
   &.chat-active {
     border: 2px solid $darkpink;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
   }
 
-  .input-log {
-    width: 100%;
-    background-color: $lightLavender;
-    margin: 0 auto;
-    padding: 15px 50px;
+  .logs-container__header {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 10px 10px 50px;
 
-    &.bgd-odd {
+    .avatar {
+      position: absolute;
+      z-index: 1;
+      top: 8px;
+      left: 9px;
+      border-radius: 30px;
+      width: 30px;
+      height: 30px;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      border: 2px solid rgba(255, 255, 255, 0.24);
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .logs-container__log {
+    flex-basis: 40%;
+    padding: 15px 50px;
+    border-radius: 50px;
+    margin: 10px auto;
+
+    &.log-odd {
+      grid-column: 1;
+      align-self: end;
       background-color: $darkLavender;
     }
 
-    &:nth-child(1) {
-      border-radius: 10px 10px 0 0;
+    &.log-even {
+      grid-column: 2;
+      align-self: start;
+      background-color: $darkpink;
     }
 
-    &:nth-last-child(1) {
-      border-radius: 0 0 0 10px;
-    }
+    //&:nth-child(1) {
+    //  border-radius: 10px 10px 0 0;
+    //}
 
+    //&:nth-last-child(1) {
+    //  border-radius: 0 0 0 10px;
+    //}
 
     .voice-icon {
       transform: translateY(4px);
       width: 20px;
       height: 20px;
-      color: $darkpink;
+      color: $lightLavender;
       margin-right: 10px;
     }
 
-    .message-log {
-      color: $darkBlue;
-      font-size: 18px;
-      font-weight: 700;
+    .log__info {
+      display: flex;
+      gap: 20px;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      .info__user {
+        font-size: 16px;
+        color: $lightLavender;
+        font-style: italic;
+        font-weight: 700;
+
+      }
+      .info__time {
+        font-size: 16px;
+        color: $lightLavender;
+        font-style: italic;
+      }
+    }
+
+    .log__message {
+      .message__content {
+        font-size: 18px;
+        color: $lightLavender;
+        font-weight: 400;
+      }
     }
   }
 }
