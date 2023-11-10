@@ -28,41 +28,54 @@ const useFlashMessage = (message: string) => {
             }, 2000);
     }, [message]);
 
-    // const toastMessage = (message: string, options: IToastMessage) => {
-    //     toast(message, {
-    //         position: options.position,
-    //         autoClose: 5000,
-    //         hideProgressBar: options.hideProgressBar,
-    //         closeOnClick: true,
-    //         draggable: true,
-    //         type: options.type,
-    //         theme: options.theme
-    //     });
+    // const defaultToastOptions: IToastMessage = {
+    //     position: "top-center",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     draggable: true,
+    //     theme: "light",
+    //     type: "default",
     // };
 
-    const defaultToastOptions: IToastMessage = {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        draggable: true,
-        theme: "light",
-        type: "default",
-    };
+    interface IToastMessage {
+        position?: "top-center" | "top-right" | "top-left" | "bottom-right" | "bottom-left" | "bottom-center";
+        autoClose?: number | false;
+        hideProgressBar?: boolean;
+        closeOnClick?: boolean;
+        draggable?: boolean;
+        theme?: "light" | "dark";
+        type?: "success" | "error" | "warning" | "info" | "default";
+    }
+
+    function createDefaultToastOptions(options: Partial<IToastMessage> = {}): IToastMessage {
+        return {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            theme: "light",
+            type: "default",
+            ...options, // this will override the default values with the provided values
+        };
+    }
+
+    const defaultToastOptions = createDefaultToastOptions();
 
     const toastMessage = (message: string, options: IToastMessage = defaultToastOptions) => {
         toast(message, {
-            ...defaultToastOptions, // spread the default options
-            ...options, // then spread the provided options. This will override any default options
+            ...defaultToastOptions,
+            ...options,
         });
     };
-
 
     return {
         setFlashMessage,
         flashMessage,
         opacityMessage,
-        toastMessage
+        toastMessage,
+        createDefaultToastOptions
     }
 };
 
