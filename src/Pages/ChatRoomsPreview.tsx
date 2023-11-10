@@ -18,13 +18,15 @@ const ChatRoomsPreview = () => {
     const navigate = useNavigate();
     const {token} = useLoggedStore();
     const getRoomsList = useGetRoomsList();
-    const { setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
+    const { toastMessage, createDefaultToastOptions, setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
 
     // UseStates
     const [roomName, setRoomName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
     const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
+    const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
+    const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
 
     useEffect(() => {
       const fetchData = async () => {
@@ -34,6 +36,7 @@ const ChatRoomsPreview = () => {
           setRoomsList(data);
         } catch (error) {
           console.error("Erreur dans la requête des listes de salles: ", error);
+          toastMessage('Erreur dans la requête des listes de salles', toastOptionsError);
         }
       };
 
@@ -74,24 +77,21 @@ const ChatRoomsPreview = () => {
                     if(data.id && data.name && data.description) {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
+                        toastMessage(`${data.name} a bien été créé`, toastOptionsSuccess);
                     } else {
-                        setFlashMessage({alert:'échec de l\'affichage des rooms: réponse incomplète du serveur', name: 'alert'});
-                        console.error("Le serveur n'a pas donné la bonne structure de type IRoom en retour")
-                        setTimeout(() => {
-                            navigate('/chat')
-                        }, 2000);
+                        toastMessage('échec de votre requête: élèments manquants', toastOptionsError);
                     }
                 } else {
                     console.log('échec de la création de room');
+                    toastMessage('échec dans la création de la salle', toastOptionsError);
                 }
 
             } catch (error) {
                 console.error('log failed:', error);
+                toastMessage('échec dans la création de la salle', toastOptionsError);
             }
         }else{
             setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
-
-
         }
     };
 
@@ -127,12 +127,10 @@ const ChatRoomsPreview = () => {
 
     return (
         <>
-          <h1 className="category-title">Créer ou entrez dans une salle pour chatter !</h1>
             {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
             <div className="rooms-container">
                 {roomsList && roomsList.length >= 6 ? (<div>
-                    <h2 className="category-title">Choisissez une des 6 salles : </h2>
-                    {flashMessage.alert != "" && (<p className={`category-text text-darkpink ${opacityMessage}`}>{flashMessage.alert}</p>)}
+                    <h2 className="category-title">Entrez dans l'une de nos 6 salles : </h2>
                 </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
                     <div className="container-20 flex-center-childs-column">
                         <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
