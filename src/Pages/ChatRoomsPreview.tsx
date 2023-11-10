@@ -142,7 +142,7 @@ const ChatRoomsPreview = () => {
                 </form>) }
                 <div className="categories-container">
                     <div className={"category-preview-container"} >
-                {roomsList?.map((item, index) => (
+                {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
                     </div>
                 </div>
