@@ -10,7 +10,7 @@ interface LoggedState {
 
 export const useLoggedStore = create<LoggedState>((set) => ({
     token: localStorage.getItem('token') || '',
-    username: '',
+    username: localStorage.getItem('username') || '',
     setToken: (token: string) => {
         localStorage.setItem('token', token);
         set({ token: token });
@@ -19,7 +19,14 @@ export const useLoggedStore = create<LoggedState>((set) => ({
         localStorage.removeItem('token');
         set({ token: '' }); // Set the token to an empty string in the state
     },
-    setUsername: (username: string) => set({ username: username }),
+    setUsername: (username: string) => {
+        localStorage.setItem('username', username);
+        set({ username: username });
+    },
+    removeUsername: () => {
+        localStorage.removeItem('username');
+        set({ username: '' }); // Set the username to an empty string in the state
+    },
 }));
 
 
