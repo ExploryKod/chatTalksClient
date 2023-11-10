@@ -6,6 +6,7 @@ interface LoggedState {
     setToken: (logged: string) => void;
     setUsername: (username: string) => void;
     removeToken: () => void;
+    removeUsername: () => void;
 }
 
 export const useLoggedStore = create<LoggedState>((set) => ({
