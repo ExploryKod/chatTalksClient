@@ -15,7 +15,6 @@ export interface IWordLength {
 
 const ChatRoomsPreview = () => {
     // Hooks
-    const navigate = useNavigate();
     const {token} = useLoggedStore();
     const getRoomsList = useGetRoomsList();
     const { toastMessage, createDefaultToastOptions, setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
