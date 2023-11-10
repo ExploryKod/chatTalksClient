@@ -1,16 +1,26 @@
 .page-connexion{
+
     .outer-connexion{
         position:absolute;
         top:0;
         bottom:0;
         left:0;
         right:0;
-        background-image: url('https://images.pexels.com/photos/18110326/pexels-photo-18110326/free-photo-of-rue-mignon-chats-chaussee.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        background-color: $darkLavender;
+        background-image: url('https://picsum.photos/500/600');
         background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        background-color: $blue;
+        background-position: bottom;
+        background-size: contain;
         background-blend-mode:luminosity;
+
+        @media (min-width: 500px) {
+            background-color: $blue;
+            background-image: url('https://images.pexels.com/photos/18110326/pexels-photo-18110326/free-photo-of-rue-mignon-chats-chaussee.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-blend-mode:luminosity;
+        }
         
 
         .inner-connexion{
@@ -19,11 +29,18 @@
             top:10%;
             left:50%;
             transform: translate(-50%,-2%);
-            min-width:460px;
             max-height:400px;
             border-radius:35px;
             box-shadow: 0 11px 34px 0 rgb(0 0 0 / 20%);
-            padding: 20px;
+            padding: 0;
+
+            @media (min-width: 400px) {
+                padding: 20px;
+            }
+
+            @media (min-width: 576px) {
+                min-width:460px;
+            }
           
             .container-connexion, .container-inscription{
                 padding:10px 20px;
@@ -54,11 +71,14 @@
                 
                     .form-elem{
                         width: 100%;
-                        min-width: 250px;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
                         margin:20px 0;
+
+                        @media (min-width: 576px) {
+                            min-width: 250px;
+                        }
 
                         input{
                             border: 1px solid #d6d6d6;

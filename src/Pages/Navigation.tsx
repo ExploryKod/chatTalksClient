@@ -7,11 +7,12 @@ const Navigation = () => {
 
     const navigate = useNavigate();
 
-    const { removeToken } = useLoggedStore();
+    const { removeToken, removeUsername } = useLoggedStore();
 
 
     const handleLogout = () => {
         removeToken();
+        removeUsername();
         // Redirect to the login page or any other desired page after logout
         navigate('/');
     };

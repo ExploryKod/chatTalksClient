@@ -41,7 +41,7 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
             console.error('log failed:', error);
         }
     };
-    console.log(name)
+
     const queryChat: string = `?id=${id.toString()}&name=${name}&description=${description}`
     return(
         <div className={`room-card-container card-${name}`}>
@@ -52,7 +52,7 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
                       pathname: `${id.toString()}`,
                       search: queryChat
                   }}>
-                {name && name.length > 0 ? `Entrez dans ${name.toLowerCase()}` : 'Entrez dans cette salle'}
+                {name && name.length > 0 ? `${name.toLowerCase()}` : 'Entrez dans cette salle'}
                 </Link>
         </div>
     )

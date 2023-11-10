@@ -16,11 +16,18 @@ import useFlashMessage from "../Hook/useFlashMessage.tsx";
 export default function RoomList() {
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
-    const { toastMessage } = useFlashMessage('');
+    const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
 
     const [roomList, setRoomList] = useState<IRoom[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<IRoom>();
     const getRoomList = userRoomsList();
+    // Create custom options
+    const toastOptions = createDefaultToastOptions({
+        position: "bottom-right",
+        theme: "dark",
+        type: "error",
+    });
+
 
     useEffect(() => {
         const fetchRoomData = async () => {
@@ -30,7 +37,7 @@ export default function RoomList() {
                 setRoomList(data);
             } catch (error) {
                 console.error("Erreur dans la requête des listes de rooms: ", error);
-                toastMessage('Erreur dans la requête des rooms existantes');
+                toastMessage('Erreur dans la requête des rooms existantes', toastOptions);
             }
         };
 

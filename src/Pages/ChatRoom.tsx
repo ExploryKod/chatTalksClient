@@ -4,6 +4,7 @@ import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
+import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 const ChatRoom = () => {
     // Hooks
@@ -11,6 +12,7 @@ const ChatRoom = () => {
     const queryParams = new URLSearchParams(location.search);
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
+    const { toastMessage } = useFlashMessage('');
 
     // UseStates
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
@@ -55,6 +57,7 @@ const ChatRoom = () => {
         }
 
         if (messageInput.message === '') {
+            toastMessage('Veuillez écrire un message');
             return;
         }
         console.log('messageInput', messageInput)
@@ -131,9 +134,11 @@ const ChatRoom = () => {
     return (
         <>
             <div className="flex-center-childs-column margin-y-40">
-                <h1 className="category-title"> Chat room {name} </h1>
+                <h1 className="category-title"> {name} </h1>
+                <h2 className="category-text text-darkBlue"> Bienvenue {username} </h2>
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
+            {(username && username.length > 0) && (
                 <div className={`logs-container margin-y-40
                         ${messages 
                         && messages.some(message => message.sendername === username) 
@@ -147,7 +152,7 @@ const ChatRoom = () => {
                         && message.sendername != undefined
                         && message.sendername != "")
                     .map((message, index) => (
-                        <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} logs-container__log`} key={index}>
+                        <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} ${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
                                 <span className="info__time">{new Date().toLocaleTimeString()}</span>
@@ -158,8 +163,8 @@ const ChatRoom = () => {
 
                         </div>
                 ))}
-                </div>
-
+                </div>)}
+            {username && username.length > 0 ? (
             <form className="message-form margin-top-20" onSubmit={sendMessage}>
                 <div className="message-form__submit">
                     <GiTalk className="talk-icon"/>
@@ -179,7 +184,11 @@ const ChatRoom = () => {
                             name: roomNumber}
                     })}
                 />
-            </form>
+            </form>) : (
+                <div className="categories-container">
+                    <h2 className="category-text text-lightLavender padding-30 bgd-black"> Veuillez vous déconnecter puis vous reconnecter pour chatter </h2>
+                </div>
+            )}
         </>
     );
 };
