@@ -60,8 +60,37 @@ const ChatRoom = () => {
             toastMessage('Veuillez écrire un message');
             return;
         }
-        console.log('messageInput', messageInput)
         socket.send(JSON.stringify(messageInput));
+        console.log('username', username)
+        const response = fetch('http://localhost:8000/send-message', {
+            method: 'POST',
+            mode: "cors",
+            credentials: 'same-origin',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            // @ts-ignore
+            body: new URLSearchParams({
+                "username": username,
+                "content": messageInput.message,
+                "roomID": roomNumber,
+            }),
+        })
+
+        console.log('response', response)
+
+        // .then(response => response.json())
+        // .then(data => {
+        //     if (data.error) {
+        //         console.log('data error' ,data.error);
+        //     } else {
+        //         console.log('data success',data.success);
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.error('error',error);
+        // });
+
         setMessageInput({
             action: "send-message", message: "", target: {
                 id: "",
@@ -180,8 +209,9 @@ const ChatRoom = () => {
                         action: "send-message",
                         message: e.target.value,
                         target: {
-                            id: "1685691b-e1b5-492a-9394-d1e73818e580",
-                            name: roomNumber}
+                            id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
+                            name: roomNumber
+                        }
                     })}
                 />
             </form>) : (
