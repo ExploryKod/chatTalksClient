@@ -11,13 +11,13 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
-    const [image, setImage] = useState<string>("https://source.unsplash.com/400x200/?house");
+    const [image, setImage] = useState<string>("");
 
     useEffect(() => {
         setRoomName(name);
         setRoomId(id);
         setRoomDescription(description);
-        setImage(`https://source.unsplash.com/400x200/?house`);
+        setImage(`https://source.unsplash.com/200x200/?${name.split(' ')[0]}`);
 
     }, []);
 
