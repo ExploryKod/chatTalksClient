@@ -1,11 +1,13 @@
-// import data from "bootstrap/js/src/dom/data";
+import config from "../config/config.tsx";
 
 export default function useGetJWT() {
 
+
     return function (username: string, password:string) {
         const credentials = btoa(`${username}:${password}`);
+        const serverHost: string | undefined = config.serverHost;
 
-        return fetch('http://localhost:8000/login', {
+        return fetch(`${serverHost}/login`, {
             method: 'GET',
             credentials: "include",
             mode: "cors",

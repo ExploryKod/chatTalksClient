@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, HTMLDivElement } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {IUser} from "./typeUsers";
 
 export interface IProfileModal {

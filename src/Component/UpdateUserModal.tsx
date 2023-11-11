@@ -2,9 +2,10 @@ import type { IUpdateUserModal } from "../Types/typeModals.d.ts";
 import type { IUser } from "../Types/typeUsers.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
+import config from "../config/config.tsx";
 
 export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setOpenUpdateModal}: IUpdateUserModal) => {
-
+    const serverHost: string = config.serverHost;
     const onClose = () => {
         setOpenUpdateModal(false);
     }
@@ -14,7 +15,7 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
     const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
     const onUpdate = (user: IUser) => {
-        fetch(`http://localhost:8000/update-user/${user.id.toString()}`, {
+        fetch(`${serverHost}/update-user/${user.id.toString()}`, {
             method: "POST",
             mode: "cors",
             credentials: 'same-origin',

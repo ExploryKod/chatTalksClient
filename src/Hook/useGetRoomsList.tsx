@@ -3,17 +3,17 @@ import { useLoggedStore } from '../StateManager/userStore';
 
 export default function userRoomsList() {
   
-    const serverPort:number | string = config.serverPort;
+    const serverHost:string = config.serverHost;
     const { token } = useLoggedStore();
-    return function () {
-        return fetch(`http://localhost:${serverPort}/chat/rooms`, {
+    return async function () {
+        const data = await fetch(`${serverHost}/chat/rooms`, {
             method: 'GET',
             mode: "cors",
             credentials: 'same-origin',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        })
-            .then(data => data.json())
+        });
+        return await data.json();
     }
 }

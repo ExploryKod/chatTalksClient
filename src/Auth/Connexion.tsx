@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import config from "../config/config.tsx";
 import { useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
@@ -7,6 +8,7 @@ import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
 
 
 const Connexion = () => {
+  const serverHost: string = config.serverHost;
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
@@ -23,7 +25,7 @@ const Connexion = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/auth/register', {
+      const response = await fetch(`${serverHost}/auth/register`, {
         method: 'POST',
         mode: "cors",
         body: new URLSearchParams({
@@ -37,7 +39,7 @@ const Connexion = () => {
         setToggle(!toggle)
       } else if (response.status !== 500) {
         const errorData = await response.json();
-        console.error("Registration failed:", errorData);
+        console.error("échec de l'inscription:", errorData);
         toastMessage(errorData.message);
       }
     } catch(error) {
@@ -50,7 +52,7 @@ const Connexion = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:8000/auth/logged', {
+      const response = await fetch(`${serverHost}/auth/logged`, {
         method: 'POST',
         body: new URLSearchParams({
           ...formData
@@ -74,7 +76,7 @@ const Connexion = () => {
       }
     } catch (error) {
       console.error('log failed:', error);
-      toastMessage(`Mot de passe et/ou identifiant incorrect`);
+      toastMessage(`Le connexion a échoué: ${error}`);
     }
   };
 

@@ -95,15 +95,15 @@ export default function UserList() {
                         </div>}
                   </div>
                 ))}
-                  {openConfirmModal && (
-                    <ConfirmModal 
-                    userList={userList}
-                    setUserList={setUserList}
-                    selectedUser={selectedUser}
-                    setOpenConfirmModal={setOpenConfirmModal}
-                    title={"Supprimer un utilisateur"}
-                    />
-      )}
+                  {(openConfirmModal && selectedUser) && (
+                      <ConfirmModal
+                          userList={userList}
+                          setUserList={setUserList}
+                          selectedUser={selectedUser}
+                          setOpenConfirmModal={setOpenConfirmModal}
+                          title={"Supprimer un utilisateur"}
+                      />
+                  )}
               </div>
           </section>
     </div>

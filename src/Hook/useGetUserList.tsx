@@ -3,10 +3,10 @@ import { useLoggedStore } from '../StateManager/userStore';
 
 export default function useGetUserList() {
 
-    const serverPort:number | string = config.serverPort;
+    const serverHost:number | string = config.serverHost;
     const { token } = useLoggedStore();
     return function () {
-        return fetch(`http://localhost:${serverPort}/user-list`, {
+        return fetch(`${serverHost}/user-list`, {
             method: 'GET',
             mode: "cors",
             credentials: 'same-origin',
