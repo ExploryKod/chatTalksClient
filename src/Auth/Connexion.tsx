@@ -39,7 +39,7 @@ const Connexion = () => {
         setToggle(!toggle)
       } else if (response.status !== 500) {
         const errorData = await response.json();
-        console.error("Registration failed:", errorData);
+        console.error("échec de l'inscription:", errorData);
         toastMessage(errorData.message);
       }
     } catch(error) {
@@ -76,7 +76,7 @@ const Connexion = () => {
       }
     } catch (error) {
       console.error('log failed:', error);
-      toastMessage(`Mot de passe et/ou identifiant incorrect`);
+      toastMessage(`Le connexion a échoué: ${error}`);
     }
   };
 

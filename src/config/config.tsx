@@ -7,7 +7,7 @@ interface Config {
 
 const config:Config = {
     serverPort: 8000,
-    serverHost: 'https://go-chat-docker.onrender.com:8000',
+    serverHost: 'https://go-chat-docker.onrender.com',
     serverWsHost:'ws://localhost:8000'
 };
   
