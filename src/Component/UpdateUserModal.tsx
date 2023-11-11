@@ -41,6 +41,30 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
             });
     }
 
+    const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setUserList(values => {
+            return values.map(item => {
+                if(item.id === selectedUser.id) {
+                    return {...item, username: value}
+                }
+                return item;
+            })
+        })
+    }
+
+    const handleUserRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setUserList(values => {
+            return values.map(item => {
+                if(item.id === selectedUser.id) {
+                    return {...item, role: value}
+                }
+                return item;
+            })
+        })
+    }
+
     return (
         <div className={`modal` }>
             <div className="modal-content">
@@ -55,6 +79,12 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
                 </div>
                 {userList.filter(user => user.id === selectedUser.id).map(user => (
                     <form key={user.id} onSubmit={() => onUpdate(user)}>
+
+                        <label htmlFor="username">Nom d'utilisateur</label>
+                        <input type="text" name="username" id="username" placeholder={user.username} onChange={handleUserNameChange}/>
+                        <label htmlFor="email">Role</label>
+                        <input type="text" name="role" id="role" placeholder={user.role} onChange={handleUserRoleChange}/>
+
                         <div className="modal-footer">
                             <button className={"footer__button-cancel"} type={"button"} onClick={onClose}>Annuler</button>
                             <button className={"footer__button-confirm"} type={"submit"} >Confirmer</button>
