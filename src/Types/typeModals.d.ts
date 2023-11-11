@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, HTMLDivElement } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {IUser} from "./typeUsers";
 
 export interface IProfileModal {
@@ -8,7 +8,7 @@ export interface IProfileModal {
 
 export interface IConfirmModal {
     userList: IUser[];
-    selectedUser: IUser;
+    selectedUser: IUser | undefined;
     title: string;
     setOpenConfirmModal: Dispatch<SetStateAction<boolean>>;
     // isLoading: boolean;
@@ -28,7 +28,7 @@ export interface IConfirmRoomModal {
 
 export interface IUpdateUserModal {
     title: string,
-    selectedUser: IUser,
+    selectedUser: IUser | undefined,
     userList: IUser[],
     setUserList: Dispatch<SetStateAction<IUser[]>>;
     setOpenUpdateModal: Dispatch<SetStateAction<boolean>>;
