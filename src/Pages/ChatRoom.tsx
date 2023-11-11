@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef } from 'react';
+import config from "../config/config.tsx";
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
@@ -7,6 +8,8 @@ import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 const ChatRoom = () => {
+    const serverWsHost: string = config.serverWsHost;
+
     // Hooks
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -80,7 +83,7 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
-        const newSocket = new WebSocket(`ws://localhost:8000/ws?name=${username ? username : "unknown"}`);
+        const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');

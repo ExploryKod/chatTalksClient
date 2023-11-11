@@ -3,16 +3,14 @@ import ChatRoomCard from '../Component/ChatRoomCard';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
-import type { IRoom }  from "../Types/typeRooms.d.ts";
+import type { IRoom, IWordLength }  from "../Types/typeRooms.d.ts";
+import config from "../config/config.tsx";
 
-export interface IWordLength {
-    num: number,
-    max: number,
-    text: string,
-    endMessage: string
-}
 
 const ChatRoomsPreview = () => {
+    // Hosts
+    const serverHost: string = config.serverHost;
+
     // Hooks
     const {token} = useLoggedStore();
     const getRoomsList = useGetRoomsList();
@@ -55,7 +53,7 @@ const ChatRoomsPreview = () => {
 
         if (roomName !== '' && description !== '') {
             try {
-                const response = await fetch('http://localhost:8000/chat/create', {
+                const response = await fetch(`${serverHost}/chat/create`, {
                     method: 'POST',
                     body: new URLSearchParams({
                         'roomName': roomName,

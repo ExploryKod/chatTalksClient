@@ -3,8 +3,10 @@ import type { IConfirmRoomModal } from "../Types/typeModals.d.ts";
 import type { IRoom } from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
+import config from "../config/config.tsx";
 
 export const ConfirmRoomModal = ({title,selectedRoom, roomList, setRoomList, setOpenConfirmRoomModal}: IConfirmRoomModal) => {
+    const serverHost: string = config.serverHost;
     const { toastMessage } = useFlashMessage('');
     const onClose = () => {
         setOpenConfirmRoomModal(false);
@@ -13,7 +15,7 @@ export const ConfirmRoomModal = ({title,selectedRoom, roomList, setRoomList, set
     const { token } = useLoggedStore();
 
     const onDelete = (room: IRoom) => {
-        fetch(`http://localhost:8000/delete-room/${room.id.toString()}`, {
+        fetch(`${serverHost}/delete-room/${room.id.toString()}`, {
             method: "DELETE",
             mode: "cors",
             credentials: 'same-origin',

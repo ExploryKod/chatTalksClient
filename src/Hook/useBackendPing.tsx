@@ -6,10 +6,10 @@ interface PingResponse {
 }
 
 export default function useBackendPing() {
-    const serverPort = config.serverPort;
+    const serverHost = config.serverHost;
 
     return function (userId: number): Promise<string> {
-        return fetch(`http://localhost:${serverPort}/ping/${userId}`, {
+        return fetch(`${serverHost}/ping/${userId}`, {
             method: 'POST',
         })
             .then(response => response.json() as Promise<PingResponse>)
