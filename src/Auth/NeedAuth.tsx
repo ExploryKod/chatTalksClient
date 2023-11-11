@@ -18,6 +18,7 @@ export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();
     const { token, username } = useLoggedStore();
 
+
     if (token && username) {
         return <>{props.children}</>;
     } else {

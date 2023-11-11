@@ -1,18 +1,21 @@
 import { Fragment } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
+import useFlashMessage from '../Hook/useFlashMessage';
 
 
 const Navigation = () => {
 
     const navigate = useNavigate();
-
+    const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
     const { removeToken, removeUsername } = useLoggedStore();
+    const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
 
 
     const handleLogout = () => {
         removeToken();
         removeUsername();
+        toastMessage('Vous êtes bien déconnecté', toastOptionsSuccess);
         // Redirect to the login page or any other desired page after logout
         navigate('/');
     };

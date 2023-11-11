@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, HTMLDivElement } from "react";
+import {IUser} from "./typeUsers";
 
 export interface IProfileModal {
     profile: IProfile;
@@ -25,9 +26,10 @@ export interface IConfirmRoomModal {
     // setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface IUpdateModal {
-    user: IUser;
-    isVisible: boolean;
-    hideModal: () => void;
-    updateUser: (id: string) => void;
+export interface IUpdateUserModal {
+    title: string,
+    selectedUser: IUser,
+    userList: IUser[],
+    setUserList: Dispatch<SetStateAction<IUser[]>>;
+    setOpenUpdateModal: Dispatch<SetStateAction<boolean>>;
 }
