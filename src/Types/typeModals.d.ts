@@ -8,7 +8,7 @@ export interface IProfileModal {
 
 export interface IConfirmModal {
     userList: IUser[];
-    selectedUser: IUser | undefined;
+    selectedUser: IUser;
     title: string;
     setOpenConfirmModal: Dispatch<SetStateAction<boolean>>;
     // isLoading: boolean;
@@ -28,7 +28,7 @@ export interface IConfirmRoomModal {
 
 export interface IUpdateUserModal {
     title: string,
-    selectedUser: IUser | undefined,
+    selectedUser: IUser,
     userList: IUser[],
     setUserList: Dispatch<SetStateAction<IUser[]>>;
     setOpenUpdateModal: Dispatch<SetStateAction<boolean>>;
