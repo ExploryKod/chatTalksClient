@@ -1,9 +1,10 @@
 import type { IConfirmModal } from "../Types/typeModals.d.ts";
 import type { IUser } from "../Types/typeUsers.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
+import config from "../config/config.tsx";
 
 export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpenConfirmModal}: IConfirmModal) => {
-
+    const serverHost: string = config.serverHost;
     const onClose = () => {
         setOpenConfirmModal(false);
     }
@@ -11,7 +12,7 @@ export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpen
     const { token } = useLoggedStore();
 
     const onDelete = (user: IUser) => {
-        fetch(`http://localhost:8000/delete-user/${user.id.toString()}`, {
+        fetch(`${serverHost}/delete-user/${user.id.toString()}`, {
             method: "DELETE",
             mode: "cors",
             credentials: 'same-origin',

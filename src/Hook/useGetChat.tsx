@@ -1,14 +1,13 @@
-// import config from '../config/config.js';
+import config from '../config/config.js';
 
 export default function useGetChat() {
+    const serverHost: string | undefined = config.serverHost;
 
-    // const serverPort:number | string = config.serverPort;
-
-    return function () {
-        return fetch(`http://localhost:8000/chat`, {
+    return async function () {
+        const data = await fetch(`${serverHost}/chat`, {
             method: 'GET',
             mode: "cors"
-        })
-            .then(data => data.json())
+        });
+        return await data.json();
     }
 }

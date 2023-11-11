@@ -1,12 +1,13 @@
 import {useState} from 'react';
+import config from "../config/config.tsx";
 import {Link} from 'react-router-dom';
-// import { useRoomStore } from '../StateManager/roomStore';
 import type {IRoom} from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useEffect} from "react";
 
 export const ChatRoomCard = ({id, name, description}: IRoom) => {
+    const serverHost: string = config.serverHost;
     const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
@@ -21,7 +22,7 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
 
     const handleClick = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/chat/${id}`, {
+            const response = await fetch(`${serverHost}/chat/${id}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
