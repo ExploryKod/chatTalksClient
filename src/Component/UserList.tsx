@@ -9,14 +9,17 @@ import { ConfirmModal } from "./ConfirmModal.tsx";
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
+import { HiMiniBellAlert } from "react-icons/hi2";
 import { Tooltip } from "./Tooltip.tsx";
 import {UpdateUserModal} from "./UpdateUserModal.tsx";
+import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 
 export default function UserList() {
   // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
   // const [isLoading, setIsLoading] = useState(false);
-
+  const { toastMessage, createDefaultToastOptions } = useFlashMessage("");
+  const toastOptionsInfo = createDefaultToastOptions({type: 'info', position: 'top-center', autoClose: 3000});
   const [userList, setUserList] = useState<IUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<IUser>();
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -48,6 +51,11 @@ export default function UserList() {
     setOpenUpdateModal(true);
   };
 
+  const handleAlertAdmin = (user: IUser) => {
+    setSelectedUser(user);
+    toastMessage("Vous ne pouvez pas encore alerter un administrateur, Nous travaillons sur cette fonctionnalité", toastOptionsInfo);
+  };
+
 
   useEffect(() => {
     // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
@@ -77,9 +85,9 @@ export default function UserList() {
                   <div key={user.id} className="body-row">
                     <div>{user.id}</div>
                     <div>{user.username ? user.username : "Anonyme"}</div>
-                    <div>{user.role ? user.role : "Utilisateur"}</div>
+                    <div>{user.admin === 1 ? "Administrateur" : "Utilisateur"}</div>
 
-                    {user.role !== "admin" &&
+                    {user.admin === 1 ? (
                         <div className={"table-row__actions"}>
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
@@ -99,8 +107,19 @@ export default function UserList() {
                             </div>
                         </IconContext.Provider>
                             </Tooltip>
-                        </div>}
-                  </div>
+                        </div>): (
+                        <div className={"table-row__actions"}>
+                            <Tooltip content="Signaler" direction="top">
+                        <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
+                            <div>
+                                <button title="delete user" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
+                                    <HiMiniBellAlert className={"trash-icon"} />
+                                </button>
+                            </div>
+                        </IconContext.Provider>
+                            </Tooltip>
+                        </div>)}
+                    </div>
                 ))}
                   {(openConfirmModal && selectedUser) && (
                       <ConfirmModal
