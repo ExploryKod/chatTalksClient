@@ -3,6 +3,7 @@ import type { IUser } from "../Types/typeUsers.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import config from "../config/config.tsx";
+import React from "react";
 
 export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setOpenUpdateModal}: IUpdateUserModal) => {
     const serverHost: string = config.serverHost;
@@ -15,10 +16,15 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
     const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
     const onUpdate = (user: IUser) => {
-        fetch(`${serverHost}/update-user/${user.id.toString()}`, {
+        fetch(`${serverHost}/update-user`, {
             method: "POST",
             mode: "cors",
             credentials: 'same-origin',
+            body: JSON.stringify({
+                id: user.id,
+                username: user.username,
+                role: user.role
+            }),
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -27,11 +33,6 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
             .then(response => response.json())
             .then((data) => {
                 console.log(data)
-
-                setUserList(values => {
-                    return values.filter(item => item.id.toString() !== user.id.toString())
-                })
-
                 toastMessage('Information utilisateur modifiées', toastOptionsSuccess)
                 setOpenUpdateModal(false);
             })
@@ -81,14 +82,14 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
                 {userList.filter(user => user.id === selectedUser.id).map(user => (
                     <form key={user.id} onSubmit={() => onUpdate(user)}>
 
-                        <label htmlFor="username">Nom d'utilisateur</label>
+                        <label htmlFor="username">Nom d'utilisateur: </label>
                         <input type="text" name="username" id="username" placeholder={user.username} onChange={handleUserNameChange}/>
-                        <label htmlFor="email">Role</label>
+                        <label htmlFor="email">Role: </label>
                         <input type="text" name="role" id="role" placeholder={user.role} onChange={handleUserRoleChange}/>
 
                         <div className="modal-footer">
                             <button className={"footer__button-cancel"} type={"button"} onClick={onClose}>Annuler</button>
-                            <button className={"footer__button-confirm"} type={"submit"} >Confirmer</button>
+                            <button className={"footer__button-confirm"} type={"submit"} >Modifier</button>
                         </div>
                     </form>
 

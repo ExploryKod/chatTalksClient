@@ -10,16 +10,17 @@ import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
+import {UpdateUserModal} from "./UpdateUserModal.tsx";
 
 
 export default function UserList() {
-  // const {isVisible, toggleModal} = useToggleModal();
   // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
 
   const [userList, setUserList] = useState<IUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<IUser>();
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const getUserList = useGetUserList();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function UserList() {
       }
     };
 
-    fetchData();
+    fetchData().then(r => console.log('retour promesse: ', r));
 
   },[]);
 
@@ -42,11 +43,17 @@ export default function UserList() {
     setOpenConfirmModal(true);
   };
 
+  const handleUpdateUser = (user: IUser) => {
+    setSelectedUser(user);
+    setOpenUpdateModal(true);
+  };
+
 
   useEffect(() => {
     // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
     // setIsLoading(false);
     setOpenConfirmModal(false);
+    setOpenUpdateModal(false);
     setSelectedUser(undefined);
   }, []);
 
@@ -86,7 +93,7 @@ export default function UserList() {
                             <Tooltip content="Modifier" direction="top">
                         <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                             <div>
-                            <button title="delete user" type="button" className="btn-reset" >
+                            <button title="delete user" type="button" className="btn-reset" onClick={() => handleUpdateUser(user)} >
                                 <FaUserCog className={"update-icon"} />
                             </button>
                             </div>
@@ -104,6 +111,15 @@ export default function UserList() {
                           title={"Supprimer un utilisateur"}
                       />
                   )}
+                {(openUpdateModal && selectedUser) &&
+                    (<UpdateUserModal
+                    userList={userList}
+                    setUserList={setUserList}
+                    selectedUser={selectedUser}
+                    setOpenUpdateModal={setOpenUpdateModal}
+                    title={"Modifier un utilisateur"}
+                    />
+                )}
               </div>
           </section>
     </div>
