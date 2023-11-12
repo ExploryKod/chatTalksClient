@@ -13,6 +13,8 @@
   transition: transform 0.3s ease-out;
 }
 
+
+
 .modal-body {
   padding: 20px;
 
@@ -32,6 +34,10 @@
     min-height: 400px;
     min-width: 300px;
   }
+  &.medium-auto {
+    min-height: auto;
+    min-width: 300px;
+  }
 }
 
 .modal-content {
@@ -48,7 +54,36 @@
   background-color: white;
   font-size: 16px;
   line-height: 1.5;
-  text-align: center;
+
+    &.small {
+        min-height: 200px;
+        min-width: 200px;
+    }
+
+    &.small-auto {
+      min-height: auto;
+      min-width: 200px;
+    }
+
+    &.medium {
+        min-height: 400px;
+        min-width: 300px;
+    }
+
+    &.medium-auto {
+        min-height: auto;
+        min-width: 300px;
+    }
+
+    &.large {
+        min-height: 600px;
+        min-width: 500px;
+    }
+
+    &.large-auto {
+        min-height: auto;
+        min-width: 500px;
+    }
 }
 
 .modal-header {
