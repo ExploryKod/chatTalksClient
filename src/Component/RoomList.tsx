@@ -63,12 +63,15 @@ export default function RoomList() {
             <div className={"user-list__container"}>
                 {!roomList || !roomList.length ?
                     (<div>
-                        <h1 className="category-text"> Aucune salle de chat en vue... Soyez le premier à en créer une</h1>
+                        <h2 className="category-text"> Aucune salle de chat en vue... Soyez le premier à en créer une</h2>
                         <Link to="/chat" className="button-container width-50-centered">Créer ma salle</Link>
                     </div>
 
                     ):
-                    <h1 className="category-text"> Liste des salles de chat: </h1> }
+                    (<div className="categories-container cat-start">
+                            <h2 className="category-text"> Liste des salles de chat: </h2>
+                        </div>
+                        ) }
                 <section className="table-container">
                     <div className="table">
                         {roomList && roomList?.length > 0 && (

@@ -45,11 +45,15 @@
         align-items: center;
         gap: 10px;
 
-        .trash-icon, .update-icon {
+        .trash-icon, .update-icon, .comity-icon {
           cursor: pointer;
         }
 
         .trash-icon.deactivate {
+          pointer-events: none;
+        }
+
+        .comity-icon.deactivate {
           pointer-events: none;
         }
 

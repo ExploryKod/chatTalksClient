@@ -109,6 +109,16 @@ li {
   margin: 0 auto;
 }
 
+.width-20-centered {
+  width: 20%;
+  margin: 0 auto;
+}
+
+.width-10-centered {
+  width: 10%;
+  margin: 0 auto;
+}
+
 .width-100 {
   width: 100%;
 }

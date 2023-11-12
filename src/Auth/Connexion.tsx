@@ -14,7 +14,7 @@ const Connexion = () => {
   const [registerData, setRegisterData] = useState({username: "", password: ""})
   const { toastMessage } = useFlashMessage('')
   const navigate = useNavigate();
-  const { setToken, setUsername } = useLoggedStore();
+  const { setToken, setUsername, setAdminStatus } = useLoggedStore();
   const { isError, onPasswordChange } = usePasswordMeter()
 
   const handleToggle = () => {
@@ -63,9 +63,11 @@ const Connexion = () => {
         console.log('réponse bien reçu');
         const data = await response.json();
         if(data.token) {
+          console.log(data)
           console.log('token bien reçu ', data.token)
           setToken(data.token);
           setUsername(formData.username);
+          setAdminStatus(data.admin);
         } else {
           setToken('');
         }
@@ -99,7 +101,7 @@ const Connexion = () => {
             ...prevState,
             [e.target.name]: e.target.value
         }
-    }) 
+    })
 }
 
 return (

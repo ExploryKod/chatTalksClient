@@ -1,15 +1,18 @@
 import {useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import type { IUser } from "../Types/typeUsers.d.ts";
 
 import useGetUserList from "../Hook/useGetUserList";
 
 import { ConfirmModal } from "./ConfirmModal.tsx";
+import { useLoggedStore } from '../StateManager/userStore';
 
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import { HiMiniBellAlert } from "react-icons/hi2";
+import { FaPeopleRoof } from "react-icons/fa6";
 import { Tooltip } from "./Tooltip.tsx";
 import {UpdateUserModal} from "./UpdateUserModal.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
@@ -18,6 +21,7 @@ import useFlashMessage from "../Hook/useFlashMessage.tsx";
 export default function UserList() {
   // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
   // const [isLoading, setIsLoading] = useState(false);
+    const { admin } = useLoggedStore();
   const { toastMessage, createDefaultToastOptions } = useFlashMessage("");
   const toastOptionsInfo = createDefaultToastOptions({type: 'info', position: 'top-center', autoClose: 3000});
   const [userList, setUserList] = useState<IUser[]>([]);
@@ -56,6 +60,11 @@ export default function UserList() {
     toastMessage("Vous ne pouvez pas encore alerter un administrateur, Nous travaillons sur cette fonctionnalité", toastOptionsInfo);
   };
 
+  const handleAlertComity = (user: IUser) => {
+    setSelectedUser(user);
+    toastMessage("Vous ne pouvez pas encore alerter le comité, Nous travaillons sur cette fonctionnalité", toastOptionsInfo);
+  };
+
 
   useEffect(() => {
     // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
@@ -69,8 +78,11 @@ export default function UserList() {
       <>
     <div className={"user-list__container"}>
       {!userList || !userList.length ?
-      (<h1 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h1>): 
-      <h1 className="category-text"> Utilisateurs du chat : </h1> }
+      (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
+          (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
+          <div>
+        <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
+          </div></div>)}
           <section className="table-container">
               <div className="table">
                 {userList && userList.length > 0 && (
@@ -87,7 +99,7 @@ export default function UserList() {
                     <div>{user.username ? user.username : "Anonyme"}</div>
                     <div>{user.admin === 1 ? "Administrateur" : "Utilisateur"}</div>
 
-                    {user.admin === 1 ? (
+                    {(admin === "1" && user.admin !== 1) ? (
                         <div className={"table-row__actions"}>
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
@@ -109,16 +121,28 @@ export default function UserList() {
                             </Tooltip>
                         </div>): (
                         <div className={"table-row__actions"}>
-                            <Tooltip content="Signaler" direction="top">
-                        <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
-                            <div>
-                                <button title="delete user" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
-                                    <HiMiniBellAlert className={"trash-icon"} />
-                                </button>
-                            </div>
-                        </IconContext.Provider>
-                            </Tooltip>
-                        </div>)}
+                              <div>
+                                {admin !== "1" ? (
+                                    <Tooltip content="Signaler" direction="top">
+                                    <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
+                                    <button title="alert" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
+                                      <HiMiniBellAlert className={"trash-icon"} />
+                                    </button>
+                                    </IconContext.Provider>
+                                    </Tooltip>
+
+                                ):(
+                                    <Tooltip content="Signaler au comité" direction="top">
+                                    <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
+                                      <button title="alert" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
+                                        <FaPeopleRoof className={"trash-icon"} />
+                                      </button>
+                                    </IconContext.Provider>
+                                    </Tooltip>
+                                    )}
+                              </div>
+                        </div>
+                   )}
                     </div>
                 ))}
                   {(openConfirmModal && selectedUser) && (
