@@ -86,6 +86,7 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
                         <input type="text" name="username" id="username" placeholder={user.username} onChange={handleUserNameChange}/>
                         <label htmlFor="email">Role: </label>
                         <input type="text" name="role" id="role" placeholder={user.role} onChange={handleUserRoleChange}/>
+                        <input type="hidden" name="id" value={user.id} />
 
                         <div className="modal-footer">
                             <button className={"footer__button-cancel"} type={"button"} onClick={onClose}>Annuler</button>
