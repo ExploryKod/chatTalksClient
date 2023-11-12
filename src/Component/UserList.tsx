@@ -6,13 +6,15 @@ import type { IUser } from "../Types/typeUsers.d.ts";
 import useGetUserList from "../Hook/useGetUserList";
 
 import { ConfirmModal } from "./ConfirmModal.tsx";
+import UserEmail from "./UserEmail.tsx";
+
 import { useLoggedStore } from '../StateManager/userStore';
 
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import { HiMiniBellAlert } from "react-icons/hi2";
-import { FaPeopleRoof } from "react-icons/fa6";
+import { IoPeopleCircleOutline } from "react-icons/io5";
 import { Tooltip } from "./Tooltip.tsx";
 import {UpdateUserModal} from "./UpdateUserModal.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
@@ -80,9 +82,11 @@ export default function UserList() {
       {!userList || !userList.length ?
       (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
           (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
-          <div>
-        <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
-          </div></div>)}
+            {admin !== "1" && (
+            <div>
+              <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
+            </div>)}
+          </div>)}
           <section className="table-container">
               <div className="table">
                 {userList && userList.length > 0 && (
@@ -98,9 +102,9 @@ export default function UserList() {
                     <div>{user.id}</div>
                     <div>{user.username ? user.username : "Anonyme"}</div>
                     <div>{user.admin === 1 ? "Administrateur" : "Utilisateur"}</div>
-
-                    {(admin === "1" && user.admin !== 1) ? (
-                        <div className={"table-row__actions"}>
+                    <div className={"table-row__actions"}>
+                      {(admin === "1" && user.admin !== 1) ? (
+                      <>
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
                         <div>
@@ -119,8 +123,8 @@ export default function UserList() {
                             </div>
                         </IconContext.Provider>
                             </Tooltip>
-                        </div>): (
-                        <div className={"table-row__actions"}>
+                      </>): (
+                          <>
                               <div>
                                 {admin !== "1" ? (
                                     <Tooltip content="Signaler" direction="top">
@@ -130,20 +134,23 @@ export default function UserList() {
                                     </button>
                                     </IconContext.Provider>
                                     </Tooltip>
-
                                 ):(
                                     <Tooltip content="Signaler au comité" direction="top">
                                     <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
                                       <button title="alert" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
-                                        <FaPeopleRoof className={"trash-icon"} />
+                                        <IoPeopleCircleOutline className={"trash-icon"} />
                                       </button>
                                     </IconContext.Provider>
                                     </Tooltip>
                                     )}
                               </div>
-                        </div>
+                          </>
                    )}
-                    </div>
+                      <div>
+                        {user.email && <UserEmail email={user.email} receiver={user.username} />}
+                      </div>
+                  </div>
+                  </div>
                 ))}
                   {(openConfirmModal && selectedUser) && (
                       <ConfirmModal
