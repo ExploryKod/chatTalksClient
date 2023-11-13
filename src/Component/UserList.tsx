@@ -147,7 +147,7 @@ export default function UserList() {
                           </>
                    )}
                       <div>
-                        {user.email && <UserEmail email={user.email} receiver={user.username} />}
+                        {(user.email && username !== user.username) && <UserEmail email={user.email} receiver={user.username} />}
                       </div>
                   </div>
                   </div>

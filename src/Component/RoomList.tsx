@@ -12,9 +12,11 @@ import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
+import {RoomUpdateModal} from "./RoomUpdateModal.tsx";
 
 export default function RoomList() {
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
+    const [openUpdateRoomModal, setOpenUpdateRoomModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
 
@@ -45,10 +47,16 @@ export default function RoomList() {
 
     },[]);
 
-    const handleDeleteRoom = (user: IRoom) => {
-        setSelectedRoom(user);
+    const handleDeleteRoom = (room: IRoom) => {
+        setSelectedRoom(room);
         setOpenConfirmRoomModal(true);
     };
+
+    const handleUpdateRoom = (room: IRoom) => {
+        setSelectedRoom(room);
+        setOpenUpdateRoomModal(true);
+    };
+
 
 
     useEffect(() => {
@@ -68,7 +76,7 @@ export default function RoomList() {
                     </div>
 
                     ):
-                    (<div className="categories-container cat-start">
+                    (<div className="categories-container">
                             <h2 className="category-text"> Liste des salles de chat: </h2>
                         </div>
                         ) }
@@ -100,7 +108,7 @@ export default function RoomList() {
                                         <Tooltip content="Modifier" direction="top">
                                             <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                                                 <div>
-                                                    <button title="delete room" type="button" className="btn-reset" >
+                                                    <button title="delete room" type="button" className="btn-reset" onClick={() =>  handleUpdateRoom(room)}>
                                                         <FaUserCog className={"update-icon"} />
                                                     </button>
                                                 </div>
@@ -118,6 +126,15 @@ export default function RoomList() {
                                 title={"Supprimer une salle"}
                             />
                         )}
+                        {(openUpdateRoomModal && selectedRoom) &&
+                            (<RoomUpdateModal
+                                    roomList={roomList}
+                                    setRoomList={setRoomList}
+                                    selectedRoom={selectedRoom}
+                                    setOpenUpdateRoomModal={setOpenUpdateRoomModal}
+                                    title={"Modifier une salle"}
+                                />
+                            )}
                     </div>
                 </section>
             </div>
