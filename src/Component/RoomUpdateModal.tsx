@@ -22,12 +22,12 @@ export const RoomUpdateModal = ({title,selectedRoom, roomList, setRoomList, setO
         const initialDescription: string = selectedRoom.description ? selectedRoom.description : "";
 
         try {
-            const response = await fetch(`${serverHost}/update-user`, {
+            const response = await fetch(`${serverHost}/update-room`, {
                 method: 'POST',
                 mode: "cors",
                 body: new URLSearchParams({
                     id: updatedRoomData.id.toString(),
-                    username: updatedRoomData.name != "" ? updatedRoomData.name : selectedRoom.name,
+                    name: updatedRoomData.name != "" ? updatedRoomData.name : selectedRoom.name,
                     description: updatedRoomData.description ? updatedRoomData.description : initialDescription
                 }),
                 headers: {
@@ -91,7 +91,7 @@ export const RoomUpdateModal = ({title,selectedRoom, roomList, setRoomList, setO
                     <form className="form-container --80" key={room.id} onSubmit={onUpdate}>
                         <div className="form-elem align-start">
                             <label htmlFor="room-name" className="text-w-700 padding-y-5">Changer le nom : </label>
-                            <input type="text" name="room-name" id="room-name" placeholder={room.name} onChange={handleRoomChange}/>
+                            <input type="text" name="name" id="room-name" placeholder={room.name} onChange={handleRoomChange}/>
                         </div>
                         <div className="form-elem align-start">
                             <label htmlFor="description" className="text-w-700 padding-y-5">Changer le thème: </label>
