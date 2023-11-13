@@ -136,7 +136,7 @@ return (
         ) : (
           <div className="container-connexion">
             <div className="form-container">
-              <form id="login-form" method="post" onSubmit={handleLoginSubmit}>
+              <form method="post" onSubmit={handleLoginSubmit}>
                 <div className="form-elem">
                   <label htmlFor="username" className="connexion__username"></label>
                   <input type="text" name="username" id="username" placeholder="Votre pseudo" onChange={handleChange} required />
@@ -151,7 +151,7 @@ return (
                 <p>
                   <span className="to-connexion-link" onClick={handleToggle}>Créer son compte</span>
                 </p>
-              </div>
+                </div>
               </form>
             </div>
           </div>

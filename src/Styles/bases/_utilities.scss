@@ -131,6 +131,26 @@
   background-color: #00ff00;
 }
 
+.bgd-success {
+  background-color: $success;
+  color: $dark-text-color;
+  &:hover {
+    background-color: darken($success, 10%);
+  }
+}
+
+.bgd-warning {
+  background-color: $warning;
+  color: $dark-text-color;
+  &:hover {
+      background-color: darken($warning, 10%);
+  }
+}
+
+.text-dark {
+  color: $dark-text-color;
+}
+
 .text-darkpink {
   color: $darkpink;
 }
@@ -167,16 +187,28 @@
   color: gold;
 }
 
-text-center {
+.text-center {
   text-align: center;
 }
 
-text-left {
+.text-left {
   text-align: left;
 }
 
-text-right {
+.text-right {
   text-align: right;
+}
+
+.text-w-600 {
+  font-weight: 600;
+}
+
+.text-w-100 {
+  font-weight: 100;
+}
+
+.text-w-700 {
+  font-weight: 700;
 }
 
 /* paddings and margins */
@@ -213,6 +245,30 @@ text-right {
 
 .padding-50 {
   padding: 50px;
+}
+
+.padding-bottom-10 {
+  padding-bottom: 10px;
+}
+
+.padding-bottom-20 {
+  padding-bottom: 20px;
+}
+
+.padding-bottom-30 {
+  padding-bottom: 30px;
+}
+
+.padding-top-10 {
+  padding-top: 10px;
+}
+
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.padding-top-30 {
+  padding-top: 30px;
 }
 
 .margin-10 {
@@ -291,6 +347,14 @@ text-right {
   margin-top: 30px;
 }
 
+margin-top-40 {
+  margin-top: 40px;
+}
+
+.margin-top-50 {
+  margin-top: 50px;
+}
+
 .margin-bottom-10 {
   margin-bottom: 10px;
 }
@@ -301,6 +365,14 @@ text-right {
 
 .margin-bottom-30 {
   margin-bottom: 30px;
+}
+
+.margin-bottom-40 {
+  margin-bottom: 40px;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
 }
 
 .margin-center {
@@ -386,3 +458,10 @@ text-right {
   border-radius: 50%;
 }
 
+b-shadow {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+b-shadow-1 {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}

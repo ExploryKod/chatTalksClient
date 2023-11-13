@@ -39,6 +39,7 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
             if (response.ok) {
                 const data = await response.json();
                 toastMessage(data.message, toastOptionsSuccess);
+                console.log(data)
                 setUserList(values => {
                     return values.map(item => item.id === selectedUser.id ? {...item, ...updatedData} : item)
                 })
@@ -66,34 +67,40 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
 
     return (
         <div className={`modal` }>
-            <div className="modal-content large">
-
+            <div className="modal-content large-auto">
                 <div className="modal-header">
-                    <h2>{title}</h2>
                     <span className="close" onClick={onClose}>&times;</span>
                 </div>
-                <div className="modal-body">
+                <div className="modal-body no-padding-y">
                     {userList.filter(user => user.id === selectedUser.id).map(user => (
                         <p key={user.id}> Modifier <span>{user.username} (id: {user.id})</span> ?</p> ))}
                 </div>
                 {userList.filter(user => user.id === selectedUser.id).map(user => (
-                    <form className="form-container" key={user.id} onSubmit={onUpdate}>
+                    <form className="form-container --80" key={user.id} onSubmit={onUpdate}>
                         <div className="form-elem align-start">
-                            <label htmlFor="username">Nom d'utilisateur *: </label>
-                            <input required type="text" name="username" id="username" placeholder={user.username} onChange={handleUserChange}/>
+                            <label htmlFor="username" className="text-w-700 padding-y-5">Changer son nom d'utilisateur: </label>
+                            <input type="text" name="username" id="username" placeholder={user.username} onChange={handleUserChange}/>
                         </div>
                         <div className="form-elem align-start">
-                            <label htmlFor="status">Adminstrateur ? </label>
-                            <input type="text" name="admin" id="status" placeholder={user.admin} onChange={handleUserChange}/>
-                        </div>
-                        <div className="form-elem align-start">
-                            <label htmlFor="email">Email </label>
-                            <input type="text" name="admin" id="email" placeholder={user.email ? user.email : "Aucun email renseigné"} onChange={handleUserChange}/>
+                            <label htmlFor="email" className="text-w-700 padding-y-5">Changer ou allouer un email: </label>
+                            <input type="text" name="email" id="email" placeholder={user.email ? user.email : "Aucun email renseigné"} onChange={handleUserChange}/>
                         </div>
 
-                        <div className="modal-footer">
-                            <button className={"footer__button-cancel"} type={"button"} onClick={onClose}>Annuler</button>
-                            <button className={"footer__button-confirm"} type={"submit"} >Modifier</button>
+                        {user.admin !== "1" &&
+                        (<div className="form-elem align-start">
+                            <label htmlFor="admin" className="text-w-700 padding-y-5">Changer le statut: </label>
+                            <div className="select-wrapper">
+                                <select name="admin" id="admin" className="custom-select" value={user.admin} onChange={handleUserChange}>
+                                    <option value="0">Utilisateur</option>
+                                    <option value="1">Administrateur</option>
+                                </select>
+                                <div className="select-arrow "></div>
+                            </div>
+                        </div>)}
+
+                        <div className="modal-footer no-border no-padding margin-top-50 margin-bottom-30">
+                            <button className={"footer__button-cancel bgd-darkLavender h-opacity-low text-black text-w-700 shadow"} type={"button"} onClick={onClose}>Annuler</button>
+                            <button className={"footer__button-confirm bgd-darkpink h-opacity-low text-white text-w-700 shadow"} type={"submit"} >Modifier</button>
                         </div>
                     </form>
 

@@ -23,7 +23,7 @@ import useFlashMessage from "../Hook/useFlashMessage.tsx";
 export default function UserList() {
   // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
   // const [isLoading, setIsLoading] = useState(false);
-    const { admin } = useLoggedStore();
+    const { admin, username } = useLoggedStore();
   const { toastMessage, createDefaultToastOptions } = useFlashMessage("");
   const toastOptionsInfo = createDefaultToastOptions({type: 'info', position: 'top-center', autoClose: 3000});
   const [userList, setUserList] = useState<IUser[]>([]);
@@ -101,9 +101,9 @@ export default function UserList() {
                   <div key={user.id} className="body-row">
                     <div>{user.id}</div>
                     <div>{user.username ? user.username : "Anonyme"}</div>
-                    <div>{user.admin === 1 ? "Administrateur" : "Utilisateur"}</div>
+                    <div>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</div>
                     <div className={"table-row__actions"}>
-                      {(admin === "1" && user.admin !== 1) ? (
+                      {(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (
                       <>
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>

@@ -9,7 +9,7 @@ export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpen
         setOpenConfirmModal(false);
     }
 
-    const { token } = useLoggedStore();
+    const { token, username } = useLoggedStore();
 
     const onDelete = (user: IUser) => {
         fetch(`${serverHost}/delete-user/${user.id.toString()}`, {
@@ -44,14 +44,16 @@ export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpen
                     <h2>{title}</h2>
                     <span className="close" onClick={onClose}>&times;</span>
                 </div>
-                <div className="modal-body small">
-                    {userList.filter(user => user.id === selectedUser.id).map(user => (
+                <div className="modal-body small-auto">
+                    {userList.filter(user => user.id === selectedUser.id && user.username !== username).map(user => (
                     <p key={user.id}> Voulez-vous supprimer <span>{user.username} (id: {user.id})</span> ?</p> ))}
+                    {userList.filter(user => user.id === selectedUser.id && user.username === username).map(user => (
+                        <p key={user.id}> Voulez-vous vraiment nous quitter définitivement ?</p> ))}
                 </div>
                 {userList.filter(user => user.id === selectedUser.id).map(user => (
                 <div key={user.id} className="modal-footer">
-                    <button className={"footer__button-cancel"} type={"button"} onClick={onClose}>Annuler</button>
-                    <button className={"footer__button-confirm"} type={"button"} onClick={() => onDelete(user)}>Confirmer</button>
+                    <button className={"footer__button-cancel bgd-success"} type={"button"} onClick={onClose}>Annuler</button>
+                    <button className={"footer__button-confirm bgd-warning"} type={"button"} onClick={() => onDelete(user)}>Confirmer</button>
                 </div>
                 ))}
             </div>
