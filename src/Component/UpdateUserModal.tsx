@@ -11,7 +11,7 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
         setOpenUpdateModal(false);
     }
 
-    const { token } = useLoggedStore();
+    const { token, username, admin } = useLoggedStore();
     const { toastMessage, createDefaultToastOptions } = useFlashMessage("");
     const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
@@ -65,6 +65,17 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
         }
     }
 
+    const handleUserSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if(e.target.value !== "") {
+            setUpdatedData(prevState => {
+                return {
+                    ...prevState,
+                    [e.target.name]: e.target.value
+                }
+            })
+        }
+    }
+
     return (
         <div className={`modal` }>
             <div className="modal-content large-auto">
@@ -72,8 +83,12 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
                     <span className="close" onClick={onClose}>&times;</span>
                 </div>
                 <div className="modal-body no-padding-y">
-                    {userList.filter(user => user.id === selectedUser.id).map(user => (
-                        <p key={user.id}> Modifier <span>{user.username} (id: {user.id})</span> ?</p> ))}
+                    {userList.filter(user => user.id === (selectedUser.id && user.username !== username)).map(user =>
+                        <p key={user.id}> Modifier <span>{user.username} (id: {user.id})</span> ?</p>
+                    )}
+                    {userList.filter(user => user.id === (selectedUser.id && user.username === username)).map(user =>
+                        <p key={user.id}> Bonjour {user.username}, vous pouvez modifier vos données: ?</p>
+                    )}
                 </div>
                 {userList.filter(user => user.id === selectedUser.id).map(user => (
                     <form className="form-container --80" key={user.id} onSubmit={onUpdate}>
@@ -86,11 +101,11 @@ export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setO
                             <input type="text" name="email" id="email" placeholder={user.email ? user.email : "Aucun email renseigné"} onChange={handleUserChange}/>
                         </div>
 
-                        {user.admin !== "1" &&
+                        {(user.admin !== "1" && admin === "1") &&
                         (<div className="form-elem align-start">
                             <label htmlFor="admin" className="text-w-700 padding-y-5">Changer le statut: </label>
                             <div className="select-wrapper">
-                                <select name="admin" id="admin" className="custom-select" value={user.admin} onChange={handleUserChange}>
+                                <select name="admin" id="admin" className="custom-select" value={user.admin} onChange={handleUserSelect}>
                                     <option value="0">Utilisateur</option>
                                     <option value="1">Administrateur</option>
                                 </select>

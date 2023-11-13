@@ -13,7 +13,7 @@ function UserEmail({email, receiver}: UserEmailType) {
     return (
         <Tooltip content="Envoyer un email" direction="top">
             <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
-                <button title="alert" type="button" className="btn-reset" onClick={handleClick}>
+                <button aria-label="contacter par email" type="button" className="btn-reset" onClick={handleClick}>
                     <MdOutlineAlternateEmail className={"trash-icon"} />
                 </button>
             </IconContext.Provider>
