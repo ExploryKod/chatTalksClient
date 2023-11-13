@@ -108,7 +108,7 @@ export default function UserList() {
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
                         <div>
-                          <button title="delete user" type="button" className="btn-reset" onClick={() => handleDeleteUser(user)}>
+                          <button aria-label="Supprimer utilisateur"  type="button" className="btn-reset" onClick={() => handleDeleteUser(user)}>
                             <RiDeleteBin6Line className={"trash-icon"} />
                           </button>
                         </div>
@@ -117,7 +117,7 @@ export default function UserList() {
                             <Tooltip content="Modifier" direction="top">
                         <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
                             <div>
-                            <button title="delete user" type="button" className="btn-reset" onClick={() => handleUpdateUser(user)} >
+                            <button aria-label="Modifier utilisateur"  type="button" className="btn-reset" onClick={() => handleUpdateUser(user)} >
                                 <FaUserCog className={"update-icon"} />
                             </button>
                             </div>
@@ -129,7 +129,7 @@ export default function UserList() {
                                 {admin !== "1" ? (
                                     <Tooltip content="Signaler" direction="top">
                                     <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
-                                    <button title="alert" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
+                                    <button aria-label="alerter un admin" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
                                       <HiMiniBellAlert className={"trash-icon"} />
                                     </button>
                                     </IconContext.Provider>
@@ -137,7 +137,7 @@ export default function UserList() {
                                 ):(
                                     <Tooltip content="Signaler au comité" direction="top">
                                     <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
-                                      <button title="alert" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
+                                      <button aria-label="alerter un utilisateur" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
                                         <IoPeopleCircleOutline className={"trash-icon"} />
                                       </button>
                                     </IconContext.Provider>
