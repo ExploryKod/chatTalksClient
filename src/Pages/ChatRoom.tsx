@@ -8,7 +8,7 @@ import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
 interface IDateMessage {
-    currentTime: Date;
+    currentTime: string;
 }
 
 const ChatRoom = () => {
@@ -22,7 +22,7 @@ const ChatRoom = () => {
     const { toastMessage } = useFlashMessage('');
 
     // UseStates
-    const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: new Date()});
+    const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: ""});
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -134,7 +134,7 @@ const ChatRoom = () => {
                             sendermessage: msg?.message,
                         }
                     ]);
-                    setMessageDate({currentTime: currentTime})
+                    setMessageDate({currentTime: currentTime.toLocaleTimeString()})
 
             })
         };
@@ -186,7 +186,7 @@ const ChatRoom = () => {
                         <div className={`${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
-                                <span className="info__time">{messageDate.currentTime.toLocaleTimeString()}</span>
+                                <span className="info__time">{messageDate.currentTime}</span>
                             </div>
                             <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
                                 <span className="message__content">{message?.sendermessage}</span>
