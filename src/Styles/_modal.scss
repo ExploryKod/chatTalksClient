@@ -13,8 +13,24 @@
   transition: transform 0.3s ease-out;
 }
 
+
+
 .modal-body {
   padding: 20px;
+
+  &.no-padding {
+    padding: 0;
+  }
+
+  &.no-padding-x {
+      padding-left: 0;
+      padding-right: 0;
+  }
+
+  &.no-padding-y {
+      padding-top: 0;
+      padding-bottom: 0;
+  }
 
   p {
     color: $darkBlue;
@@ -30,6 +46,10 @@
 
   &.medium {
     min-height: 400px;
+    min-width: 300px;
+  }
+  &.medium-auto {
+    min-height: auto;
     min-width: 300px;
   }
 }
@@ -48,7 +68,36 @@
   background-color: white;
   font-size: 16px;
   line-height: 1.5;
-  text-align: center;
+
+    &.small {
+        min-height: 200px;
+        min-width: 200px;
+    }
+
+    &.small-auto {
+      min-height: auto;
+      min-width: 200px;
+    }
+
+    &.medium {
+        min-height: 400px;
+        min-width: 300px;
+    }
+
+    &.medium-auto {
+        min-height: auto;
+        min-width: 300px;
+    }
+
+    &.large {
+        min-height: 600px;
+        min-width: 500px;
+    }
+
+    &.large-auto {
+        min-height: auto;
+        min-width: 500px;
+    }
 }
 
 .modal-header {
@@ -62,6 +111,14 @@
     text-align: left;
     font-size: 20px;
     font-weight: 600;
+
+    .title-centered {
+      text-align: center;
+    }
+
+    &.no-title {
+      display: none;
+    }
   }
 
 
@@ -73,28 +130,91 @@
 
 .modal-footer {
   background-color: transparent;
-  color: black;
   padding: 10px;
   border-top: 1px solid #333;
 
+  &.no-padding {
+    padding: 0;
+  }
+
+  &.no-padding-x {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &.no-padding-y {
+      padding-top: 0;
+      padding-bottom: 0;
+  }
+
+  &.no-border {
+    border: none;
+  }
+
+  &.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.flex-end {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+  }
+
+  &.flex-start {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+  }
+
   .footer__button-cancel {
-    background-color: green;
-    color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     margin-right: 30px;
+
+    &.shadow {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+
+    &.bg-warning {
+      background-color: $warning;
+    }
+
+    &.bg-sucess {
+      background-color: $success;
+    }
+
+    &.h-opacity-low:hover {
+      opacity: 0.8;
+    }
   }
 
   .footer__button-confirm {
-    background-color: $orange-1;
-    opacity: 0.8;
-    color: white;
+    opacity: 1;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    transition: opacity 0.3s ease-out, box-shadow 0.2s ease-in-out;
+
+    &.shadow {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    &.h-opacity-low:hover {
+      opacity: 0.8;
+    }
+    &:active {
+     box-shadow: none;
+    }
   }
 
   &.no-footer {

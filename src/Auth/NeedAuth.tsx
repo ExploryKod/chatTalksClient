@@ -8,11 +8,15 @@ interface NeedAuthProps {
 
 const token = localStorage.getItem('token');
 const username = localStorage.getItem('username');
+const admin = localStorage.getItem('admin');
 if (token) {
     useLoggedStore.setState({ token: token });
 }
 if(username) {
     useLoggedStore.setState({ username: username });
+}
+if(admin) {
+    useLoggedStore.setState({ admin: admin });
 }
 export default function NeedAuth(props: NeedAuthProps): React.ReactElement {
     const location = useLocation();

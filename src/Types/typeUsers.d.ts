@@ -1,7 +1,13 @@
 export interface IUser {
     id: number;
     username: string;
-    role: string;
+    admin: string;
+    email: string | null;
+}
+
+export type UserEmailType = {
+    email: string | null;
+    receiver: string;
 }
 
 export type passwordInput = {

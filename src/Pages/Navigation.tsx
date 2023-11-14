@@ -8,13 +8,14 @@ const Navigation = () => {
 
     const navigate = useNavigate();
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
-    const { removeToken, removeUsername } = useLoggedStore();
+    const { removeToken, removeUsername, removeAdminStatus } = useLoggedStore();
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
 
 
     const handleLogout = () => {
         removeToken();
         removeUsername();
+        removeAdminStatus();
         toastMessage('Vous êtes bien déconnecté', toastOptionsSuccess);
         // Redirect to the login page or any other desired page after logout
         navigate('/');

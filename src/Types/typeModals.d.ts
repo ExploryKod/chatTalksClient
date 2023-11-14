@@ -33,3 +33,11 @@ export interface IUpdateUserModal {
     setUserList: Dispatch<SetStateAction<IUser[]>>;
     setOpenUpdateModal: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface IUpdateRoomModal {
+    title: string,
+    selectedRoom: IRoom,
+    roomList: IRoom[],
+    setRoomList: Dispatch<SetStateAction<IRoom[]>>;
+    setOpenUpdateRoomModal: Dispatch<SetStateAction<boolean>>;
+}

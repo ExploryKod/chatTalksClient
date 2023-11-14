@@ -7,6 +7,10 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
+interface IDateMessage {
+    currentTime: Date;
+}
+
 const ChatRoom = () => {
     const serverWsHost: string = config.serverWsHost;
 
@@ -18,6 +22,7 @@ const ChatRoom = () => {
     const { toastMessage } = useFlashMessage('');
 
     // UseStates
+    const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: new Date()});
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -63,8 +68,25 @@ const ChatRoom = () => {
             toastMessage('Veuillez écrire un message');
             return;
         }
-        console.log('messageInput', messageInput)
         socket.send(JSON.stringify(messageInput));
+        console.log('username', username)
+        const response = fetch('http://localhost:8000/send-message', {
+            method: 'POST',
+            mode: "cors",
+            credentials: 'same-origin',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            // @ts-ignore
+            body: new URLSearchParams({
+                "username": username,
+                "content": messageInput.message,
+                "roomID": roomNumber,
+            }),
+        })
+
+        console.log('response', response)
+
         setMessageInput({
             action: "send-message", message: "", target: {
                 id: "",
@@ -83,6 +105,7 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
+        const currentTime: Date = new Date();
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
@@ -103,13 +126,15 @@ const ChatRoom = () => {
                 console.log('WebSocket element:', element)
                 let msg = JSON.parse(element);
                 console.log('WebSocket msg:', msg.message)
+                console.log('WebSocket action:', msg.action)
 
                     setMessages((prevMessages) => [...prevMessages,
                         {
                             sendername: msg?.sender?.name,
-                            sendermessage: msg?.message
+                            sendermessage: msg?.message,
                         }
                     ]);
+                    setMessageDate({currentTime: currentTime})
 
             })
         };
@@ -142,6 +167,7 @@ const ChatRoom = () => {
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
             {(username && username.length > 0) && (
+
                 <div className={`logs-container margin-y-40
                         ${messages 
                         && messages.some(message => message.sendername === username) 
@@ -155,10 +181,10 @@ const ChatRoom = () => {
                         && message.sendername != undefined
                         && message.sendername != "")
                     .map((message, index) => (
-                        <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} ${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
+                        <div className={`${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
-                                <span className="info__time">{new Date().toLocaleTimeString()}</span>
+                                <span className="info__time">{messageDate.currentTime.toLocaleTimeString()}</span>
                             </div>
                             <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
                                 <span className="message__content">{message?.sendermessage}</span>
@@ -183,8 +209,9 @@ const ChatRoom = () => {
                         action: "send-message",
                         message: e.target.value,
                         target: {
-                            id: "1685691b-e1b5-492a-9394-d1e73818e580",
-                            name: roomNumber}
+                            id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
+                            name: roomNumber
+                        }
                     })}
                 />
             </form>) : (
