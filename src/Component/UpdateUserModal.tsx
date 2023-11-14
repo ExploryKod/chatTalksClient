@@ -5,7 +5,7 @@ import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import config from "../config/config.tsx";
 import React, {useState} from "react";
 
-export const UpdateUserModal = ({title,selectedUser, userList, setUserList, setOpenUpdateModal}: IUpdateUserModal) => {
+export const UpdateUserModal = ({selectedUser, userList, setUserList, setOpenUpdateModal}: IUpdateUserModal) => {
     const serverHost: string = config.serverHost;
     const onClose = () => {
         setOpenUpdateModal(false);

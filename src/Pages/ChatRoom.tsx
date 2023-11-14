@@ -7,6 +7,10 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 
+interface IDateMessage {
+    currentTime: Date;
+}
+
 const ChatRoom = () => {
     const serverWsHost: string = config.serverWsHost;
 
@@ -18,6 +22,7 @@ const ChatRoom = () => {
     const { toastMessage } = useFlashMessage('');
 
     // UseStates
+    const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: new Date()});
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -82,18 +87,6 @@ const ChatRoom = () => {
 
         console.log('response', response)
 
-        // .then(response => response.json())
-        // .then(data => {
-        //     if (data.error) {
-        //         console.log('data error' ,data.error);
-        //     } else {
-        //         console.log('data success',data.success);
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.error('error',error);
-        // });
-
         setMessageInput({
             action: "send-message", message: "", target: {
                 id: "",
@@ -112,6 +105,7 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
+        const currentTime: Date = new Date();
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
@@ -132,13 +126,15 @@ const ChatRoom = () => {
                 console.log('WebSocket element:', element)
                 let msg = JSON.parse(element);
                 console.log('WebSocket msg:', msg.message)
+                console.log('WebSocket action:', msg.action)
 
                     setMessages((prevMessages) => [...prevMessages,
                         {
                             sendername: msg?.sender?.name,
-                            sendermessage: msg?.message
+                            sendermessage: msg?.message,
                         }
                     ]);
+                    setMessageDate({currentTime: currentTime})
 
             })
         };
@@ -171,6 +167,7 @@ const ChatRoom = () => {
                 <p className="category-text text-darkpink"> {description}</p>
             </div>
             {(username && username.length > 0) && (
+
                 <div className={`logs-container margin-y-40
                         ${messages 
                         && messages.some(message => message.sendername === username) 
@@ -184,10 +181,10 @@ const ChatRoom = () => {
                         && message.sendername != undefined
                         && message.sendername != "")
                     .map((message, index) => (
-                        <div className={`${index % 2 !== 0 ? 'log-odd' : 'log-even'} ${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
+                        <div className={`${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
-                                <span className="info__time">{new Date().toLocaleTimeString()}</span>
+                                <span className="info__time">{messageDate.currentTime.toLocaleTimeString()}</span>
                             </div>
                             <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
                                 <span className="message__content">{message?.sendermessage}</span>
