@@ -22,8 +22,6 @@
     width: 100%;
     flex-direction: column;
 
-
-
     /* Mozilla firefox */
     scrollbar-color: $darkpink transparent;
     scrollbar-width: thin;
@@ -43,17 +41,39 @@
     box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
   }
 
-  //.user-left, .user-join, .hub-joined, .hub-left {
-  //  background-color: $orange-3;
-  //}
-
   .logs-container__log {
     position: relative;
     margin: 40px 10px;
     padding: 20px 30px;
     border-radius: 10px;
+    transition: opacity 5s ease-in-out 5s;
 
-    &.log-user {
+    &.user-action  {
+      display: none;
+
+      .log__info {
+        display: none;
+        .info__user {
+          color: $darkBlue;
+        }
+        .info__time {
+          color: $darkBlue;
+        }
+      }
+
+      .log__message {
+        .voice-icon {
+          display: none;
+        }
+        .message__content {
+          font-size: 12px;
+          font-weight: 600;
+          color: $darkBlue;
+        }
+      }
+    }
+
+    &.log-user:not(.user-action) {
       align-self: start;
       background-color: $darkpink;
 
@@ -72,7 +92,7 @@
       }
     }
 
-    &.log-other {
+    &.log-other:not(.user-action) {
       align-self: end;
       background-color: $darkBlue;
 

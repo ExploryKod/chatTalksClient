@@ -2,6 +2,7 @@
 export type SenderMessage = {
     sendername: string;
     sendermessage: string;
+    action: string;
 }
 
 export type Target = {
