@@ -6,6 +6,7 @@ import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
+import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
 
 interface IDateMessage {
     currentTime: string;
@@ -26,7 +27,7 @@ const ChatRoom = () => {
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: "", action: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
-
+    console.log('DATE : ', messageDate)
     // UseRef and other queries
     const messageContainerRef = useRef<HTMLDivElement>(null);
     const name: string | null = queryParams.get('name');
@@ -161,6 +162,21 @@ const ChatRoom = () => {
         handleJoinRoom();
     }, [socket, roomNumber]);
 
+    const { getMessagesByRoom, setSavedMessages, savedMessages } = useGetMessagesByRoom();
+
+    useEffect(() => {
+
+        if(!roomNumber) {
+            return;
+        }
+        const fetchMessages = async () => {
+            const data = await getMessagesByRoom(roomNumber);
+            setSavedMessages(data);
+        };
+
+        fetchMessages().then(r => console.log('r', r));
+    }, []);
+
     const onMessageAction = (action: string, personName: string) => {
         console.log('action ', action)
         console.log('personName ', personName)
@@ -174,7 +190,11 @@ const ChatRoom = () => {
         }
     }
 
-
+    console.log('roomNumber', roomNumber)
+    console.log('-------------------')
+    console.log('SAVED MESSAGES', savedMessages)
+    console.log('-------------------')
+    console.log('messageInput', messageInput)
     console.log('messages', messages)
 
     return (
@@ -199,8 +219,8 @@ const ChatRoom = () => {
                         && message.sendername != "")
                         .map((message, index) => (
                         <>
-                        <div className={` logs-container__log 
-                        ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.sendername === username ? 'log-user' : 'log-other'}`} key={index}>
+                        <div key={index} className={`logs-container__log 
+                        ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.sendername === username ? 'log-user' : 'log-other'}`} >
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
                                 <span className="info__time">{message.action}</span>

@@ -20,3 +20,9 @@ export type RoomMessage = {
     action: string;
     message: string;
 }
+
+export type IMessage = {
+    action: string;
+    message: string;
+    target: Target;
+}
