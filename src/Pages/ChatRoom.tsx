@@ -181,6 +181,8 @@ const ChatRoom = () => {
                         && message.sendername != undefined
                         && message.sendername != "")
                     .map((message, index) => (
+                        <>
+
                         <div className={`${message.sendername === username ? 'log-user' : 'log-other'} logs-container__log`} key={index}>
                             <div className="log__info">
                                 <span className="info__user">{message.sendername+ " : "}</span>
@@ -191,6 +193,7 @@ const ChatRoom = () => {
                             </div>
 
                         </div>
+                        </>
                 ))}
                 </div>)}
             {username && username.length > 0 ? (
