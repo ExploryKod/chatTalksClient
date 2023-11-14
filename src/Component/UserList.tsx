@@ -96,14 +96,14 @@ export default function UserList() {
                     <div>Statut</div>
                     <div>Actions</div>
                   </div>)}
-
+                {/*{(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (*/}
                 {userList.map((user) => (
                   <div key={user.id} className="body-row">
                     <div>{user.id}</div>
                     <div>{user.username ? user.username : "Anonyme"}</div>
                     <div>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</div>
                     <div className={"table-row__actions"}>
-                      {(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (
+                      {((admin === "1" && user.admin.toString() !== "1") || user.username === username) ? (
                       <>
                             <Tooltip content="Supprimer" direction="top">
                       <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>

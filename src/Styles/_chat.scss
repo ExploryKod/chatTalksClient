@@ -5,9 +5,15 @@
     position: relative;
     max-height: 40vh;
     max-width: 80%;
+    min-width: 300px;
     padding: 10px 30px;
     overflow: auto;
     background-color: transparent;
+
+    @media screen and (min-width: 1200px) {
+      max-width: 1000px;
+      max-height: 30vh;
+    }
 
     border-radius:10px;
     margin: 0 auto;
