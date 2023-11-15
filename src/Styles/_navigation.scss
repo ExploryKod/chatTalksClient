@@ -1,3 +1,5 @@
+@import 'bases/variables';
+
 .navigation {
   background-color: $darkBlue;
   height: 70px;
@@ -35,6 +37,58 @@
       &:hover {
         color: $darkpink;
        
+      }
+    }
+    button.nav-link {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+}
+
+.navigation-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $darkBlue;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 25px;
+
+  .logo-container {
+    height: 100%;
+    width: 70px;
+    padding: 2px;
+
+    .logo {
+      height: 100%;
+      width: auto;
+    }
+
+  }
+
+  .nav-links-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .nav-link {
+      font-size: 18px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        color: $darkpink;
+
       }
     }
     button.nav-link {

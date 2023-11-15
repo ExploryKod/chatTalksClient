@@ -40,7 +40,7 @@ const Navigation = () => {
 
             <Outlet />
 
-            <div className="navigation">
+            <div className="navigation-footer">
                 <div className="nav-links-container">
                     <Link className="nav-link" to="/credits">
                         CREDITS
