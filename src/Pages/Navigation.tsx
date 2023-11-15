@@ -39,15 +39,6 @@ const Navigation = () => {
             </div>
 
             <Outlet />
-
-            <div className="navigation-footer">
-                <div className="nav-links-container">
-                    <Link className="nav-link" to="/credits">
-                        CREDITS
-                    </Link>
-                </div>
-            </div>
-
         </Fragment>
     )
 }
