@@ -5,6 +5,7 @@ import Connexion from "./Auth/Connexion";
 import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
 import BecomeAdmin from "./Pages/BecomeAdmin.tsx";
+import {Credits} from "./Pages/Credits.tsx";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
                         </NeedAuth>
                     }/>
                 </Route>
+                <Route path='/credits' element={<Credits/>}/>
                 <Route path='/connexion' element={<Connexion/>}/>
             </Routes>
         </BrowserRouter>

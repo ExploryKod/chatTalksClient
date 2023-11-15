@@ -24,6 +24,7 @@
   display: flex;
   justify-content: center;
   transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out, color 0.25s ease-in-out;
+  z-index: 3;
 
   &.room-button {
     margin-top: 20px;

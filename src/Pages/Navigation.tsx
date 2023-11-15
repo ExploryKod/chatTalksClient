@@ -40,6 +40,14 @@ const Navigation = () => {
 
             <Outlet />
 
+            <div className="navigation">
+                <div className="nav-links-container">
+                    <Link className="nav-link" to="/credits">
+                        CREDITS
+                    </Link>
+                </div>
+            </div>
+
         </Fragment>
     )
 }

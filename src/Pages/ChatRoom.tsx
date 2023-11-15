@@ -129,8 +129,16 @@ const ChatRoom = () => {
                 console.log('WebSocket msg:', msg.message)
                 console.log('WebSocket action:', msg.action)
 
-                    if (msg?.action !== "send-message" && msg?.sender.name != "" && msg?.sender.name != undefined) {
+                    if (msg.action &&
+                        msg?.action !== "send-message" &&
+                        msg?.sender?.name != "" &&
+                        msg?.sender?.name != undefined) {
+
                         onMessageAction(msg?.action, msg?.sender?.name);
+                    }
+
+                    if(msg.action && msg?.action === "hub-joined") {
+                        toastMessage(`Bienvenue dans la salle ${name}`);
                     }
 
                     setMessages((prevMessages) => [...prevMessages,
@@ -182,10 +190,10 @@ const ChatRoom = () => {
         console.log('personName ', personName)
         if(personName && action) {
             if (personName != "" && (action === "user-join" || action === "hub-joined")) {
-                toastMessage(`${personName} vient de rejoindre le hub`);
+                toastMessage(`${personName} vient de rejoindre la salle`);
             }
             if (personName != "" && action === "user-left") {
-                toastMessage(`${personName} vient de quitter le hub`);
+                toastMessage(`${personName} vient de quitter la salle`);
             }
         }
     }
