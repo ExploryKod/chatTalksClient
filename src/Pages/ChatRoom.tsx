@@ -230,7 +230,7 @@ const ChatRoom = () => {
             {(username && username.length > 0) && (
                 <div className={`logs-container margin-y-40
                         ${messages 
-                        && messages.some(message => message.sendername === username) 
+                        && messages.some(message => message.action === "send-message") 
                         && messages.length > 2
                         ? "chat-active" : "" }
                       `} ref={messageContainerRef}
