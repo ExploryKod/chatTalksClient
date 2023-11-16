@@ -37,6 +37,7 @@
     }
 
   &.chat-active {
+    min-height: 20vh;
     border: 2px solid $darkpink;
     box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
   }
