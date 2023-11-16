@@ -161,7 +161,7 @@ return (
                 </div>
                 <div className="form-elem">
                   <button type="submit" className="button-container">
-                    {isLoading ? (<><span className="loader-container"><Loader /></span></>) : (<span>Se connecter </span>)}
+                    {isLoading ? (<><span className="loader-container loader-button-container"><Loader /></span></>) : (<span>Se connecter</span>)}
                   </button>
                 </div>
                 <div className="form-elem">
