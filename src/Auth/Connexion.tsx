@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import config from "../config/config.tsx";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
 import '../Styles/_flashMessage.scss';
@@ -157,6 +157,9 @@ return (
           </div>
         )}
       </div>
+    </div>
+    <div className="connexion__credits">
+      <Link to="/credits">Crédits</Link>
     </div>
   </main>
 );

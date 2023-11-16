@@ -2,6 +2,7 @@
 export type SenderMessage = {
     sendername: string;
     sendermessage: string;
+    action: string;
 }
 
 export type Target = {
@@ -18,4 +19,10 @@ export type Message = {
 export type RoomMessage = {
     action: string;
     message: string;
+}
+
+export type IMessage = {
+    action: string;
+    message: string;
+    target: Target;
 }

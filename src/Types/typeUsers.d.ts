@@ -1,3 +1,4 @@
+import React from 'react';
 export interface IUser {
     id: number;
     username: string;
@@ -13,5 +14,10 @@ export type UserEmailType = {
 export type passwordInput = {
     password: string;
 }
+
+export type LoadingContext = {
+    isLoading: boolean;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 

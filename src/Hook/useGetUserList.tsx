@@ -5,7 +5,7 @@ export default function useGetUserList() {
 
     const serverHost:number | string = config.serverHost;
     const { token } = useLoggedStore();
-    return function () {
+    return async function () {
         return fetch(`${serverHost}/user-list`, {
             method: 'GET',
             mode: "cors",

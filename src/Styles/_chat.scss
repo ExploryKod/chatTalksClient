@@ -5,9 +5,15 @@
     position: relative;
     max-height: 40vh;
     max-width: 80%;
+    min-width: 300px;
     padding: 10px 30px;
     overflow: auto;
     background-color: transparent;
+
+    @media screen and (min-width: 1200px) {
+      max-width: 1000px;
+      max-height: 30vh;
+    }
 
     border-radius:10px;
     margin: 0 auto;
@@ -15,8 +21,6 @@
     display: flex;
     width: 100%;
     flex-direction: column;
-
-
 
     /* Mozilla firefox */
     scrollbar-color: $darkpink transparent;
@@ -33,27 +37,88 @@
     }
 
   &.chat-active {
+    min-height: 20vh;
     border: 2px solid $darkpink;
     box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
   }
 
-  //.user-left, .user-join, .hub-joined, .hub-left {
-  //  background-color: $orange-3;
-  //}
-
   .logs-container__log {
-    margin-top: 10px;
-    padding: 15px 50px;
+    position: relative;
+    margin: 40px 10px;
+    padding: 20px 30px;
     border-radius: 10px;
+    transition: opacity 5s ease-in-out 5s;
 
-    &.log-user {
-      align-self: start;
-      background-color: $darkpink;
+    &.user-action  {
+      display: none;
+
+      .log__info {
+        display: none;
+        .info__user {
+          color: $darkBlue;
+        }
+        .info__time {
+          color: $darkBlue;
+        }
+      }
+
+      .log__message {
+        .voice-icon {
+          display: none;
+        }
+        .message__content {
+          font-size: 12px;
+          font-weight: 600;
+          color: $darkBlue;
+        }
+      }
     }
 
-    &.log-other {
+    &.log-user:not(.user-action) {
+      align-self: start;
+      background-color: $darkpink;
+
+      &:before, &:after {
+        background-color:$darkpink;
+      }
+
+      &:after {
+        bottom:-10px;
+        right:26px;
+        width:30px;
+        height:30px;
+        box-shadow: -10px -6px 0 -2px $darkBlue,
+        20px 32px 0 -6px $success,
+        2px 25px 0 -10px $warning;
+      }
+    }
+
+    &.log-other:not(.user-action) {
       align-self: end;
       background-color: $darkBlue;
+
+      &:before, &:after {
+        background-color:$darkBlue;
+      }
+
+      &:after {
+        bottom:-10px;
+        left:26px;
+        width:30px;
+        height:30px;
+        box-shadow: -10px -6px 0 -2px $darkBlue,
+        -24px 35px 0 -6px $success,
+        -2px 25px 0 -10px $warning;
+      }
+    }
+
+    &:before,
+    &:after {
+      content:"";
+      border-radius:50%;
+      display:block;
+      position:absolute;
+      z-index:-1;
     }
 
     .voice-icon {

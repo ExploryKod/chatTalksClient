@@ -25,9 +25,8 @@
   }
 
   .room-card-container {
-    min-width: 300px;
-    max-width: 50%;
-    height: 350px;
+    max-width: 80%;
+    height: auto;
     position: relative;
     margin: 0 auto;
     border-radius: 10px 10px 0 0;
@@ -37,15 +36,15 @@
 
     @keyframes slideInRight {
         0% {
-          transform: translateX(20%);
+          opacity: 0.2;
         }
         100% {
-            transform: translateX(0);
+          opacity: 1;
         }
     }
 
     @media (min-width: 576px) {
-      min-width: 450px;
+      min-width: 40%;
     }
 
     .room-image {
