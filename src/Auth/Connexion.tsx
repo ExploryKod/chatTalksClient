@@ -5,6 +5,7 @@ import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
 import '../Styles/_flashMessage.scss';
 import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
+import {Loader} from "../Component/Loader.tsx";
 
 
 const Connexion = () => {
@@ -12,6 +13,7 @@ const Connexion = () => {
   const [toggle, setToggle] = useState(true);
   const [formData, setFormData] = useState({password: "", username: ""})
   const [registerData, setRegisterData] = useState({username: "", password: ""})
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toastMessage } = useFlashMessage('')
   const navigate = useNavigate();
   const { setToken, setUsername, setAdminStatus } = useLoggedStore();
@@ -23,6 +25,7 @@ const Connexion = () => {
 
   const handleRegisterSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
 
     try {
       const response = await fetch(`${serverHost}/auth/register`, {
@@ -36,20 +39,24 @@ const Connexion = () => {
       if (response.ok) {
         const data = await response.json();
         toastMessage(data.message);
+        setIsLoading(false);
         setToggle(!toggle)
       } else if (response.status !== 500) {
         const errorData = await response.json();
         console.error("échec de l'inscription:", errorData);
+        setIsLoading(false);
         toastMessage(errorData.message);
       }
     } catch(error) {
       console.error('log failed:', error);
+      setIsLoading(false);
       toastMessage('Il y a eu une erreur dans la requête')
     }
   };
 
   const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     
     try {
       const response = await fetch(`${serverHost}/auth/logged`, {
@@ -68,17 +75,21 @@ const Connexion = () => {
           setToken(data.token);
           setUsername(formData.username);
           setAdminStatus(data.admin);
+          setIsLoading(false);
         } else {
           setToken('');
+          setIsLoading(false);
         }
         navigate(data.redirect)
       } else {
         const errorData = await response.json();
         toastMessage(errorData.message);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('log failed:', error);
       toastMessage(`Le connexion a échoué: ${error}`);
+      setIsLoading(false);
     }
   };
 
@@ -125,11 +136,15 @@ return (
               </div>
              
               <div className="form-elem">
-                <button className="button-container" type="submit">Créer son compte</button>
+                <button className="button-container" type="submit">
+                  Créer son compte
+                </button>
               </div>
               <div className="form-elem">
                 <p> Déjà inscris ?
-                 <span className="to-connexion-link" onClick={handleToggle}> Se connecter</span></p>
+                 <span className="to-connexion-link" onClick={handleToggle}>
+                   Se connecter</span>
+                </p>
               </div>
             </form>
           </div>
@@ -145,7 +160,9 @@ return (
                   <input type="text" name="password" id="password" placeholder="Mot de passe" onChange={handleChange} required />
                 </div>
                 <div className="form-elem">
-                  <button type="submit" className="button-container">Se connecter</button>
+                  <button type="submit" className="button-container">
+                    {isLoading ? (<><span className="loader-container"><Loader /></span></>) : (<span>Se connecter </span>)}
+                  </button>
                 </div>
                 <div className="form-elem">
                 <p>
