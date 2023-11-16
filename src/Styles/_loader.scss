@@ -5,7 +5,7 @@
   z-index: 199;
 
   .loader-image {
-    width: 100%;
+    width: 90%;
     animation: spin 2s linear infinite;
   }
 
@@ -16,10 +16,9 @@
 }
 
 .loader-button-container {
-  max-width: 100%;
+  width: 100%;
 
   img {
-    width: 40px;
     margin: 0 auto;
   }
 }
