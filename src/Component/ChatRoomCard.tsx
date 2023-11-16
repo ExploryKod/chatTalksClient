@@ -20,7 +20,7 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
         setRoomId(id);
         setRoomDescription(description);
         setImage(`https://source.unsplash.com/200x200/?${name.split(' ')[0]}`);
-
+        setIsLoading(false);
     }, []);
 
     const handleClick = async () => {
@@ -37,12 +37,15 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
                 console.log('réponse chatroom ok');
                 const data = await response.json();
                 console.log("chatroom DATA :", data)
+                setIsLoading(false);
             } else {
                 console.log('échec de la réponse chatroom');
+                setIsLoading(false);
             }
 
         } catch (error) {
             console.error('log failed:', error);
+            setIsLoading(false);
         }
     };
 
