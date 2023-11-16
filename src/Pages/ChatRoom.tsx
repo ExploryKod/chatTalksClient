@@ -27,6 +27,8 @@ const ChatRoom = () => {
     const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: "", action: ""}]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
+    const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
+
     console.log('DATE : ', messageDate)
     // UseRef and other queries
     const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -138,7 +140,7 @@ const ChatRoom = () => {
                     }
 
                     if(msg.action && msg?.action === "hub-joined") {
-                        toastMessage(`Bienvenue dans la salle ${name}`);
+                        onMessageAction(msg?.action, msg?.sender?.name);
                     }
 
                     setMessages((prevMessages) => [...prevMessages,
@@ -188,15 +190,28 @@ const ChatRoom = () => {
     const onMessageAction = (action: string, personName: string) => {
         console.log('action ', action)
         console.log('personName ', personName)
+
+        if(action) {
+            if(action === "hub-joined") {
+                toastMessage(`Bienvenue dans la salle`);
+                setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
+            }
+        }
+
         if(personName && action) {
-            if (personName != "" && (action === "user-join" || action === "hub-joined")) {
+            if (personName != "" && (action === "user-join")) {
                 toastMessage(`${personName} vient de rejoindre la salle`);
+                setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
             }
             if (personName != "" && action === "user-left") {
                 toastMessage(`${personName} vient de quitter la salle`);
+                setConnectedUsers((prevConnectedUsers) => prevConnectedUsers.filter((user) => user !== personName));
             }
         }
     }
+
+    console.log('-------------------')
+    console.log('Connected', connectedUsers)
 
     console.log('roomNumber', roomNumber)
     console.log('-------------------')
