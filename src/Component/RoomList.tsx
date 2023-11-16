@@ -13,13 +13,14 @@ import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import {RoomUpdateModal} from "./RoomUpdateModal.tsx";
+import {Loader} from "./Loader.tsx";
 
 export default function RoomList() {
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
     const [openUpdateRoomModal, setOpenUpdateRoomModal] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
-
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [roomList, setRoomList] = useState<IRoom[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<IRoom>();
     const getRoomList = userRoomsList();
@@ -37,6 +38,7 @@ export default function RoomList() {
                 const data = await getRoomList();
                 console.log('roomlist data', data);
                 setRoomList(data);
+                setIsLoading(false);
             } catch (error) {
                 console.error("Erreur dans la requête des listes de rooms: ", error);
                 toastMessage('Erreur dans la requête des rooms existantes', toastOptions);
@@ -61,13 +63,24 @@ export default function RoomList() {
 
     useEffect(() => {
         // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
-        // setIsLoading(false);
+        setIsLoading(true);
         setOpenConfirmRoomModal(false);
         setSelectedRoom(undefined);
     }, []);
 
     return (
         <>
+            {isLoading ? (
+                <div className="loader-lists">
+                    <div className="loader-container">
+                        <Loader />
+                    </div>
+                    <p className={"loader-text"}>Données en attente ...</p>
+                </div>
+            ): (
+                <>
+                </>
+            )}
             <div className={"user-list__container"}>
                 {!roomList || !roomList.length ?
                     (<div>

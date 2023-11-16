@@ -5,6 +5,7 @@ import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import type { IRoom, IWordLength }  from "../Types/typeRooms.d.ts";
 import config from "../config/config.tsx";
+import {Loader} from "../Component/Loader.tsx";
 
 
 const ChatRoomsPreview = () => {
@@ -21,6 +22,8 @@ const ChatRoomsPreview = () => {
     const [description, setDescription] = useState<string>('');
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
     const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
 
@@ -30,6 +33,7 @@ const ChatRoomsPreview = () => {
           const data = await getRoomsList();
           console.log('roomlist data', data);
           setRoomsList(data);
+          setIsLoading(false);
         } catch (error) {
           console.error("Erreur dans la requête des listes de salles: ", error);
           toastMessage('Erreur dans la requête des listes de salles', toastOptionsError);
@@ -50,6 +54,7 @@ const ChatRoomsPreview = () => {
 
     const createRoom = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
 
         if (roomName !== '' && description !== '') {
             try {
@@ -73,20 +78,25 @@ const ChatRoomsPreview = () => {
                     if(data.id && data.name && data.description) {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
+                        setIsLoading(false);
                         toastMessage(`${data.name} a bien été créé`, toastOptionsSuccess);
                     } else {
+                        setIsLoading(false);
                         toastMessage('échec de votre requête: élèments manquants', toastOptionsError);
                     }
                 } else {
+                    setIsLoading(false);
                     console.log('échec de la création de room');
                     toastMessage('échec dans la création de la salle', toastOptionsError);
                 }
 
             } catch (error) {
+                setIsLoading(false);
                 console.error('log failed:', error);
                 toastMessage('échec dans la création de la salle', toastOptionsError);
             }
         }else{
+            setIsLoading(false);
             setFlashMessage({alert: 'Veuillez donner un nom et une description à votre salle', name: 'alert'});
         }
     };
@@ -123,28 +133,35 @@ const ChatRoomsPreview = () => {
 
     return (
         <>
-            {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
-            <div className="rooms-container">
-                {roomsList && roomsList.length >= 6 ? (<div>
-                    <h2 className="category-title">Entrez dans l'une de nos 6 salles : </h2>
-                </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
-                    <div className="container-20 flex-center-childs-column">
-                        <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
-                            {wordLength.max && wordLength.endMessage === "" ? wordLength.text+wordLength.num+"/"+wordLength.max : wordLength.endMessage}
-                        </p>
+            {isLoading ? (
+                <div className="loader-lists">
+                    <div className="loader-container">
+                        <Loader />
                     </div>
+                    <p className={"loader-text"}>Données en attente ...</p>
+                </div>
+                ): (<div className="rooms-container">
+        {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
+        {roomsList && roomsList.length >= 6 ? (<div>
+            <h2 className="category-title">Entrez dans l'une de nos 6 salles : </h2>
+        </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
+            <div className="container-20 flex-center-childs-column">
+                <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
+                    {wordLength.max && wordLength.endMessage === "" ? wordLength.text+wordLength.num+"/"+wordLength.max : wordLength.endMessage}
+                </p>
+            </div>
 
-                    <input maxLength={30} className="input-log margin-bottom-20" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChangeName}/>
-                    <input maxLength={50} className="input-log" name={'description'} type={'text'} placeholder={'Ecrivez un thème de la salle'} onChange={handleChangeDescription}/>
-                    <button className="button-container room-button" type={'submit'}>Créer une salle</button>
-                </form>) }
-                <div className="categories-container">
-                    <div className={"category-preview-container"} >
+            <input maxLength={30} className="input-log margin-bottom-20" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChangeName}/>
+            <input maxLength={50} className="input-log" name={'description'} type={'text'} placeholder={'Ecrivez un thème de la salle'} onChange={handleChangeDescription}/>
+            <button className="button-container room-button" type={'submit'}>Créer une salle</button>
+        </form>) }
+        <div className="categories-container">
+            <div className={"category-preview-container"} >
                 {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
-                    </div>
-                </div>
             </div>
+        </div>
+    </div>)}
         </>
     );
 };

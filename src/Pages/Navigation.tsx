@@ -1,14 +1,14 @@
-import { Fragment } from 'react';
+import {Fragment, useState} from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
-
 
 const Navigation = () => {
 
     const navigate = useNavigate();
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
     const { removeToken, removeUsername, removeAdminStatus } = useLoggedStore();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
 
 
@@ -38,7 +38,7 @@ const Navigation = () => {
                 </div>
             </div>
 
-            <Outlet />
+            <Outlet context={[isLoading, setIsLoading]} />
         </Fragment>
     )
 }

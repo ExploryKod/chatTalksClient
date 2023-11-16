@@ -1,5 +1,5 @@
 import {useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 
 import type { IUser } from "../Types/typeUsers.d.ts";
 
@@ -18,13 +18,12 @@ import { IoPeopleCircleOutline } from "react-icons/io5";
 import { Tooltip } from "./Tooltip.tsx";
 import {UpdateUserModal} from "./UpdateUserModal.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
-
+import {Loader} from "./Loader.tsx";
 
 export default function UserList() {
-  // const modalConfirmRef = useRef<HTMLDivElement | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
-    const { admin, username } = useLoggedStore();
+  const { admin, username } = useLoggedStore();
   const { toastMessage, createDefaultToastOptions } = useFlashMessage("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const toastOptionsInfo = createDefaultToastOptions({type: 'info', position: 'top-center', autoClose: 3000});
   const [userList, setUserList] = useState<IUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<IUser>();
@@ -38,6 +37,7 @@ export default function UserList() {
         const data = await getUserList();
         console.log('userlist data', data);
         setUserList(data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Erreur dans la requête des listes utilisateurs: ", error);
       }
@@ -70,7 +70,7 @@ export default function UserList() {
 
   useEffect(() => {
     // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
-    // setIsLoading(false);
+    setIsLoading(true);
     setOpenConfirmModal(false);
     setOpenUpdateModal(false);
     setSelectedUser(undefined);
@@ -78,101 +78,112 @@ export default function UserList() {
 
   return (
       <>
-    <div className={"user-list__container"}>
-      {!userList || !userList.length ?
-      (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
-          (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
-            {admin !== "1" && (
-            <div>
-              <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
-            </div>)}
-          </div>)}
-          <section className="table-container">
-              <div className="table">
-                {userList && userList.length > 0 && (
-                  <div className="table-header table-row">
-                    <div>Identifiant</div>
-                    <div>Nom</div>
-                    <div>Statut</div>
-                    <div>Actions</div>
-                  </div>)}
-                {/*{(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (*/}
-                {userList.map((user) => (
-                  <div key={user.id} className="body-row">
-                    <div>{user.id}</div>
-                    <div>{user.username ? user.username : "Anonyme"}</div>
-                    <div>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</div>
-                    <div className={"table-row__actions"}>
-                      {((admin === "1" && user.admin.toString() !== "1") || user.username === username) ? (
-                      <>
-                            <Tooltip content="Supprimer" direction="top">
-                      <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
-                        <div>
-                          <button aria-label="Supprimer utilisateur"  type="button" className="btn-reset" onClick={() => handleDeleteUser(user)}>
-                            <RiDeleteBin6Line className={"trash-icon"} />
-                          </button>
-                        </div>
-                      </IconContext.Provider>
-                            </Tooltip>
-                            <Tooltip content="Modifier" direction="top">
-                        <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
-                            <div>
-                            <button aria-label="Modifier utilisateur"  type="button" className="btn-reset" onClick={() => handleUpdateUser(user)} >
-                                <FaUserCog className={"update-icon"} />
-                            </button>
-                            </div>
-                        </IconContext.Provider>
-                            </Tooltip>
-                      </>): (
-                          <>
-                              <div>
-                                {admin !== "1" ? (
-                                    <Tooltip content="Signaler" direction="top">
-                                    <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
-                                    <button aria-label="alerter un admin" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
-                                      <HiMiniBellAlert className={"trash-icon"} />
-                                    </button>
-                                    </IconContext.Provider>
-                                    </Tooltip>
-                                ):(
-                                    <Tooltip content="Signaler au comité" direction="top">
-                                    <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
-                                      <button aria-label="alerter un utilisateur" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
-                                        <IoPeopleCircleOutline className={"trash-icon"} />
-                                      </button>
-                                    </IconContext.Provider>
-                                    </Tooltip>
-                                    )}
-                              </div>
-                          </>
-                   )}
-                      <div>
-                        {(user.email && username !== user.username) && <UserEmail email={user.email} receiver={user.username} />}
-                      </div>
-                  </div>
-                  </div>
-                ))}
-                  {(openConfirmModal && selectedUser) && (
-                      <ConfirmModal
-                          userList={userList}
-                          setUserList={setUserList}
-                          selectedUser={selectedUser}
-                          setOpenConfirmModal={setOpenConfirmModal}
-                          title={"Supprimer un utilisateur"}
-                      />
-                  )}
-                {(openUpdateModal && selectedUser) &&
-                    (<UpdateUserModal
-                    userList={userList}
-                    setUserList={setUserList}
-                    selectedUser={selectedUser}
-                    setOpenUpdateModal={setOpenUpdateModal}
-                    title={"Modifier un utilisateur"}
-                    />
-                )}
+        {isLoading ? (
+            <div className="loader-lists">
+              <div className="loader-container">
+                <Loader />
               </div>
-          </section>
-    </div>
+              <p className={"loader-text"}>Données en attente ...</p>
+            </div>
+        ): (
+            <>
+              <div className={"user-list__container"}>
+                {!userList || !userList.length ?
+                    (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
+                    (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
+                      {admin !== "1" && (
+                          <div>
+                            <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
+                          </div>)}
+                    </div>)}
+                <section className="table-container">
+                  <div className="table">
+                    {userList && userList.length > 0 && (
+                        <div className="table-header table-row">
+                          <div>Identifiant</div>
+                          <div>Nom</div>
+                          <div>Statut</div>
+                          <div>Actions</div>
+                        </div>)}
+                    {/*{(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (*/}
+                    {userList.map((user) => (
+                        <div key={user.id} className="body-row">
+                          <div>{user.id}</div>
+                          <div>{user.username ? user.username : "Anonyme"}</div>
+                          <div>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</div>
+                          <div className={"table-row__actions"}>
+                            {((admin === "1" && user.admin.toString() !== "1") || user.username === username) ? (
+                                <>
+                                  <Tooltip content="Supprimer" direction="top">
+                                    <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
+                                      <div>
+                                        <button aria-label="Supprimer utilisateur"  type="button" className="btn-reset" onClick={() => handleDeleteUser(user)}>
+                                          <RiDeleteBin6Line className={"trash-icon"} />
+                                        </button>
+                                      </div>
+                                    </IconContext.Provider>
+                                  </Tooltip>
+                                  <Tooltip content="Modifier" direction="top">
+                                    <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
+                                      <div>
+                                        <button aria-label="Modifier utilisateur"  type="button" className="btn-reset" onClick={() => handleUpdateUser(user)} >
+                                          <FaUserCog className={"update-icon"} />
+                                        </button>
+                                      </div>
+                                    </IconContext.Provider>
+                                  </Tooltip>
+                                </>): (
+                                <>
+                                  <div>
+                                    {admin !== "1" ? (
+                                        <Tooltip content="Signaler" direction="top">
+                                          <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
+                                            <button aria-label="alerter un admin" type="button" className="btn-reset" onClick={() => handleAlertAdmin(user)}>
+                                              <HiMiniBellAlert className={"trash-icon"} />
+                                            </button>
+                                          </IconContext.Provider>
+                                        </Tooltip>
+                                    ):(
+                                        <Tooltip content="Signaler au comité" direction="top">
+                                          <IconContext.Provider value={{ size: "20", color: "#28a745", className: "comity-icon"}}>
+                                            <button aria-label="alerter un utilisateur" type="button" className="btn-reset" onClick={() => handleAlertComity(user)}>
+                                              <IoPeopleCircleOutline className={"trash-icon"} />
+                                            </button>
+                                          </IconContext.Provider>
+                                        </Tooltip>
+                                    )}
+                                  </div>
+                                </>
+                            )}
+                            <div>
+                              {(user.email && username !== user.username) && <UserEmail email={user.email} receiver={user.username} />}
+                            </div>
+                          </div>
+                        </div>
+                    ))}
+                    {(openConfirmModal && selectedUser) && (
+                        <ConfirmModal
+                            userList={userList}
+                            setUserList={setUserList}
+                            selectedUser={selectedUser}
+                            setOpenConfirmModal={setOpenConfirmModal}
+                            title={"Supprimer un utilisateur"}
+                        />
+                    )}
+                    {(openUpdateModal && selectedUser) &&
+                        (<UpdateUserModal
+                                userList={userList}
+                                setUserList={setUserList}
+                                selectedUser={selectedUser}
+                                setOpenUpdateModal={setOpenUpdateModal}
+                                title={"Modifier un utilisateur"}
+                            />
+                        )}
+                  </div>
+                </section>
+              </div>
+            </>
+        )}
    </>
   );
 }

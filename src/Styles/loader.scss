@@ -1,0 +1,38 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 199;
+
+  .loader-image {
+    width: 100%;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+.loader-lists {
+  position: relative;
+  width: 100%;
+  .loader-container {
+    position: relative;
+    width: 100px;
+    margin: 0 auto;
+  }
+
+  .loader-text {
+    font-size: 1em;
+    color: $darkBlue;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+}
+
+
