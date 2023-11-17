@@ -28,6 +28,7 @@ const ChatRoom = () => {
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
+    const { getMessagesByRoom, setSavedMessages, savedMessages } = useGetMessagesByRoom();
 
     console.log('DATE : ', messageDate)
     // UseRef and other queries
@@ -150,6 +151,7 @@ const ChatRoom = () => {
                             action : msg?.action,
                         }
                     ]);
+
                     setMessageDate({currentTime: currentTime.toLocaleTimeString()})
 
             })
@@ -172,7 +174,7 @@ const ChatRoom = () => {
         handleJoinRoom();
     }, [socket, roomNumber]);
 
-    const { getMessagesByRoom, setSavedMessages, savedMessages } = useGetMessagesByRoom();
+
 
     useEffect(() => {
 
@@ -182,6 +184,10 @@ const ChatRoom = () => {
         const fetchMessages = async () => {
             const data = await getMessagesByRoom(roomNumber);
             setSavedMessages(data);
+            console.log("saved messages =====> ", savedMessages);
+            setMessages((prevMessages) => [...prevMessages, ...data.messages
+            ]);
+
         };
 
         fetchMessages().then(r => console.log('r', r));

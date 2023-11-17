@@ -1,8 +1,17 @@
 
-export type SenderMessage = {
+export interface SenderMessage {
     sendername: string;
     sendermessage: string;
     action: string;
+}
+
+export interface ISavedMessage extends SenderMessage {
+    id: string;
+    userId: string;
+    roomId: string;
+    createdAt: string;
+    username: string;
+    content: string;
 }
 
 export type Target = {
