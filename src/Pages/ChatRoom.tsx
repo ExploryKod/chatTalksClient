@@ -4,7 +4,7 @@ import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import type {SenderMessage, Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
+import type { Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
 
@@ -189,12 +189,18 @@ const ChatRoom = () => {
             return;
         }
         const fetchMessages = async () => {
-            const data = await getMessagesByRoom(roomNumber);
-            setSavedMessages(data);
-            console.log("saved messages =====> ", savedMessages);
-            setMessages((prevMessages) => [...prevMessages, ...data.messages
-            ]);
-
+            try {
+                const data = await getMessagesByRoom(roomNumber);
+                setSavedMessages(data);
+                console.log("saved messages =====> ", savedMessages);
+                if(data.messages && data.messages.length > 0) {
+                    setMessages([...data.messages]);
+                } else {
+                    setMessages((prevMessages) => [...prevMessages]);
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
         };
 
         fetchMessages().then(r => console.log('r', r));
@@ -235,18 +241,25 @@ const ChatRoom = () => {
 
     return (
         <>
-            <div className={`logs-container margin-y-40 ${savedMessages ? "chat-active" : "make-none"}`}>
-                {messages.filter(message => message.sendername != undefined || message.username != undefined).map((message, index) => (
-                        <div key={index} className={`logs-container__log`} >
-                            <div className="log__info bgd-darkBlue">
-                                <span className="info__user">{message.username+ " : "}</span>
-                                <span className="info__time">{}</span>
-                            </div>
-                            <div className="log__message  bgd-darkLavender"><BiSolidUserVoice className="voice-icon"/>&nbsp;
-                                <span className="message__content">{message?.content}</span>
-                            </div>
-
-                        </div>
+            <div className={`card ${savedMessages ? "chat-active" : "make-none"}`}>
+                <h1>Mon historique</h1>
+                {(messages.length && messages.length > 0 && savedMessages) &&
+                    Array.from({ length: Math.ceil(messages.length / 10) }, (_, i) => (
+                        <details className={`${i % 2 === 0 ? "warning" : "alert"}`} key={i}>
+                            <summary>Anciens messages {i * 10 + 1} - {Math.min((i + 1) * 10, messages.length)}</summary>
+                            {messages.slice(i * 10, (i + 1) * 10)
+                                .filter(message => message.sendername != undefined || message.username != undefined)
+                                .map((message, index) => (
+                                    <div key={index} className={`logs-container__log`} >
+                                        <div className="log__info bgd-darkBlue padding-10">
+                                            <span className="info__user text-white">{message.username+ " : "}</span>
+                                        </div>
+                                        <div className="log__message bgd-darkLavender padding-10"><BiSolidUserVoice className="voice-icon"/>&nbsp;
+                                            <span className="message__content">{message?.content}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                        </details>
                     ))}
             </div>
             <div className="flex-center-childs-column margin-y-40">
