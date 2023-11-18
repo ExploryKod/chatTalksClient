@@ -31,7 +31,7 @@
             top: 10%;
             left:50%;
             transform: translate(-50%,-2%);
-            max-height:400px;
+            max-height:600px;
             border-radius:35px;
             box-shadow: 0 11px 34px 0 rgb(0 0 0 / 20%);
             padding: 0;
@@ -72,7 +72,7 @@
                 min-width:460px;
             }
           
-            .container-connexion, .container-inscription{
+            .container-connexion, .container-inscription {
                 padding:10px 20px;
                 display:flex;
                 flex-direction: column;

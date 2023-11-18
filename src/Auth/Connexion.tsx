@@ -127,13 +127,17 @@ return (
                 <input type="text" name="username" id="username-register" placeholder="Votre pseudo" onChange={handleRegisterChange} required  />
               </div>
               <div className="form-elem">
+                <label htmlFor="email-register"></label>
+                <input type="email" name="email" id="email-register" placeholder="Votre email" onChange={handleRegisterChange} required  />
+              </div>
+              <div className="form-elem">
                 <label htmlFor="password-register"></label>
                 <input type="text" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
                 <div className="margin-top-5 padding-20">
                   {(isError && isError != "") && <p className={`text-red`}>{isError}</p>}
                 </div>
-
               </div>
+
              
               <div className="form-elem">
                 <button className="button-container" type="submit">
@@ -141,9 +145,7 @@ return (
                 </button>
               </div>
               <div className="form-elem">
-                <p> Déjà inscris ?
-                 <span className="to-connexion-link" onClick={handleToggle}>
-                   Se connecter</span>
+                <p> Déjà inscris ? <span className="to-connexion-link" onClick={handleToggle}>Se connecter</span>
                 </p>
               </div>
             </form>
