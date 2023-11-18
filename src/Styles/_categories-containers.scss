@@ -22,14 +22,47 @@
 }
 
 .category-title {
+  position: relative;
   font-size:38px;
-  margin-bottom:25px;
   text-align: center;
+  margin: 0 auto 0 auto;
+
+  &.--left {
+    text-align: left;
+    margin: 0 0 20px 25px;
+  }
+
+  &.under-line::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    bottom: 5px;
+    height: 10px;
+    width: 90%;
+    background: $darkLavender-80;
+    z-index: -1;
+  }
 }
 
 .category-text {
+  position: relative;
   grid-column: 1 / span 4;
   font-size:24px;
-  margin:15px 0;
-  text-align: center;
+  margin: 0 auto 10px auto;
+
+  &.--left {
+    text-align: left;
+    margin: 0 0 10px 25px;
+  }
+
+  &.under-line::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    bottom: 5px;
+    height: 8px;
+    width: 90%;
+    background: $darkLavender-80;
+    z-index: -1;
+  }
 }

@@ -7,6 +7,7 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 import type { Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
+import {OldMessages} from "../Component/OldMessages.tsx";
 
 interface IDateMessage {
     currentTime: string;
@@ -29,6 +30,7 @@ const ChatRoom = () => {
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
     const { getMessagesByRoom, setSavedMessages, savedMessages } = useGetMessagesByRoom();
+    const [ openHistory, setOpenHistory ] = useState<boolean>(false)
 
     console.log('DATE : ', messageDate)
     // UseRef and other queries
@@ -37,6 +39,7 @@ const ChatRoom = () => {
     const description: string | null = queryParams.get('description');
 
     useEffect(() => {
+
         const messageContainer = messageContainerRef.current;
 
         if (!messageContainer) {
@@ -241,31 +244,11 @@ const ChatRoom = () => {
 
     return (
         <>
-            <div className={`card ${savedMessages ? "chat-active" : "make-none"}`}>
-                <h1>Mon historique</h1>
-                {(messages.length && messages.length > 0 && savedMessages) &&
-                    Array.from({ length: Math.ceil(messages.length / 10) }, (_, i) => (
-                        <details className={`${i % 2 === 0 ? "warning" : "alert"}`} key={i}>
-                            <summary>Anciens messages {i * 10 + 1} - {Math.min((i + 1) * 10, messages.length)}</summary>
-                            {messages.slice(i * 10, (i + 1) * 10)
-                                .filter(message => message.sendername != undefined || message.username != undefined)
-                                .map((message, index) => (
-                                    <div key={index} className={`logs-container__log`} >
-                                        <div className="log__info bgd-darkBlue padding-10">
-                                            <span className="info__user text-white">{message.username+ " : "}</span>
-                                        </div>
-                                        <div className="log__message bgd-darkLavender padding-10"><BiSolidUserVoice className="voice-icon"/>&nbsp;
-                                            <span className="message__content">{message?.content}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                        </details>
-                    ))}
-            </div>
-            <div className="flex-center-childs-column margin-y-40">
-                <h1 className="category-title"> {name} </h1>
-                <h2 className="category-text text-darkBlue"> Bienvenue {username} </h2>
-                <p className="category-text text-darkpink"> {description}</p>
+            <div className={"flex-childs-column --flex-centered"}>
+            <div className="margin-y-40">
+                <h1 className="category-title --left under-line"> {name} </h1>
+                <h2 className="category-text --left text-darkBlue"> Bienvenue {username} </h2>
+                <p className="category-text --left text-darkpink"> {description}</p>
             </div>
             {(username && username.length > 0) && (
                 <div className={`logs-container margin-y-40
@@ -275,6 +258,9 @@ const ChatRoom = () => {
                         ? "chat-active" : "" }
                       `} ref={messageContainerRef}
                 >
+                    <button type={"button"} className={`button-container 
+                    ${(savedMessages.messages && savedMessages.messages.length > 0) ? "width-10 c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
+                            onClick={() => setOpenHistory(true)}>Historique</button>
                 {messages
                     .filter((message) =>
                         message.sendermessage != ""
@@ -294,6 +280,7 @@ const ChatRoom = () => {
                         </div>
                 ))}
                 </div>)}
+            </div>
             {username && username.length > 0 ? (
             <form className="message-form margin-top-20" onSubmit={sendMessage}>
                 <div className="message-form__submit">
@@ -320,6 +307,8 @@ const ChatRoom = () => {
                     <h2 className="category-text text-lightLavender padding-30 bgd-black"> Veuillez vous déconnecter puis vous reconnecter pour chatter </h2>
                 </div>
             )}
+            {openHistory &&
+            <OldMessages messages={messages} savedMessages={savedMessages} setOpenHistory={setOpenHistory} />}
         </>
     );
 };

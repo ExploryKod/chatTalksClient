@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { useLoggedStore } from "../StateManager/userStore";
 import config from '../config/config.js';
-import type {ISavedMessage} from '../Types/typeChat';
+import type {IMessagesSaved} from '../Types/typeChat';
 
 export default function useGetMessagesByRoom() {
-    const [savedMessages, setSavedMessages] = useState<ISavedMessage[]>([]);
+    const [savedMessages, setSavedMessages] = useState<IMessagesSaved>({message: "", messages: []});
     const { token } = useLoggedStore();
     const serverHost:string = config.serverHost;
     const getMessagesByRoom = async (roomId: string) => {
