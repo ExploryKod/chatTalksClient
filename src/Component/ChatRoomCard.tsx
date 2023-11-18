@@ -34,7 +34,6 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
             });
 
             if (response.ok) {
-                console.log('réponse chatroom ok');
                 const data = await response.json();
                 console.log("chatroom DATA :", data)
                 setIsLoading(false);
