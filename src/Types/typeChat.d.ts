@@ -1,17 +1,17 @@
 
 export interface SenderMessage {
-    sendername: string;
-    sendermessage: string;
-    action: string;
+    sendername: string | null;
+    sendermessage: string | null;
+    action: string | null;
 }
 
 export interface ISavedMessage extends SenderMessage {
-    id: string;
-    userId: string;
-    roomId: string;
-    createdAt: string;
-    username: string;
-    content: string;
+    id: string | null;
+    user_id: string | null;
+    room_id: string | null;
+    created_at: string | null;
+    username: string | null;
+    content: string | null;
 }
 
 export type Target = {

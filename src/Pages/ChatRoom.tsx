@@ -4,7 +4,7 @@ import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import type { SenderMessage, Message, RoomMessage } from '../Types/typeChat.d.ts';
+import type {SenderMessage, Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
 
@@ -24,7 +24,7 @@ const ChatRoom = () => {
 
     // UseStates
     const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: ""});
-    const [messages, setMessages] = useState<SenderMessage[]>([{sendername: "", sendermessage: "", action: ""}]);
+    const [messages, setMessages] = useState<ISavedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
@@ -149,6 +149,13 @@ const ChatRoom = () => {
                             sendername: msg?.sender?.name,
                             sendermessage: msg?.message,
                             action : msg?.action,
+                            id: null,
+                            content: null,
+                            username: null,
+                            room_id: null,
+                            user_id: null,
+                            created_at: null,
+
                         }
                     ]);
 
@@ -228,6 +235,20 @@ const ChatRoom = () => {
 
     return (
         <>
+            <div className={`logs-container margin-y-40 ${savedMessages ? "chat-active" : "make-none"}`}>
+                {messages.filter(message => message.sendername != undefined || message.username != undefined).map((message, index) => (
+                        <div key={index} className={`logs-container__log`} >
+                            <div className="log__info bgd-darkBlue">
+                                <span className="info__user">{message.username+ " : "}</span>
+                                <span className="info__time">{}</span>
+                            </div>
+                            <div className="log__message  bgd-darkLavender"><BiSolidUserVoice className="voice-icon"/>&nbsp;
+                                <span className="message__content">{message?.content}</span>
+                            </div>
+
+                        </div>
+                    ))}
+            </div>
             <div className="flex-center-childs-column margin-y-40">
                 <h1 className="category-title"> {name} </h1>
                 <h2 className="category-text text-darkBlue"> Bienvenue {username} </h2>
@@ -247,7 +268,6 @@ const ChatRoom = () => {
                         && message.sendername != undefined
                         && message.sendername != "")
                         .map((message, index) => (
-                        <>
                         <div key={index} className={`logs-container__log 
                         ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.sendername === username ? 'log-user' : 'log-other'}`} >
                             <div className="log__info">
@@ -259,7 +279,6 @@ const ChatRoom = () => {
                             </div>
 
                         </div>
-                        </>
                 ))}
                 </div>)}
             {username && username.length > 0 ? (
