@@ -1,12 +1,22 @@
 @import 'bases/variables';
 
 .navigation {
+  position: relative;
   background-color: $darkBlue;
-  height: 70px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
+
+  &.--justify-between {
+    justify-content: space-between;
+  }
+
+  &.--vertical {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    max-width: 200px;
+    height: 100%;
+  }
 
   .logo-container {
     height: 100%;
@@ -21,11 +31,16 @@
   }
 
   .nav-links-container {
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
+
+    &.--vertical {
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+      padding-left: 10px;
+    }
 
     .nav-link {
       font-size: 18px;
@@ -34,10 +49,14 @@
       font-weight: 600;
       cursor: pointer;
 
+      &.--hide {
+        display: none;
+      }
+
       &:hover {
         color: $darkpink;
-       
       }
+
     }
     button.nav-link {
       background-color: transparent;
@@ -48,3 +67,51 @@
   }
 }
 
+// colors
+$bgColor: #FFFFFF;
+$borderColor: #00BCD4;
+
+// sizes
+$avatarSize: 100px;
+$borderWidth: 5px;
+$paddingSize: 20px;
+
+// some calculations
+$translateValue: -$paddingSize - $borderWidth;
+
+.avatar-container {
+  border: $borderWidth solid $bgColor;
+  box-sizing: border-box;
+  height: $avatarSize;
+  border-radius: 50%;
+  position: relative;
+  width: $avatarSize;
+
+  &__image {
+    width: 100%;
+    border-radius: 50%;
+  }
+
+  &::before,
+  &::after {
+    border: $borderWidth solid transparent;
+    border-radius: 50%;
+    border-top: $borderWidth solid $borderColor;
+    content:"";
+    display: block;
+    height: calc(100% + 10px);
+    left: 50%;
+    width: calc(100% + 10px);
+    position: absolute;
+  }
+
+  &::before {
+    top: -2 * $borderWidth;
+    transform: translateX(-50%);
+  }
+
+  &::after {
+    bottom: -2 * $borderWidth;
+    transform: translateX(-50%) rotate(180deg);
+  }
+}

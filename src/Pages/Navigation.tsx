@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import {Fragment } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
@@ -7,10 +7,9 @@ const Navigation = () => {
 
     const navigate = useNavigate();
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
-    const { removeToken, removeUsername, removeAdminStatus } = useLoggedStore();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { removeToken, removeUsername, removeAdminStatus, admin } = useLoggedStore();
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
-
+    const avatarImg :string = "https://picsum.photos/id/1011/500/500"
 
     const handleLogout = () => {
         removeToken();
@@ -23,22 +22,33 @@ const Navigation = () => {
 
     return (
         <Fragment>
-            <div className='navigation'>
-            
-                <div className='nav-links-container'>
+            <div className='navigation --vertical --justify-between padding-top-30'>
+
+                <div className='nav-links-container --vertical'>
+                    <div className="nav-link">
+                        <div className="avatar-container margin-bottom-30">
+                            <img className="avatar-container__image" src={avatarImg} alt="avatar"/>
+                        </div>
+                    </div>
+
                     <Link className='nav-link' to='/'>
-                        BOARD
+                        Board
                     </Link>
                     <Link className='nav-link' to='/chat'>
-                        SALONS
+                        Salon
                     </Link>
+                    {admin !== "1" && (
+                        <Link className="nav-link" to={"/become-admin"}>Devenir Adminstrateur</Link>
+                    )}
+                </div>
+                <div className='nav-links-container --vertical'>
                     <button className='nav-link' onClick={handleLogout}>
-                        LOGOUT
+                        Se déconnecter
                     </button>
                 </div>
             </div>
 
-            <Outlet context={[isLoading, setIsLoading]} />
+            <Outlet />
         </Fragment>
     )
 }

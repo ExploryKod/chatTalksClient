@@ -1,5 +1,5 @@
 import {useEffect, useState } from "react";
-import {Link } from "react-router-dom";
+
 
 import type { IUser } from "../Types/typeUsers.d.ts";
 
@@ -91,10 +91,7 @@ export default function UserList() {
                 {!userList || !userList.length ?
                     (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
                     (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
-                      {admin !== "1" && (
-                          <div>
-                            <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
-                          </div>)}
+
                     </div>)}
                 <section className="table-container">
                   <div className="table">
