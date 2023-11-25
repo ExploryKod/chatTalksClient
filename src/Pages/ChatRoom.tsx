@@ -73,7 +73,7 @@ const ChatRoom = () => {
         }
         socket.send(JSON.stringify(messageInput));
         console.log('username', username)
-        const response: Promise<Response> = fetch('http://localhost:8000/send-message', {
+        const response: Promise<Response> = fetch('https://go-chat-docker.onrender.com/send-message', {
             method: 'POST',
             mode: "cors",
             credentials: 'same-origin',
