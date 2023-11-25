@@ -106,7 +106,7 @@ export default function UserList() {
                           <div>Actions</div>
                         </div>)}
                     {/*{(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (*/}
-                    {userList.map((user) => (
+                    {userList.filter(user => user.email ? user.email : "aucun email").map((user) => (
                         <div key={user.id} className="body-row">
                           <div>{user.id}</div>
                           <div>{user.username ? user.username : "Anonyme"}</div>
