@@ -6,10 +6,42 @@ import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
 import BecomeAdmin from "./Pages/BecomeAdmin.tsx";
 import {Credits} from "./Pages/Credits.tsx";
+import { ErrorBoundary } from 'react-error-boundary'
+import { useState } from "react";
+
+function FallbackComponent({ error, resetErrorBoundary }: any) {
+    return (
+        <div role="alert" className="boundary-error">
+            <div className="boundary-error__inner">
+                <h1>Oups...</h1>
+                <p>Une erreur est survenue.</p>
+                <p>Vérifiez votre connexion ou contactez un administrateur</p>
+                <button onClick={resetErrorBoundary}>Réessayer</button>
+                <div className="inner__error">
+                    <pre>{error.message}</pre>
+                </div>
+            </div>
+
+
+        </div>
+    )
+}
+
+function logErrorToService(error: any, info: any) {
+    // Use your preferred error logging service
+    console.error("Caught an error:", error, info);
+}
 
 function App() {
+    const [someKey, setSomeKey] = useState(null);
 
     return (
+        <ErrorBoundary
+            FallbackComponent={FallbackComponent}
+            onError={logErrorToService}
+            onReset={() => setSomeKey(null)} // reset the state of your app here
+            resetKeys={[someKey]} // reset the error boundary when `someKey` changes
+        >
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Navigation/>}>
@@ -33,6 +65,7 @@ function App() {
                 <Route path='/connexion' element={<Connexion/>}/>
             </Routes>
         </BrowserRouter>
+        </ErrorBoundary>
     );
 }
 

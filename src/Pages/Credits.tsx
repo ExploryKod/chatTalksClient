@@ -1,7 +1,7 @@
 import { IoIosLink } from "react-icons/io";
 export const Credits = () => {
     return (
-        <div className="category-container">
+        <main className="category-container">
             <h1 className="category-text">Crédits</h1>
             <div className="b-shadow-1 padding-10 margin-x-40 bgd-darkpink border-radius-5">
                 <h2 className="text-white">Icone de chat sur la page de login: </h2>
@@ -10,6 +10,6 @@ export const Credits = () => {
                     <a href="https://www.flaticon.com/free-icons/cat" title="cat icons">Cat icons created by Freepik - Flaticon</a>
                 </p>
             </div>
-        </div>
+        </main>
     )
 }

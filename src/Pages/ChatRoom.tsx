@@ -108,7 +108,6 @@ const ChatRoom = () => {
         }
         socket.send(JSON.stringify({action: 'join-hub', message: roomNumber} as RoomMessage));
 
-        // setRooms((prevRooms) => [...prevRooms, {name: roomNumber, messages: []}]);
     }
 
     useEffect(() => {
@@ -194,7 +193,9 @@ const ChatRoom = () => {
         const fetchMessages = async () => {
             try {
                 const data = await getMessagesByRoom(roomNumber);
+                // Enable it only for few message to avoid too much data in bdd - use localstorage instead
                 setSavedMessages(data);
+                console.log("get messages by room =====> ", data);
                 console.log("saved messages =====> ", savedMessages);
                 if(data.messages && data.messages.length > 0) {
                     setMessages([...data.messages]);
@@ -232,18 +233,26 @@ const ChatRoom = () => {
         }
     }
 
-    console.log('-------------------')
+    console.log('------------!!!-------------')
     console.log('Connected', connectedUsers)
-
+    console.log('-----------|||--------')
     console.log('roomNumber', roomNumber)
-    console.log('-------------------')
+    console.log('-----------++++--------')
     console.log('SAVED MESSAGES', savedMessages)
-    console.log('-------------------')
+    console.log('----------+++---------')
     console.log('messageInput', messageInput)
+    console.log('---------oooo----------')
     console.log('messages', messages)
+    console.log('---------//----------')
+
+
+
+    useEffect(() => {
+        localStorage.setItem('messages', JSON.stringify(messages));
+    }, [messages]);
 
     return (
-        <>
+        <main className="main-container">
             <div className={"flex-childs-column --flex-centered"}>
             <div className="margin-y-40">
                 <h1 className="category-title --left under-line"> {name} </h1>
@@ -309,7 +318,7 @@ const ChatRoom = () => {
             )}
             {openHistory &&
             <OldMessages messages={messages} savedMessages={savedMessages} setOpenHistory={setOpenHistory} />}
-        </>
+        </main>
     );
 };
 
