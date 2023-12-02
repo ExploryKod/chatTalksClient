@@ -1,9 +1,11 @@
 @import 'bases/variables';
 
 .navigation {
-  position: relative;
+  position: fixed;
+  height: 100vh;
+  z-index: $z-medium;
   background-color: $darkBlue;
-  width: 100%;
+  max-width: 20%;
   display: flex;
 
   &.--justify-between {

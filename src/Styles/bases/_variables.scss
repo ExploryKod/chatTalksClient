@@ -11,6 +11,15 @@ $SF-PRO-DISPLAY-MEDIUM: 'Arial';
 $SF-PRO-DISPLAY-REGULAR: 'Arial';
 $NotoSans: 'Noto Sans', sans-serif;
 
+/* z index scale */
+$z-least: -9999;
+$z-less-xl: -1000;
+$z-less-lg: -100;
+$z-base: 1;
+$z-more-lg: 100;
+$z-more-xl: 1000;
+$z-toppest: 9999;
+
 /* Breakpoints */
 $grid-breakpoints: (
   xs: 0,
