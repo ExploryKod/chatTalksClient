@@ -1,11 +1,14 @@
-/* Bases */
+/* variables and mixins */
 @import './Styles/bases/variables';
+@import './Styles/bases/mixins';
+@import './Styles/bases/responsive';
+
+/* Bases */
 @import './Styles/bases/reset';
 
 /* utilities */
-@import './Styles/bases/mixins';
-@import './Styles/bases/responsive';
 @import './Styles/bases/utilities';
+@import './Styles/bases/utilities-sm';
 
 /* Layouts */
 @import './Styles/bases/layout.scss';

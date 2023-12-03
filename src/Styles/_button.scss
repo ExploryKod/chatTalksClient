@@ -1,3 +1,18 @@
+.btn-mini {
+  background: $darkBlue;
+  color: $lightLavender;
+  border: none;
+  border-radius: 15px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background 0.25s ease-in-out;
+
+  &:hover {
+    background: $darkpink;
+    color: #fff;
+  }
+}
+
 .btn-reset {
   background: none;
   border: none;

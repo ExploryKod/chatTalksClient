@@ -16,7 +16,7 @@
         transition: background-color 0.5s ease-in-out;
 
         @media (min-width: 500px) {
-            background-color: $blue;
+            background-color: $mediumBlue;
             background-image: url('https://images.pexels.com/photos/18110326/pexels-photo-18110326/free-photo-of-rue-mignon-chats-chaussee.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
             background-repeat: no-repeat;
             background-position: center;
@@ -26,7 +26,7 @@
         
 
         .inner-connexion{
-            background-color: $blue;
+            background-color: $mediumBlue;
             position:absolute;
             top: 10%;
             left:50%;
@@ -223,7 +223,7 @@
 
             &:focus{
                 outline: none;
-                border: 1px solid $darkBlue;
+                border: 1px solid $mediumBlue;
             }
 
             &.error{
@@ -241,7 +241,7 @@
             cursor: pointer;
             z-index: 3;
             &:hover{
-                color: $darkBlue;
+                color: $darkpink;
             }
         }
     }
@@ -256,12 +256,13 @@
     text-align: center;
     font-size: 12px;
     color: $lightLavender;
-    background-color: $blue;
+    background-color: $mediumBlue;
     z-index: 3;
 
     a {
         color: $lightLavender;
         &:hover{
+            opacity: 1;
             color: $darkpink;
         }
     }

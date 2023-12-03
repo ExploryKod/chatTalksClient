@@ -2,6 +2,7 @@ import {Fragment } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
+import { LogOut } from 'lucide-react';
 
 const Navigation = () => {
 
@@ -23,27 +24,28 @@ const Navigation = () => {
     return (
         <Fragment>
             <div className='navigation --vertical --justify-between padding-top-30'>
-
-                <div className='nav-links-container --vertical'>
-                    <div className="nav-link">
+                <div className='nav-links-container --vertical first-nav'>
+                    <div className="nav-link avatar">
                         <div className="avatar-container margin-bottom-30">
                             <img className="avatar-container__image" src={avatarImg} alt="avatar"/>
                         </div>
                     </div>
-
-                    <Link className='nav-link' to='/'>
+                </div>
+                <div className='nav-links-container --vertical second-nav'>
+                    <Link className='nav-link board' to='/'>
                         Board
                     </Link>
-                    <Link className='nav-link' to='/chat'>
+                    <Link className='nav-link salon' to='/chat'>
                         Salon
                     </Link>
                     {admin !== "1" && (
-                        <Link className="nav-link" to={"/become-admin"}>Devenir Adminstrateur</Link>
+                        <Link className="nav-link admin" to={"/become-admin"}>Devenir Adminstrateur</Link>
                     )}
                 </div>
-                <div className='nav-links-container --vertical'>
-                    <button className='nav-link' onClick={handleLogout}>
-                        Se déconnecter
+                <div className='nav-links-container --vertical last-nav'>
+                    <button className='nav-link exit-btn' onClick={handleLogout}>
+                        <span>Se déconnecter</span>
+                        <span className="exit-btn__icon"><LogOut  size={24} /></span>
                     </button>
                 </div>
             </div>
