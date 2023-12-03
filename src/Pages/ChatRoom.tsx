@@ -4,14 +4,15 @@ import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import type { Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
+import type {Message, RoomMessage, ISavedMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
 import {OldMessages} from "../Component/OldMessages.tsx";
+import {useMessagesStore} from "../StateManager/roomStore.ts";
 
-interface IDateMessage {
-    currentTime: string;
-}
+// interface IDateMessage {
+//     currentTime: string;
+// }
 
 const ChatRoom = () => {
     const serverWsHost: string = config.serverWsHost;
@@ -24,15 +25,16 @@ const ChatRoom = () => {
     const { toastMessage } = useFlashMessage('');
 
     // UseStates
-    const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: ""});
+    // const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: ""});
     const [messages, setMessages] = useState<ISavedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
-    const { getMessagesByRoom, setSavedMessages, savedMessages } = useGetMessagesByRoom();
+    const { getMessagesByRoom, setSavedMessages, savedMessages} = useGetMessagesByRoom();
     const [ openHistory, setOpenHistory ] = useState<boolean>(false)
+    const { setRoomId, setSendername, setSendermessage, setAction } = useMessagesStore()
 
-    console.log('DATE : ', messageDate)
+
     // UseRef and other queries
     const messageContainerRef = useRef<HTMLDivElement>(null);
     const name: string | null = queryParams.get('name');
@@ -93,6 +95,7 @@ const ChatRoom = () => {
         })
 
         console.log('response', response)
+        localStorage.setItem('messages', JSON.stringify(messages));
 
         setMessageInput({
             action: "send-message", message: "", target: {
@@ -100,7 +103,19 @@ const ChatRoom = () => {
                 name: roomNumber
             }
         });
+
+
+
     };
+
+
+    useEffect(() => {
+        // Load the messages from localStorage
+        const savedMessages = localStorage.getItem('messages');
+        if (savedMessages) {
+            setMessages(JSON.parse(savedMessages));
+        }
+    }, []);
 
     const handleJoinRoom = () => {
         if (!socket) {
@@ -111,7 +126,7 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
-        const currentTime: Date = new Date();
+        // const currentTime: Date = new Date();
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
@@ -154,14 +169,14 @@ const ChatRoom = () => {
                             id: null,
                             content: null,
                             username: null,
-                            room_id: null,
+                            room_id: roomNumber ? roomNumber : null,
                             user_id: null,
                             created_at: null,
 
                         }
                     ]);
 
-                    setMessageDate({currentTime: currentTime.toLocaleTimeString()})
+                    // setMessageDate({currentTime: currentTime.toLocaleTimeString()})
 
             })
         };
@@ -233,6 +248,21 @@ const ChatRoom = () => {
         }
     }
 
+    const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMessageInput({
+        action: "send-message",
+        message: e.target.value,
+        target: {
+            id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
+            name: roomNumber
+        }})
+
+        setRoomId(roomNumber ? roomNumber : "")
+        setSendername(username)
+        setSendermessage(e.target.value)
+        setAction('message-saved')
+    }
+
     console.log('------------!!!-------------')
     console.log('Connected', connectedUsers)
     console.log('-----------|||--------')
@@ -245,11 +275,6 @@ const ChatRoom = () => {
     console.log('messages', messages)
     console.log('---------//----------')
 
-
-
-    useEffect(() => {
-        localStorage.setItem('messages', JSON.stringify(messages));
-    }, [messages]);
 
     return (
         <main className="main-container">
@@ -267,7 +292,7 @@ const ChatRoom = () => {
                         ? "chat-active" : "" }
                       `} ref={messageContainerRef}
                 >
-                    <button type={"button"} className={`button-container 
+                    <button type={"button"} className={`btn-mini max-width-150
                     ${(savedMessages.messages && savedMessages.messages.length > 0) ? "width-10 c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
                             onClick={() => setOpenHistory(true)}>Historique</button>
                 {messages
@@ -302,14 +327,7 @@ const ChatRoom = () => {
                     id="msg"
                     placeholder='Ecrivez votre message'
                     value={messageInput.message}
-                    onChange={(e) => setMessageInput({
-                        action: "send-message",
-                        message: e.target.value,
-                        target: {
-                            id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
-                            name: roomNumber
-                        }
-                    })}
+                    onChange={handleMessageChange}
                 />
             </form>) : (
                 <div className="categories-container">
