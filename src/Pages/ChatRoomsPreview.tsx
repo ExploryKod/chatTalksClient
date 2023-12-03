@@ -103,7 +103,7 @@ const ChatRoomsPreview = () => {
 
 
     return (
-        <>
+        <main className={"main-container padding-x-50"} >
             {isLoading ? (
                 <div className="loader-lists">
                     <div className="loader-container">
@@ -111,10 +111,15 @@ const ChatRoomsPreview = () => {
                     </div>
                     <p className={"loader-text"}>Données en attente ...</p>
                 </div>
-                ): (<div className="rooms-container">
+                ): (<div className="">
         {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
-        <div className="categories-container">
-            <div className={"category-preview-container"} >
+                <div className="padding-y-50">
+                    <button className="btn-mini" onClick={() => setOpenCreateRoomModal(true)}>Créer une salle</button>
+                </div>
+
+
+                <div className="center-me">
+            <div className={"padding-20 bgd-darkpink border-radius-10"} >
                 {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
             </div>
@@ -130,7 +135,7 @@ const ChatRoomsPreview = () => {
                     setOpenCreateRoomModal={setOpenCreateRoomModal}
                 />
             )}
-        </>
+        </main>
     );
 };
 

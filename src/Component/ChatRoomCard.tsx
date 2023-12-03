@@ -53,16 +53,25 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
 
     return (
         isLoading ? (<div className="loader-lists"><div className='loader-container'><Loader/></div></div>) :
-            (<div className={`room-card-container card-${name}`}>
-                <img className="room-image" src={image ? image : imageUrl} alt={`${name}`}/>
-                <div className='body'>Thème du chat: <span>{description}</span></div>
-                <Link onClick={handleClick} className='card-link title'
-                      to={{
-                          pathname: `${id.toString()}`,
-                          search: queryChat
-                      }}>
-                    {name && name.length > 0 ? `${name.toLowerCase()}` : 'Entrez dans cette salle'}
-                </Link>
+            (<div className={`rooms-card bgd-white margin-y-20 max-width-600 border-radius-10`}>
+                <div className="rooms-card__img">
+                    <img src={image ? image : imageUrl} alt={`${name}`}/>
+                </div>
+                <div className='rooms-card__desc'>
+                    <div>
+                        <p>Thème: <span>{description} </span></p>
+                    </div>
+                    <div>
+                    <Link onClick={handleClick} className='btn-mini'
+                          to={{
+                              pathname: `${id.toString()}`,
+                              search: queryChat
+                          }}>
+                        {name && name.length > 0 ? `${name.toLowerCase()}` : 'Entrez dans cette salle'}
+                    </Link>
+                    </div>
+                </div>
+
             </div>)
     );
 
