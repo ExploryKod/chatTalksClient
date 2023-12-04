@@ -27,6 +27,7 @@ const ChatRoom = () => {
     // UseStates
     // const [messageDate, setMessageDate] = useState<IDateMessage>({currentTime: ""});
     const [messages, setMessages] = useState<ISavedMessage[]>([]);
+    const [messagesStored, setStoredMessages] = useState<ISavedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<Message>({action: "send-message", message: "", target: {id: "", name: roomNumber}});
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
@@ -95,7 +96,10 @@ const ChatRoom = () => {
         })
 
         console.log('response', response)
-        localStorage.setItem('messages', JSON.stringify(messages));
+        messages.filter((message: ISavedMessage) => message.room_id === roomNumber && message.action === "send-message").map((message: ISavedMessage) => {
+            setStoredMessages((prevMessages) => [...prevMessages, message]);
+        });
+        localStorage.setItem('messages', JSON.stringify(messagesStored));
 
         setMessageInput({
             action: "send-message", message: "", target: {
@@ -112,8 +116,11 @@ const ChatRoom = () => {
     useEffect(() => {
         // Load the messages from localStorage
         const savedMessages = localStorage.getItem('messages');
-        if (savedMessages) {
-            setMessages(JSON.parse(savedMessages));
+
+        if (savedMessages && roomNumber) {
+            JSON.parse(savedMessages).filter((message: ISavedMessage) => message.room_id === roomNumber).map((message: ISavedMessage) => {
+                setMessages((prevMessages) => [...prevMessages, message]);
+            });
         }
     }, []);
 
