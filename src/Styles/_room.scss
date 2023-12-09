@@ -1,21 +1,25 @@
 .rooms-card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  height: 250px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
 
   &__img {
-    width: auto;
-    height: 100%;
+    width: 100%;
+    height: 250px;
     grid-column: 1;
 
     img {
-      width: auto;
-      height: 100%;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px 0 0 10px;
     }
   }
 
   &__desc {
-    grid-column: 2;
+    grid-column: 2 / -1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -25,9 +29,32 @@
       flex-basis: 50%;
     }
 
-    .btn-mini {
-      margin: 0 auto;
+    .card-desc__title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
+
+    .card-desc__text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card-desc__btn {
+      position: relative;
+      font-size: 18px;
+      font-weight: 600;
+
+      .btn-mini {
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        margin: 0 auto;
+      }
+    }
+
   }
 }
 

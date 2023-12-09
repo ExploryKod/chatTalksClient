@@ -112,17 +112,19 @@ const ChatRoom = () => {
 
     };
 
-
+    const isMounted = useRef(true);
     useEffect(() => {
         // Load the messages from localStorage
+
         const savedMessages = localStorage.getItem('messages');
 
-        if (savedMessages && roomNumber) {
+        if (savedMessages && roomNumber && isMounted.current) {
+            isMounted.current = false;
             JSON.parse(savedMessages).filter((message: ISavedMessage) => message.room_id === roomNumber).map((message: ISavedMessage) => {
                 setMessages((prevMessages) => [...prevMessages, message]);
             });
         }
-    }, []);
+    }, [savedMessages]);
 
     const handleJoinRoom = () => {
         if (!socket) {
@@ -310,15 +312,19 @@ const ChatRoom = () => {
                         .map((message, index) => (
                         <div key={index} className={`logs-container__log 
                         ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.sendername === username ? 'log-user' : 'log-other'}`} >
-                            <div className="log__info">
-                                <span className="info__user">{message.sendername+ " : "}</span>
-                                <span className="info__time">{message.action}</span>
-                            </div>
+                            {/*<div className="log__info">*/}
+                            {/*    <span className="info__user">{message.sendername+ " : "}</span>*/}
+                            {/*    <span className="info__time">{message.action}</span>*/}
+                            {/*</div>*/}
                             <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
                                 <span className="message__content">{message?.sendermessage}</span>
                             </div>
-
+                            <div className="log__name">
+                                <p>{message.sendername}</p>
+                            </div>
                         </div>
+
+
                 ))}
                 </div>)}
             </div>

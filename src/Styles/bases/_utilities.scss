@@ -169,6 +169,20 @@
     }
   }
 
+  /* With percentage */
+
+  @for $i from 1 through 100 {
+    .per-#{height-class($i)} {
+      height: $i *1%;
+    }
+  }
+
+  /* viewport */
+  @for $i from 1 through 100 {
+    .vh-#{height-class($i)} {
+      height: $i *1vh;
+    }
+  }
 }
 
 .width-content {

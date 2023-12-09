@@ -111,19 +111,22 @@ const ChatRoomsPreview = () => {
                     </div>
                     <p className={"loader-text"}>Données en attente ...</p>
                 </div>
-                ): (<div className="">
+                ): (<div>
+                <div className="category-text padding-20">
+                    <h1 className="text-center text-darkBlue">Salles de discussion</h1>
+                </div>
         {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
+                {(roomsList && roomsList.length < 6) &&
                 <div className="padding-y-50">
                     <button className="btn-mini" onClick={() => setOpenCreateRoomModal(true)}>Créer une salle</button>
-                </div>
+                </div>}
 
 
-                <div className="center-me">
-            <div className={"padding-20 bgd-darkpink border-radius-10"} >
+            <div className={"overflow-auto rooms-container grid-bi-colum-wrapper custom-scrollbar-container vh-height-75 padding-20 border-radius-10"} >
                 {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
             </div>
-        </div>
+
     </div>)}
             {openCreateRoomModal && (
                 <CreateRoomModal

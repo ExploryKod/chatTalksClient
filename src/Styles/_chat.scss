@@ -43,6 +43,7 @@
   }
 
   .logs-container__log {
+    min-width: 150px;
     position: relative;
     margin: 40px 10px;
     padding: 20px 30px;
@@ -130,6 +131,7 @@
     }
 
     .log__info {
+
       display: flex;
       gap: 20px;
       flex-direction: row;
@@ -155,6 +157,21 @@
         color: $lightLavender;
         font-weight: 400;
       }
+    }
+
+    .log__name {
+      max-width: 100px;
+      position: absolute;
+      bottom: -25px;
+      left: 5px;
+      right: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 500;
+      color: $success-darker;
+
     }
   }
 }

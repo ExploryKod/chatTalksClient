@@ -46,11 +46,15 @@ const Connexion = () => {
         console.error("échec de l'inscription:", errorData);
         setIsLoading(false);
         toastMessage(errorData.message);
+      } else {
+        setIsLoading(false);
+        toastMessage('')
       }
     } catch(error) {
       console.error('log failed:', error);
       setIsLoading(false);
-      toastMessage('Il y a eu une erreur dans la requête')
+      // CORS error or network error are being catched here
+      toastMessage('Il y a eu une erreur dans la requête: la connexion est mauvaise ou le serveur est indisponible')
     }
   };
 
