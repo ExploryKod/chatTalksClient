@@ -1,10 +1,10 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef } from 'react';
 import config from "../config/config.tsx";
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
 import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import type {Message, RoomMessage, ISavedMessage} from '../Types/typeChat.d.ts';
+import type {Message, RoomMessage, ISavedMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
 import {OldMessages} from "../Component/OldMessages.tsx";
@@ -19,7 +19,7 @@ const ChatRoom = () => {
     const queryParams = new URLSearchParams(location.search);
     const {username} = useLoggedStore();
     const {roomNumber} = useParams();
-    const {toastMessage} = useFlashMessage('');
+    const { toastMessage } = useFlashMessage('');
 
     const [messages, setMessages] = useState<ISavedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<Message>({
@@ -231,8 +231,8 @@ const ChatRoom = () => {
         console.log('action ', action)
         console.log('personName ', personName)
 
-        if (action) {
-            if (action === "hub-joined") {
+        if(action) {
+            if(action === "hub-joined") {
                 toastMessage(`Bienvenue dans la salle`);
                 setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
             }
