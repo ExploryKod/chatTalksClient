@@ -1,13 +1,18 @@
-/* Bases */
+/* variables and mixins */
 @import './Styles/bases/variables';
+@import './Styles/bases/mixins';
+@import './Styles/bases/responsive';
+
+/* Bases */
 @import './Styles/bases/reset';
 
 /* utilities */
-@import './Styles/bases/mixins';
-@import './Styles/bases/responsive';
 @import './Styles/bases/utilities';
+@import './Styles/bases/utilities-sm';
+@import 'Styles/bases/scrollbar';
 
 /* Layouts */
+@import './Styles/bases/layout.scss';
 @import './Styles/navigation';
 @import './Styles/categories-containers';
 
@@ -18,6 +23,7 @@
 @import './Styles/tooltip';
 @import './Styles/table';
 @import './Styles/loader';
+@import './Styles/error';
 
 /* Pages */
 @import './Styles/room';

@@ -10,16 +10,16 @@ import {Loader} from "./Loader.tsx";
 export const ChatRoomCard = ({id, name, description}: IRoom) => {
     const serverHost: string = config.serverHost;
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const imageUrl = "https://images.pexels.com/photos/3937272/pexels-photo-3937272.jpeg"
+    const imageUrl = "/images_food/boisson_chicoree.jpg";
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
-    const [image, setImage] = useState<string>("");
+    // const [image, setImage] = useState<string>("");
 
     useEffect(() => {
         setRoomName(name);
         setRoomId(id);
         setRoomDescription(description);
-        setImage(`https://source.unsplash.com/200x200/?${name.split(' ')[0]}`);
+        // setImage(`https://source.unsplash.com/200x200/?${name.split(' ')[0]}`);
         setIsLoading(false);
     }, []);
 
@@ -52,16 +52,28 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
 
     return (
         isLoading ? (<div className="loader-lists"><div className='loader-container'><Loader/></div></div>) :
-            (<div className={`room-card-container card-${name}`}>
-                <img className="room-image" src={image ? image : imageUrl} alt={`${name}`}/>
-                <div className='body'>Thème du chat: <span>{description}</span></div>
-                <Link onClick={handleClick} className='card-link title'
-                      to={{
-                          pathname: `${id.toString()}`,
-                          search: queryChat
-                      }}>
-                    {name && name.length > 0 ? `${name.toLowerCase()}` : 'Entrez dans cette salle'}
-                </Link>
+            (<div className={`rooms-card bgd-white margin-y-20 max-width-600 border-radius-10`}>
+                <div className="rooms-card__img">
+                    <img src={imageUrl} alt={`${name}`}/>
+                </div>
+                <div className='rooms-card__desc'>
+                    <div className='card-desc__title'>
+                        <h2>{name && name.length > 0 && `${name.toLowerCase()}`}</h2>
+                    </div>
+                    <div className='card-desc__text'>
+                        <p>{description && description.length > 0 && `${description}`}</p>
+                    </div>
+                    <div className='card-desc__btn'>
+                        <Link onClick={handleClick} className='btn-mini'
+                              to={{
+                                  pathname: `${id.toString()}`,
+                                  search: queryChat
+                              }}>
+                          Rejoindre
+                        </Link>
+                    </div>
+                </div>
+
             </div>)
     );
 

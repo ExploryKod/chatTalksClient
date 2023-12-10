@@ -1,0 +1,18 @@
+.custom-scrollbar-container {
+  &::-webkit-scrollbar {
+    width: 8px; /* width of the entire scrollbar */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $darkpink; /* color of the scroll thumb */
+    border-radius: 10px; /* roundness of the scroll thumb */
+    border: 3px solid transparent; /* creates padding around scroll thumb */
+  }
+
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: $darkpink transparent; /* scroll thumb and track */
+}

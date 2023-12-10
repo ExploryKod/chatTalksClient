@@ -1,15 +1,9 @@
 import {useEffect, useState } from "react";
-import {Link } from "react-router-dom";
-
 import type { IUser } from "../Types/typeUsers.d.ts";
-
 import useGetUserList from "../Hook/useGetUserList";
-
 import { ConfirmModal } from "./ConfirmModal.tsx";
 import UserEmail from "./UserEmail.tsx";
-
 import { useLoggedStore } from '../StateManager/userStore';
-
 import { IconContext } from "react-icons";
 import { RiDeleteBin6Line }from "react-icons/ri";
 import { FaUserCog } from "react-icons/fa";
@@ -19,6 +13,7 @@ import { Tooltip } from "./Tooltip.tsx";
 import {UpdateUserModal} from "./UpdateUserModal.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import {Loader} from "./Loader.tsx";
+
 
 export default function UserList() {
   const { admin, username } = useLoggedStore();
@@ -91,27 +86,32 @@ export default function UserList() {
                 {!userList || !userList.length ?
                     (<h2 className="category-text"> Aucun utilisateur en vue, vous êtes bien seul...</h2>):
                     (<div className="categories-container"><h2 className="category-text"> Utilisateurs du chat : </h2>
-                      {admin !== "1" && (
-                          <div>
-                            <Link className="button-container" to={"/become-admin"}>Devenir Adminstrateur</Link>
-                          </div>)}
+
                     </div>)}
                 <section className="table-container">
                   <div className="table">
                     {userList && userList.length > 0 && (
-                        <div className="table-header table-row">
+                        <div className="table-header">
                           <div>Identifiant</div>
                           <div>Nom</div>
                           <div>Statut</div>
                           <div>Actions</div>
                         </div>)}
                     {/*{(admin === "1" && (user.admin.toString() !== "1" || user.username === username)) ? (*/}
-                    {userList.map((user) => (
+                    {userList && userList.map((user) => (
                         <div key={user.id} className="body-row">
-                          <div>{user.id}</div>
-                          <div>{user.username ? user.username : "Anonyme"}</div>
-                          <div>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</div>
-                          <div className={"table-row__actions"}>
+                          <div className="table-row__id">
+                            <span className="row__text">Identifiant:&nbsp;</span>
+                            <span>{user.id}</span>
+                          </div>
+                          <div className="table-row__username">
+                            <span className="row__text">Pseudo:&nbsp;</span>
+                            <span>{user.username ? user.username : "Anonyme"}</span>
+                          </div>
+                          <div className="table-row__status">
+                            <span className="row__text">Statut:&nbsp;</span>
+                            <span>{user.admin.toString() === "1" ? "Administrateur" : "Utilisateur"}</span></div>
+                          <div className="table-row__actions">
                             {((admin === "1" && user.admin.toString() !== "1") || user.username === username) ? (
                                 <>
                                   <Tooltip content="Supprimer" direction="top">

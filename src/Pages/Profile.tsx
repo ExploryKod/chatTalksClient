@@ -6,7 +6,7 @@ const Profile = () => {
     const { username } = useLoggedStore();
 
     return (
-        <div>
+        <main className="main-container">
             <h1 className="category-title margin-bottom-10">Bienvenue {username} !</h1>
 
             <div>
@@ -14,7 +14,7 @@ const Profile = () => {
                 <RoomList />
             </div>
 
-        </div>
+        </main>
     );
 };
 

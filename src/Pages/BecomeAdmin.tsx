@@ -2,7 +2,7 @@
 const BecomeAdmin = () => {
 
     return (
-        <div>Cette page est en cours de construction</div>
+        <main className="main-container">Cette page est en cours de construction</main>
     );
 };
 

@@ -33,6 +33,12 @@ export default function RoomList() {
 
 
     useEffect(() => {
+        setIsLoading(true);
+        setOpenConfirmRoomModal(false);
+        setSelectedRoom(undefined);
+    }, []);
+
+    useEffect(() => {
         const fetchRoomData = async () => {
             try {
                 const data = await getRoomList();
@@ -59,15 +65,6 @@ export default function RoomList() {
         setOpenUpdateRoomModal(true);
     };
 
-
-
-    useEffect(() => {
-        // Ajoute un gestionnaire d'événement de clic global lorsque le composant est monté
-        setIsLoading(true);
-        setOpenConfirmRoomModal(false);
-        setSelectedRoom(undefined);
-    }, []);
-
     return (
         <>
             {isLoading ? (
@@ -75,12 +72,9 @@ export default function RoomList() {
                     <div className="loader-container">
                         <Loader />
                     </div>
-                    <p className={"loader-text"}>Données en attente ...</p>
+                    <p className={"loader-text"}>En attente des salles de chat ...</p>
                 </div>
             ): (
-                <>
-                </>
-            )}
             <div className={"user-list__container"}>
                 {!roomList || !roomList.length ?
                     (<div>
@@ -96,7 +90,7 @@ export default function RoomList() {
                 <section className="table-container">
                     <div className="table">
                         {roomList && roomList?.length > 0 && (
-                            <div className="table-header table-row">
+                            <div className="table-header">
                                 <div>Identifiant</div>
                                 <div>Nom de salle</div>
                                 <div>Thème</div>
@@ -105,29 +99,35 @@ export default function RoomList() {
 
                         {roomList && roomList?.map((room) => (
                             <div key={room.id} className="body-row">
-                                <div>{room.id}</div>
-                                <div>{room.name ? room.name : "salle de chat"}</div>
-                                <div>{room.description? room.description : "Aucun thème"}</div>
-                                    <div className={"table-row__actions"}>
-                                        <Tooltip content="Supprimer" direction="top">
-                                            <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
-                                                <div>
-                                                    <button title="delete room" type="button" className="btn-reset" onClick={() => handleDeleteRoom(room)}>
-                                                        <RiDeleteBin6Line className={"trash-icon"} />
-                                                    </button>
-                                                </div>
-                                            </IconContext.Provider>
-                                        </Tooltip>
-                                        <Tooltip content="Modifier" direction="top">
-                                            <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
-                                                <div>
-                                                    <button title="delete room" type="button" className="btn-reset" onClick={() =>  handleUpdateRoom(room)}>
-                                                        <FaUserCog className={"update-icon"} />
-                                                    </button>
-                                                </div>
-                                            </IconContext.Provider>
-                                        </Tooltip>
-                                    </div>
+                                <div className="table-row__id">
+                                    <span className="row__text">Identifiant:&nbsp;</span>
+                                    <span>{room.id}</span>
+                                </div>
+                                <div className="table-row__room-name">
+                                    <span className="row__text">{room.name ? `Nom:${String.fromCharCode(160)}`: ""}</span>
+                                    <span>{room.name ? room.name : "Salle de chat"}</span>
+                                </div>
+                                <div className="table-row__theme">{room.description? room.description : "Aucun thème"}</div>
+                                <div className={"table-row__actions"}>
+                                    <Tooltip content="Supprimer" direction="top">
+                                        <IconContext.Provider value={{ color: "#de392a", className: "trash-icon"}}>
+                                            <div>
+                                                <button title="delete room" type="button" className="btn-reset" onClick={() => handleDeleteRoom(room)}>
+                                                    <RiDeleteBin6Line className={"trash-icon"} />
+                                                </button>
+                                            </div>
+                                        </IconContext.Provider>
+                                    </Tooltip>
+                                    <Tooltip content="Modifier" direction="top">
+                                        <IconContext.Provider value={{ color: "blue", className: "update-icon" }}>
+                                            <div>
+                                                <button title="delete room" type="button" className="btn-reset" onClick={() =>  handleUpdateRoom(room)}>
+                                                    <FaUserCog className={"update-icon"} />
+                                                </button>
+                                            </div>
+                                        </IconContext.Provider>
+                                    </Tooltip>
+                                </div>
                             </div>
                         ))}
                         {openConfirmRoomModal && (
@@ -151,6 +151,7 @@ export default function RoomList() {
                     </div>
                 </section>
             </div>
+            )}
         </>
     );
 }
