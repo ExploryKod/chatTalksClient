@@ -96,8 +96,6 @@ const ChatRoom = () => {
                 name: roomNumber
             }
         });
-
-
     };
 
     useEffect(() => {
