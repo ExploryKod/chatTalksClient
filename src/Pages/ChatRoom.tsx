@@ -28,13 +28,11 @@ const ChatRoom = () => {
         target: {id: "", name: roomNumber}
     });
     const [socket, setSocket] = useState<WebSocket | null>(null);
-    const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
+    // const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
     const {getMessagesByRoom, setSavedMessages, savedMessages} = useGetMessagesByRoom();
     const [openHistory, setOpenHistory] = useState<boolean>(false)
     const {setRoomId, setSendername, setSendermessage, setAction} = useMessagesStore()
 
-
-    // UseRef and other queries
     const messageContainerRef = useRef<HTMLDivElement>(null);
     const name: string | null = queryParams.get('name');
     const description: string | null = queryParams.get('description');
@@ -72,7 +70,7 @@ const ChatRoom = () => {
             return;
         }
         socket.send(JSON.stringify(messageInput));
-        // console.log('username', username)
+
         const response: Promise<Response> = fetch('http://localhost:8000/send-message', {
             method: 'POST',
             mode: "cors",
@@ -80,20 +78,17 @@ const ChatRoom = () => {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            // @ts-ignore
+
             body: new URLSearchParams({
                 "username": username,
                 "content": messageInput.message,
                 "roomID": roomNumber,
-            }),
+            } as any),
         })
 
         if (!response) {
-            sessionStorage.setItem('yoo', 'yoo');
-            // @ts-ignore
-            sessionStorage.setItem('yoo', connectedUsers);
+            console.error("Erreur lors de l'envoie de message au backend:", response)
         }
-
 
         setMessageInput({
             action: "send-message", message: "", target: {
@@ -121,7 +116,6 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
-        // const currentTime: Date = new Date();
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
@@ -139,10 +133,10 @@ const ChatRoom = () => {
             data = data.split(/\r?\n/);
             // console.log('WebSocket data:', data)
             data.forEach((element: string) => {
-                // console.log('WebSocket element:', element)
+                console.log('WebSocket element:', element)
                 let msg = JSON.parse(element);
-                // console.log('WebSocket msg:', msg.message)
-                // console.log('WebSocket action:', msg.action)
+                console.log('WebSocket msg:', msg.message)
+                console.log('WebSocket action:', msg.action)
 
                 if (msg.action &&
                     msg?.action !== "send-message" &&
@@ -207,9 +201,8 @@ const ChatRoom = () => {
         const fetchMessages = async () => {
             try {
                 const data = await getMessagesByRoom(roomNumber);
-                // Enable it only for few message to avoid too much data in bdd - use localstorage instead
                 setSavedMessages(data);
-                // @TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
+                // TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
                 // console.log("get messages by room =====> ", data);
                 // console.log("saved messages =====> ", savedMessages);
                 // if (data.messages && data.messages.length > 0) {
@@ -234,18 +227,18 @@ const ChatRoom = () => {
         if(action) {
             if(action === "hub-joined") {
                 toastMessage(`Bienvenue dans la salle`);
-                setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
+                // setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
             }
         }
 
         if (personName && action) {
             if (personName != "" && (action === "user-join")) {
                 toastMessage(`${personName} vient de rejoindre la salle`);
-                setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
+                // setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
             }
             if (personName != "" && action === "user-left") {
                 toastMessage(`${personName} vient de quitter la salle`);
-                setConnectedUsers((prevConnectedUsers) => prevConnectedUsers.filter((user) => user !== personName));
+                // setConnectedUsers((prevConnectedUsers) => prevConnectedUsers.filter((user) => user !== personName));
             }
         }
     }
@@ -301,8 +294,6 @@ const ChatRoom = () => {
                                         <p>{message.sendername}</p>
                                     </div>
                                 </div>
-
-
                             ))}
                     </div>)}
             </div>
