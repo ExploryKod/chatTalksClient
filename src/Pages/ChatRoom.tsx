@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef } from 'react';
 import config from "../config/config.tsx";
 import {GiTalk} from 'react-icons/gi';
 import {BiSolidUserVoice} from 'react-icons/bi';
-import {useParams, useLocation, useSearchParams} from 'react-router-dom';
+import {useParams, useLocation} from 'react-router-dom';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import type {Message, RoomMessage, ISavedMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";

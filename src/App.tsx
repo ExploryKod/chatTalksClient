@@ -34,7 +34,7 @@ function logErrorToService(error: any, info: any) {
 
 function App() {
     const [someKey, setSomeKey] = useState(null);
-
+    console.log(import.meta.env.VITE_SITE_URL)
     return (
         <ErrorBoundary
             FallbackComponent={FallbackComponent}

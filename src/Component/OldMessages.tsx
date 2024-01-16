@@ -28,7 +28,7 @@ export const OldMessages = ({messages, savedMessages, setOpenHistory } : IMessag
                                                     <span className="info__user text-white">{message.username+ " : "}</span>
                                                 </div>
                                                 <div className="log__message bgd-darkLavender padding-10"><BiSolidUserVoice className="voice-icon"/>&nbsp;
-                                                    <span className="message__content">{message?.content}</span>
+                                                    {/*<span className="message__content">{message}</span>*/}
                                                 </div>
                                             </div>
                                         ))}
