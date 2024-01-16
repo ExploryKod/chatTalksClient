@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import ChatRoomCard from '../Component/ChatRoomCard';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
@@ -101,9 +101,8 @@ const ChatRoomsPreview = () => {
         }
     };
 
-
     return (
-        <main className={"main-container padding-x-50"} >
+        <main className={"main-container main-container__rooms padding-x-50"} >
             {isLoading ? (
                 <div className="loader-lists">
                     <div className="loader-container">
@@ -117,12 +116,12 @@ const ChatRoomsPreview = () => {
                 </div>
         {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
                 {(roomsList && roomsList.length < 6) &&
-                <div className="padding-y-50">
+                <div className="padding-y-50 create-room-container">
                     <button className="btn-mini" onClick={() => setOpenCreateRoomModal(true)}>Créer une salle</button>
                 </div>}
 
 
-            <div className={"overflow-auto rooms-container grid-bi-colum-wrapper custom-scrollbar-container vh-height-75 padding-20 border-radius-10"} >
+            <div className={"overflow-auto rooms-container custom-scrollbar-container vh-height-75 padding-20 border-radius-10"} >
                 {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
             </div>

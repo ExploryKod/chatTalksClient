@@ -1,16 +1,18 @@
 .custom-scrollbar-container {
   &::-webkit-scrollbar {
-    width: 8px; /* width of the entire scrollbar */
+    width: 12px;
   }
 
   &::-webkit-scrollbar-track {
-    background: transparent; /* color of the tracking area */
+    overflow: hidden;
+    border-radius: $round-sm;
+    background: transparent;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $darkpink; /* color of the scroll thumb */
-    border-radius: 10px; /* roundness of the scroll thumb */
-    border: 3px solid transparent; /* creates padding around scroll thumb */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: $round-sm;
+    border: none;
   }
 
   scrollbar-width: thin; /* "auto" or "thin" */

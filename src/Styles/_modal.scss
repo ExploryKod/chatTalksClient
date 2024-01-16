@@ -75,31 +75,50 @@
     &.small {
         min-height: 200px;
         min-width: 200px;
+      .modal-body {
+        width: 100%;
+      }
     }
 
     &.small-auto {
       min-height: auto;
       min-width: 200px;
+      .modal-body {
+        width: 100%;
+      }
     }
 
     &.medium {
         min-height: 400px;
         min-width: 300px;
+      .modal-body {
+        width: 100%;
+      }
     }
 
     &.medium-auto {
         min-height: auto;
         min-width: 300px;
+      .modal-body {
+        width: 100%;
+      }
     }
 
     &.large {
         min-height: 600px;
         min-width: 500px;
+      .modal-body {
+        width: 100%;
+      }
     }
 
     &.large-auto {
         min-height: auto;
-        min-width: 500px;
+        min-width: 600px;
+
+      .modal-body {
+        width: 100%;
+      }
     }
 }
 
@@ -137,6 +156,9 @@
   padding: 10px;
   border-top: 1px solid #333;
   z-index:100;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 
   &.no-padding {
     padding: 0;
@@ -179,7 +201,9 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 30px;
+    margin-right: 0;
+    background-color: $darkBlue;
+    color: $lightLavender;
 
     &.shadow {
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -208,6 +232,8 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
+    background-color: $warning;
+    color: $lightLavender;
     transition: opacity 0.3s ease-out, box-shadow 0.2s ease-in-out;
 
     &.shadow {

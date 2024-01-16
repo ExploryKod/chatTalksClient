@@ -1,6 +1,33 @@
 @import 'bases/variables';
 @Import 'bases/mixins';
 
+.connected-users-wrapper {
+  margin-left: 25px;
+  display: flex;
+  gap: 25px;
+
+  .connected-user {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .connected-user__name {
+    color: $darkBlue;
+    font-size: 18px;
+  }
+
+  .connected-user__pill {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: $round-circle;
+    background-color: $success;
+    z-index: $z-more-xl;
+  }
+}
+
+
 .logs-container {
     position: relative;
     max-height: 40vh;
@@ -15,7 +42,7 @@
       max-height: 30vh;
     }
 
-    border-radius:10px;
+    border-radius:$round-sm;
     margin: 0 auto;
 
     display: flex;
@@ -33,11 +60,11 @@
     /* Ascenseur */
     &::-webkit-scrollbar-thumb {
       background: $darkpink;
-      border-radius: 10px;
+      border-radius: $round-sm;
     }
 
   &.chat-active {
-    min-height: 20vh;
+    min-height: 50vh;
     border: 2px solid $darkpink;
     box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
   }
@@ -47,7 +74,7 @@
     position: relative;
     margin: 40px 10px;
     padding: 20px 30px;
-    border-radius: 10px;
+    border-radius: $round-sm;
     transition: opacity 5s ease-in-out 5s;
 
     &.user-action  {
@@ -116,7 +143,7 @@
     &:before,
     &:after {
       content:"";
-      border-radius:50%;
+      border-radius:$round-circle;
       display:block;
       position:absolute;
       z-index:-1;
@@ -172,6 +199,12 @@
       font-weight: 500;
       color: $success-darker;
 
+      &.--other {
+        color: $darkpink;
+        left: 80px;
+        right: 5px;
+      }
+
     }
   }
 }
@@ -180,7 +213,7 @@
 .message-form {
     border-left: 6px solid $darkpink;
     border-right: 6px solid $darkpink;
-    border-radius: 30px;
+    border-radius: $round-xxl;
     padding: 30px 60px;
     min-width: 250px;
     max-width: 600px;
@@ -214,7 +247,7 @@
         border: 1px solid #d6d6d6;
         padding: 10px 30px;
         margin: 20px 0;
-        border-radius: 6px;
+        border-radius: $round-xs;
         font-size: 24px;
         font-weight: 700;
         font-family: Arial, Helvetica, sans-serif;
@@ -233,7 +266,7 @@
         border: 1px solid #d6d6d6;
         width: 100%;
         height: 2.6em;
-        border-radius: 6px;
+        border-radius: $round-xs;
         font-size: 17px;
         line-height: 1.29412;
         font-weight: 400;

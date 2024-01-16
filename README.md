@@ -17,10 +17,10 @@
 - Assurez-vous d'avoir accés aux commandes de make : un utilitaire pour executer le script du Makefile.
  
   Sur Windows il n'est pas nativement installé
-  >> Si vous avez chocolatey : choco install make 
+  > Si vous avez chocolatey : choco install make 
   Info si pas de chocolatey : https://earthly.dev/blog/makefiles-on-windows/
 
-  >> Sinon : https://gnuwin32.sourceforge.net/packages/make.html
+  > Sinon : https://gnuwin32.sourceforge.net/packages/make.html
 
   Vous pouvez donc utiliser les commande make sur votre terminal dans windows.
 

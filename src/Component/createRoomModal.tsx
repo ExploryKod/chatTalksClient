@@ -42,13 +42,13 @@ export const CreateRoomModal = ({roomsList, createRoom, setRoomName, setRoomDesc
 
 return (
     <div className={`modal` }>
-        <div className="modal-content">
+        <div className="modal-content large-auto">
 
             <div className="modal-header">
                 <h2>Créer une salle</h2>
                 <span className="close" onClick={onClose}>&times;</span>
             </div>
-            <div className="modal-body small">
+            <div className="modal-body">
                 {roomsList && roomsList.length >= 6 ? (<div>
                     <h2 className="category-title"> Nombre maximum de salles atteint </h2>
                 </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>

@@ -1,5 +1,14 @@
+
+.create-room-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .rooms-card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  width: 80%;
   height: 250px;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -56,14 +65,6 @@
     }
 
   }
-}
-
-.rooms-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  gap: 10px;
 }
 
 .category-preview-container {
@@ -149,7 +150,7 @@
       background-color: $lightLavender;
       color: $darkBlue;
       border: 1px solid $lightLavender;
-      border-radius: 20px;
+      border-radius: 10px;
       width: 80%;
       opacity: 0.9;
       position: absolute;

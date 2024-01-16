@@ -13,7 +13,7 @@
     padding: 20px;
     width: 100%;
     background-color: #f8d7da;
-    border-radius: 10px;
+    border-radius: $round;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,7 +30,7 @@
     button {
       background-color: $darkpink;
       border: none;
-      border-radius: 10px;
+      border-radius: $round-sm;
       padding: 0.5rem 1rem;
       color: $lightLavender;
       font-weight: bold;
@@ -47,7 +47,7 @@
       padding: 25px 35px;
       width: 100%;
       background-color: $lightLavender;
-      border-radius: 10px;
+      border-radius: $round-sm;
       display: flex;
       flex-direction: column;
       align-items: center;

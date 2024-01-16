@@ -2,7 +2,7 @@
   background: $darkBlue;
   color: $lightLavender;
   border: none;
-  border-radius: 15px;
+  border-radius: $round-md;
   padding: 8px 15px;
   cursor: pointer;
   transition: background 0.25s ease-in-out;
@@ -34,7 +34,7 @@
   font-family: 'Open Sans Condensed';
   font-weight: bolder;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: $round-xs;
   cursor: pointer;
   display: flex;
   justify-content: center;
