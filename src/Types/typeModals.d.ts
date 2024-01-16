@@ -26,6 +26,15 @@ export interface IConfirmRoomModal {
     // setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
+export interface IcreateRoomModal {
+    roomsList: IRoom[];
+    createRoom: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+    setOpenCreateRoomModal: Dispatch<SetStateAction<boolean>>;
+    setRoomsList: Dispatch<SetStateAction<IRoom[]>>;
+    setRoomName: Dispatch<SetStateAction<string>>;
+    setRoomDescription: Dispatch<SetStateAction<string>>;
+}
+
 export interface IUpdateUserModal {
     title: string,
     selectedUser: IUser,

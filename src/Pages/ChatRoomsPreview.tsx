@@ -1,12 +1,12 @@
-import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import ChatRoomCard from '../Component/ChatRoomCard';
 import {useLoggedStore} from "../StateManager/userStore.ts";
 import useGetRoomsList from '../Hook/useGetRoomsList.tsx';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
-import type { IRoom, IWordLength }  from "../Types/typeRooms.d.ts";
+import type { IRoom }  from "../Types/typeRooms.d.ts";
 import config from "../config/config.tsx";
 import {Loader} from "../Component/Loader.tsx";
-
+import {CreateRoomModal} from "../Component/createRoomModal.tsx";
 
 const ChatRoomsPreview = () => {
     // Hosts
@@ -18,10 +18,10 @@ const ChatRoomsPreview = () => {
     const { toastMessage, createDefaultToastOptions, setFlashMessage, flashMessage, opacityMessage} = useFlashMessage('');
 
     // UseStates
-    const [roomName, setRoomName] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
+    const [openCreateRoomModal, setOpenCreateRoomModal] = useState(false);
     const [roomsList, setRoomsList] = useState<IRoom[]>([]);
-    const [wordLength, setwordLength] = useState<IWordLength>({num: 0, max: 0, text: '', endMessage:""});
+    const [roomName, setRoomName] = useState<string>('');
+    const [description, setRoomDescription] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const toastOptionsError = createDefaultToastOptions({type: 'error', position: 'top-center', autoClose: 3000});
@@ -101,38 +101,8 @@ const ChatRoomsPreview = () => {
         }
     };
 
-    const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-        setwordLength({num: 0, max: 0, text: "", endMessage: ""})
-        if (e.target.value.length < 31) {
-            setRoomName(e.target.value)
-        }
-        if (e.target.value.length > 1 && e.target.value.length < 30) {
-            setwordLength({num: e.target.value.length, max: 30, text: "Nom, caractères: ", endMessage: ""})
-            return
-        }
-        if (e.target.value.length === 30) {
-            setwordLength({num: 30, max: 30, text: "Nom, caractères: ", endMessage: "Maximum atteint"})
-            return
-        }
-    }
-
-    const handleChangeDescription = (e: ChangeEvent<HTMLInputElement>) => {
-        setwordLength({num: 0, max: 0, text: "", endMessage: ""})
-        if (e.target.value.length < 51) {
-            setDescription(e.target.value)
-        }
-        if(e.target.value.length > 1 && e.target.value.length < 50) {
-            setwordLength({num: e.target.value.length, max: 50, text: "Thème: ", endMessage: ""})
-            return
-        }
-        if(e.target.value.length === 50) {
-            setwordLength({num: 50, max: 50, text: "Thème, caratères: ", endMessage: "Maximum atteint"})
-            return
-        }
-    }
-
     return (
-        <>
+        <main className={"main-container main-container__rooms padding-x-50"} >
             {isLoading ? (
                 <div className="loader-lists">
                     <div className="loader-container">
@@ -140,29 +110,34 @@ const ChatRoomsPreview = () => {
                     </div>
                     <p className={"loader-text"}>Données en attente ...</p>
                 </div>
-                ): (<div className="rooms-container">
+                ): (<div>
+                <div className="category-text padding-20">
+                    <h1 className="text-center text-darkBlue">Salles de discussion</h1>
+                </div>
         {flashMessage.alert !== "" && <div className={`${opacityMessage} output-message text-lightLavender bgd-darkBlue padding-5 border-radius-5`}>{flashMessage.alert}</div>}
-        {roomsList && roomsList.length >= 6 ? (<div>
-            <h2 className="category-title">Entrez dans l'une de nos 6 salles : </h2>
-        </div>) : (<form className="message-form" method={'post'} onSubmit={createRoom}>
-            <div className="container-20 flex-center-childs-column">
-                <p className={`opacity-transition ${wordLength.num ? "opacity-100" : "opacity-0"} ${wordLength.endMessage != "" ? "text-success" : "text-red"} padding-y-5`}>
-                    {wordLength.max && wordLength.endMessage === "" ? wordLength.text+wordLength.num+"/"+wordLength.max : wordLength.endMessage}
-                </p>
-            </div>
+                {(roomsList && roomsList.length < 6) &&
+                <div className="padding-y-50 create-room-container">
+                    <button className="btn-mini" onClick={() => setOpenCreateRoomModal(true)}>Créer une salle</button>
+                </div>}
 
-            <input maxLength={30} className="input-log margin-bottom-20" name={'roomName'} type={'text'} placeholder={'Trouvez un nom de salle en un mot'} onChange={handleChangeName}/>
-            <input maxLength={50} className="input-log" name={'description'} type={'text'} placeholder={'Ecrivez un thème de la salle'} onChange={handleChangeDescription}/>
-            <button className="button-container room-button" type={'submit'}>Créer une salle</button>
-        </form>) }
-        <div className="categories-container">
-            <div className={"category-preview-container"} >
+
+            <div className={"overflow-auto rooms-container custom-scrollbar-container vh-height-75 padding-20 border-radius-10"} >
                 {roomsList?.map((item: IRoom, index: number) => (
                     <ChatRoomCard key={index} name={item.name} id={item.id} description={item.description}/>))}
             </div>
-        </div>
+
     </div>)}
-        </>
+            {openCreateRoomModal && (
+                <CreateRoomModal
+                    createRoom={createRoom}
+                    setRoomDescription={setRoomDescription}
+                    setRoomName={setRoomName}
+                    roomsList={roomsList}
+                    setRoomsList={setRoomsList}
+                    setOpenCreateRoomModal={setOpenCreateRoomModal}
+                />
+            )}
+        </main>
     );
 };
 
