@@ -7,8 +7,8 @@ interface Config {
 
 const config:Config = {
     serverPort: 8000,
-    serverHost: import.meta.env.VITE_SITE_URL,
-    serverWsHost:'wss://go-chat-docker.onrender.com"'
+    serverHost: import.meta.env.VITE_SITE_URL_HTTP,
+    serverWsHost:import.meta.env.VITE_SITE_URL_WS
 };
   
 export default config;
