@@ -26,6 +26,7 @@ const ChatRoom = () => {
         target: {id: "", name: roomNumber}
     });
     const [socket, setSocket] = useState<WebSocket | null>(null);
+    // const [connectedUsers, setConnectedUsers] = useState<string[]>([]);
     const {getMessagesByRoom, setSavedMessages, savedMessages} = useGetMessagesByRoom();
     const [openHistory, setOpenHistory] = useState<boolean>(false)
     const {setRoomId, setSendername, setSendermessage, setAction} = useMessagesStore()
@@ -34,7 +35,6 @@ const ChatRoom = () => {
     const messageContainerRef = useRef<HTMLDivElement>(null);
     const name: string | null = queryParams.get('name');
     const description: string | null = queryParams.get('description');
-    const [connectedUsers, setConnectedUsers] = useState<any[]>([{username: "", roomId: roomNumber, roomName: name, action: ""}]);
 
     useEffect(() => {
 
@@ -69,7 +69,7 @@ const ChatRoom = () => {
             return;
         }
         socket.send(JSON.stringify(messageInput));
-        // console.log('username', username)
+
         const response: Promise<Response> = fetch('http://localhost:8000/send-message', {
             method: 'POST',
             mode: "cors",
@@ -77,20 +77,17 @@ const ChatRoom = () => {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            // @ts-ignore
+
             body: new URLSearchParams({
                 "username": username,
                 "content": messageInput.message,
                 "roomID": roomNumber,
-            }),
+            } as any),
         })
 
         if (!response) {
-            sessionStorage.setItem('yoo', 'yoo');
-            // @ts-ignore
-            sessionStorage.setItem('yoo', connectedUsers);
+            console.error("Erreur lors de l'envoie de message au backend:", response)
         }
-
 
         setMessageInput({
             action: "send-message", message: "", target: {
@@ -98,8 +95,6 @@ const ChatRoom = () => {
                 name: roomNumber
             }
         });
-
-
     };
 
     useEffect(() => {
@@ -118,7 +113,6 @@ const ChatRoom = () => {
     }
 
     useEffect(() => {
-        // const currentTime: Date = new Date();
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
@@ -136,10 +130,10 @@ const ChatRoom = () => {
             data = data.split(/\r?\n/);
             // console.log('WebSocket data:', data)
             data.forEach((element: string) => {
-                // console.log('WebSocket element:', element)
+                console.log('WebSocket element:', element)
                 let msg = JSON.parse(element);
-                // console.log('WebSocket msg:', msg.message)
-                // console.log('WebSocket action:', msg.action)
+                console.log('WebSocket msg:', msg.message)
+                console.log('WebSocket action:', msg.action)
 
                 if (msg.action &&
                     msg?.action !== "send-message" &&
@@ -182,11 +176,7 @@ const ChatRoom = () => {
 
     useEffect(() => {
         console.log('NUMBER ROOM', typeof roomNumber)
-        let storedMessage = messages.filter((message) =>
-            message.room_id === roomNumber
-            && message.action === "send-message"
-            && message.sendername != undefined);
-
+        let storedMessage = messages.filter((message) => message.room_id === roomNumber && message.action === "send-message" && message.sendername != undefined);
         if (storedMessage.length > 0) {
             localStorage.setItem('messages', JSON.stringify(storedMessage));
         }
@@ -208,9 +198,8 @@ const ChatRoom = () => {
         const fetchMessages = async () => {
             try {
                 const data = await getMessagesByRoom(roomNumber);
-                // Enable it only for few message to avoid too much data in bdd - use localstorage instead
                 setSavedMessages(data);
-                // @TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
+                // TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
                 // console.log("get messages by room =====> ", data);
                 // console.log("saved messages =====> ", savedMessages);
                 // if (data.messages && data.messages.length > 0) {
@@ -228,53 +217,35 @@ const ChatRoom = () => {
         });
     }, []);
 
+    const onMessageAction = (action: string, personName: string) => {
+        console.log('action ', action)
+        console.log('personName ', personName)
 
-const onMessageAction = (action: string, personName: string) => {
-    console.log('action ', action)
-    console.log('personName ', personName)
+        if(action) {
+            if(action === "hub-joined") {
+                toastMessage(`Bienvenue dans la salle`);
+                // setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
+            }
+        }
 
-    if (action) {
-        if (action === "hub-joined") {
-            toastMessage(`Bienvenue dans la salle`);
+        if (personName && action) {
+            if (personName != "" && (action === "user-join")) {
+                toastMessage(`${personName} vient de rejoindre la salle`);
+                // setConnectedUsers((prevConnectedUsers) => [...prevConnectedUsers, personName]);
+            }
+            if (personName != "" && action === "user-left") {
+                toastMessage(`${personName} vient de quitter la salle`);
+                // setConnectedUsers((prevConnectedUsers) => prevConnectedUsers.filter((user) => user !== personName));
+            }
         }
     }
-
-    if (personName && action) {
-        if (personName != "" && (action === "user-join")) {
-            toastMessage(`${personName} vient de rejoindre la salle`);
-
-            setConnectedUsers((prevUsers: any) => {
-                const existingUser = prevUsers.find((user:any) => user.username === personName && user.roomId === roomNumber);
-
-                if (existingUser) {
-                    return prevUsers.map((user:any) =>
-                        user.username === personName && user.roomId === roomNumber
-                            ? { ...user, action: action }
-                            : user
-                    );
-                } else {
-                    return [...prevUsers, { username: personName, roomId: roomNumber, roomName: name, action: action }];
-                }
-            });
-        }
-        if (personName != "" && action === "user-left") {
-            toastMessage(`${personName} vient de quitter la salle`);
-            // setConnectedUsers((prevConnectedUsers) => prevConnectedUsers.filter((user) => user !== personName));
-            setConnectedUsers((users: any) => users.filter((user: any) => user.username !== personName))
-        }
-    }
-}
-
-
-
 
     const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMessageInput({
             action: "send-message",
             message: e.target.value,
             target: {
-                // id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
-                id: crypto.randomUUID(),
+                id: "989996dd-f092-479e-a1b6-192c0a7d19f1",
                 name: roomNumber
             }
         })
@@ -285,28 +256,13 @@ const onMessageAction = (action: string, personName: string) => {
         setAction('message-saved')
     }
 
-    console.log("connected user ==>", connectedUsers)
-
     return (
         <main className="main-container">
             <div className={"flex-childs-column --flex-centered"}>
                 <div className="margin-y-40">
-                    <h1 className="category-title --left"> {name} </h1>
+                    <h1 className="category-title --left under-line"> {name} </h1>
+                    <h2 className="category-text --left text-darkBlue"> Bienvenue {username} </h2>
                     <p className="category-text --left text-darkpink"> {description}</p>
-                    <div className="connected-users-wrapper">
-                        {connectedUsers.filter((user) => user.username != ""
-                            && user.roomId != ""
-                            && user.roomId === roomNumber
-                            && user.username != undefined
-                            && user.username != "")
-                            .map((user, index) => (
-                                <>
-                                    <div key={index} className="connected-user">
-                                        <span className="connected-user__pill"></span>
-                                        <span className="connected-user__name">{user.username} ({user.roomName})</span>
-                                    </div>
-                                </>))}
-                    </div>
                 </div>
                 {(username && username.length > 0) && (
                     <div className={`logs-container margin-y-40
@@ -316,8 +272,8 @@ const onMessageAction = (action: string, personName: string) => {
                         ? "chat-active" : ""}
                       `} ref={messageContainerRef}
                     >
-                        <button type={"button"} className={`btn-mini
-                    ${(savedMessages.messages && savedMessages.messages.length > 3) ? "width-150 c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
+                        <button type={"button"} className={`btn-mini max-width-150
+                    ${(savedMessages.messages && savedMessages.messages.length > 0) ? "width-10 c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
                                 onClick={() => setOpenHistory(true)}>Historique
                         </button>
                         {messages
@@ -331,17 +287,15 @@ const onMessageAction = (action: string, personName: string) => {
                                     <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
                                         <span className="message__content">{message?.sendermessage}</span>
                                     </div>
-                                    <div className={`log__name ${message.sendername === username ? '' : '--other'}`}>
+                                    <div className="log__name">
                                         <p>{message.sendername}</p>
                                     </div>
                                 </div>
-
-
                             ))}
                     </div>)}
             </div>
             {username && username.length > 0 ? (
-                <form className="message-form margin-top-10" onSubmit={sendMessage}>
+                <form className="message-form margin-top-20" onSubmit={sendMessage}>
                     <div className="message-form__submit">
                         <GiTalk className="talk-icon"/>
                         <input type="submit" className="message-send" value="Parler"/>
@@ -356,8 +310,8 @@ const onMessageAction = (action: string, personName: string) => {
                     />
                 </form>) : (
                 <div className="categories-container">
-                    <h2 className="category-text text-lightLavender padding-30 bgd-black">
-                        Veuillez vous déconnecter puis vous reconnecter pour chatter </h2>
+                    <h2 className="category-text text-lightLavender padding-30 bgd-black"> Veuillez vous déconnecter
+                        puis vous reconnecter pour chatter </h2>
                 </div>
             )}
             {openHistory &&
