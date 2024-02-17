@@ -274,7 +274,8 @@ const ChatRoom = () => {
                       `} ref={messageContainerRef}
                     >
                         <button type={"button"} className={`btn-mini max-width-150
-                    ${(savedMessages.messages && savedMessages.messages.length > 0) ? "c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
+                    ${(savedMessages.messages && savedMessages.messages.length > 0) ? 
+                            "c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
                                 onClick={() => setOpenHistory(true)}>Historique
                         </button>
                         {messages

@@ -11,9 +11,9 @@ export const OldMessages = ({messages, savedMessages, setOpenHistory } : IMessag
         <div className={"modal"}>
             <div className={"modal-content large-auto"}>
                 <div className="modal-header">
-                    <span className="close" onClick={onClose}>&times;</span>
+                    <span className=" close" onClick={onClose}>&times;</span>
                 </div>
-                <div className="modal-body no-padding-y">
+                <div className="margin-top-20 modal-body no-padding-y">
                     <div className={`card ${savedMessages.messages ? "chat-active" : "make-none"}`}>
                         <h1>Mon historique</h1>
                         {(messages.length && messages.length > 0 && savedMessages.messages) &&

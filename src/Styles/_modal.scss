@@ -123,6 +123,7 @@
 }
 
 .modal-header {
+  min-height: 50px;
   width: 100%;
   border-radius: 5px;
   padding: 0 20px;
@@ -254,6 +255,7 @@
 }
 
 .close {
+  z-index: calc($z-toppest + 100);
   font-size: 40px;
   position: absolute;
   top: 5px;
