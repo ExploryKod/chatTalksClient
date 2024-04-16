@@ -12,6 +12,7 @@ import {useMessagesStore} from "../StateManager/roomStore.ts";
 
 
 const ChatRoom = () => {
+    const serverHost = config.serverHost;
     const serverWsHost: string = config.serverWsHost;
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -69,7 +70,7 @@ const ChatRoom = () => {
             return;
         }
         socket.send(JSON.stringify(messageInput));
-        const response: Promise<Response> = fetch('http://localhost:8000/send-message', {
+        const response: Promise<Response> = fetch(`${serverHost}/send-message`, {
             method: 'POST',
             mode: "cors",
             credentials: 'same-origin',
