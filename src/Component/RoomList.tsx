@@ -13,12 +13,10 @@ import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import {RoomUpdateModal} from "./RoomUpdateModal.tsx";
-import {Loader} from "./Loader.tsx";
 
 export default function RoomList() {
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
     const [openUpdateRoomModal, setOpenUpdateRoomModal] = useState(false);
-    // const [isLoading, setIsLoading] = useState(false);
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [roomList, setRoomList] = useState<IRoom[]>([]);

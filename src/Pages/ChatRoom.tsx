@@ -124,7 +124,7 @@ const ChatRoom = () => {
             setSocket(newSocket)
         }
 
-        newSocket.onclose = (event) => {
+        newSocket.onclose = () => {
             setSocket(null);
         };
 
