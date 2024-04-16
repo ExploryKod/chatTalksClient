@@ -10,12 +10,16 @@ interface LoggedState {
     removeAdminStatus: () => void;
     removeToken: () => void;
     removeUsername: () => void;
+    userId: string;
+    setUserId: (userId: string) => void;
+    removeUserId: () => void;
 }
 
 export const useLoggedStore = create<LoggedState>((set) => ({
     token: localStorage.getItem('token') || '',
     username: localStorage.getItem('username') || '',
     admin: localStorage.getItem('admin') || '',
+    userId: localStorage.getItem('userId') || '',
     setToken: (token: string) => {
         localStorage.setItem('token', token);
         set({ token: token });
@@ -38,6 +42,14 @@ export const useLoggedStore = create<LoggedState>((set) => ({
     },
     removeAdminStatus: () => {
         localStorage.removeItem('admin');
+    },
+    setUserId: (userId: string) => {
+        localStorage.setItem('userId', userId);
+        set({ userId: userId });
+    },
+    removeUserId: () => {
+        localStorage.removeItem('userId');
+        set({ userId: '' });
     }
 }));
 

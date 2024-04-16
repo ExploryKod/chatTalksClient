@@ -8,6 +8,7 @@ import BecomeAdmin from "./Pages/BecomeAdmin.tsx";
 import {Credits} from "./Pages/Credits.tsx";
 import { ErrorBoundary } from 'react-error-boundary'
 import { useState } from "react";
+import UserDiscussions from "./Pages/UserDiscussions.tsx";
 
 function FallbackComponent({ error, resetErrorBoundary }: any) {
     return (
@@ -58,6 +59,12 @@ function App() {
                     <Route path='/become-admin' element={
                         <NeedAuth>
                             <BecomeAdmin/>
+                        </NeedAuth>
+                    }/>
+
+                    <Route path='/user-discussions' element={
+                        <NeedAuth>
+                            <UserDiscussions/>
                         </NeedAuth>
                     }/>
                 </Route>

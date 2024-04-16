@@ -16,7 +16,7 @@ const Connexion = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toastMessage } = useFlashMessage('')
   const navigate = useNavigate();
-  const { setToken, setUsername, setAdminStatus } = useLoggedStore();
+  const { setToken, setUsername, setAdminStatus, setUserId } = useLoggedStore();
   const { isError, onPasswordChange } = usePasswordMeter()
 
   const handleToggle = () => {
@@ -74,11 +74,12 @@ const Connexion = () => {
         console.log('réponse bien reçu');
         const data = await response.json();
         if(data.token) {
-          console.log(data)
+          console.log("Data recu Connexion",data)
           console.log('token bien reçu ', data.token)
           setToken(data.token);
           setUsername(formData.username);
           setAdminStatus(data.admin);
+          setUserId(data.user.id);
           setIsLoading(false);
         } else {
           setToken('');

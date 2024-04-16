@@ -35,11 +35,14 @@ const Navigation = () => {
                     <Link className='nav-link board' to='/'>
                         Board
                     </Link>
+                    <Link to={"/user-discussions"} className="nav-link user-discussions">
+                        Mes Discussions
+                    </Link>
                     <Link className='nav-link salon' to='/chat'>
                         Salon
                     </Link>
                     {admin !== "1" && (
-                        <Link className="nav-link admin" to={"/become-admin"}>Devenir Adminstrateur</Link>
+                        <Link className="nav-link admin" to={"/become-admin"}>Devenir Administrateur</Link>
                     )}
                 </div>
                 <div className='nav-links-container --vertical last-nav'>
