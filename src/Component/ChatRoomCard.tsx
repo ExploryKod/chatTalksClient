@@ -3,7 +3,7 @@ import config from "../config/config.tsx";
 import {Link} from 'react-router-dom';
 import type {IRoom} from "../Types/typeRooms.d.ts";
 import {useLoggedStore} from "../StateManager/userStore.ts";
-import {useLoaderStore} from "../StateManager/loaderStore.ts";
+// import {useLoaderStore} from "../StateManager/loaderStore.ts";
 import {useRoomStore} from "../StateManager/roomStore.ts";
 import {useEffect} from "react";
 import {Loader} from "./Loader.tsx";
@@ -14,7 +14,7 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
     const imageUrl = "/images_food/boisson_chicoree.jpg";
     const {token} = useLoggedStore();
     const {setRoomName, setRoomId, setRoomDescription} = useRoomStore();
-    const {setLoader} = useLoaderStore();
+    // const {setLoader} = useLoaderStore();
     // const [image, setImage] = useState<string>("");
 
     useEffect(() => {
