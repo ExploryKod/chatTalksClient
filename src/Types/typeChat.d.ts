@@ -12,7 +12,7 @@ export interface ISavedMessage extends SenderMessage {
     room_id?: string | null;
     created_at?: string | null;
     username?: string | null;
-    // content?: string | null;
+    content?: string | null;
 }
 
 export interface IMessagesSaved {
