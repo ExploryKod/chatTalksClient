@@ -68,9 +68,6 @@ export default function RoomList() {
         <>
             {isLoading ? (
                 <div className="loader-lists">
-                    <div className="loader-container">
-                        <Loader />
-                    </div>
                     <p className={"loader-text"}>En attente des salles de chat ...</p>
                 </div>
             ): (

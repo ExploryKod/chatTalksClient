@@ -22,7 +22,7 @@ export const ConfirmModal = ({title,selectedUser, userList, setUserList, setOpen
 
         })
             .then(response => response.json())
-            .then((data) => {
+            .then(() => {
                 setUserList(values => {
                     return values.filter(item => item.id.toString() !== user.id.toString())
                 })

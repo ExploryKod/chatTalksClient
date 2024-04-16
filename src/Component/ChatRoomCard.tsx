@@ -34,7 +34,6 @@ export const ChatRoomCard = ({id, name, description}: IRoom) => {
             });
 
             if (response.ok) {
-                const data = await response.json();
                 setIsLoading(false);
             } else {
                 console.error('échec de la réponse chatroom');
