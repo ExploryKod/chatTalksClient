@@ -25,9 +25,7 @@ export const ConfirmRoomModal = ({title,selectedRoom, roomList, setRoomList, set
 
         })
             .then(response => response.json())
-            .then((data) => {
-                console.log(data)
-
+            .then(() => {
                 setRoomList(values => {
                     return values.filter(item => item.id.toString() !== room.id.toString())
                 })

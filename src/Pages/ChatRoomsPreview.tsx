@@ -31,7 +31,7 @@ const ChatRoomsPreview = () => {
       const fetchData = async () => {
         try {
           const data = await getRoomsList();
-          console.log('roomlist data', data);
+
           setRoomsList(data);
           setIsLoading(false);
         } catch (error) {
@@ -72,9 +72,7 @@ const ChatRoomsPreview = () => {
                 });
 
                 if (response.ok) {
-                    console.log('room created');
                     const data = await response.json();
-                    console.log("data",data)
                     if(data.id && data.name && data.description) {
                         const newRoom ={id: data.id, name: data.name, description: data.description} as IRoom;
                         setRoomsList([...roomsList, newRoom]);
@@ -86,7 +84,6 @@ const ChatRoomsPreview = () => {
                     }
                 } else {
                     setIsLoading(false);
-                    console.log('échec de la création de room');
                     toastMessage('échec dans la création de la salle', toastOptionsError);
                 }
 

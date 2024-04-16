@@ -69,13 +69,11 @@ const Connexion = () => {
           ...formData
         })
       });
-      console.log('response login ', response)
+
       if (response.ok) {
-        console.log('réponse bien reçu');
+
         const data = await response.json();
         if(data.token) {
-          console.log(data)
-          console.log('token bien reçu ', data.token)
           setToken(data.token);
           setUsername(formData.username);
           setAdminStatus(data.admin);

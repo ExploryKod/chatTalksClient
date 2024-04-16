@@ -69,7 +69,6 @@ const ChatRoom = () => {
             return;
         }
         socket.send(JSON.stringify(messageInput));
-        // console.log('username', username)
         const response: Promise<Response> = fetch('http://localhost:8000/send-message', {
             method: 'POST',
             mode: "cors",
@@ -122,24 +121,20 @@ const ChatRoom = () => {
         const newSocket = new WebSocket(`${serverWsHost}/ws?name=${username ? username : "unknown"}`);
 
         newSocket.onopen = () => {
-            console.log('WebSocket connected');
             setSocket(newSocket)
         }
 
         newSocket.onclose = (event) => {
-            console.log('WebSocket closed:', event);
             setSocket(null);
         };
 
         newSocket.onmessage = (event) => {
             let data = event.data;
             data = data.split(/\r?\n/);
-            // console.log('WebSocket data:', data)
+
             data.forEach((element: string) => {
-                // console.log('WebSocket element:', element)
+
                 let msg = JSON.parse(element);
-                // console.log('WebSocket msg:', msg.message)
-                // console.log('WebSocket action:', msg.action)
 
                 if (msg.action &&
                     msg?.action !== "send-message" &&
@@ -181,7 +176,7 @@ const ChatRoom = () => {
     }, []);
 
     useEffect(() => {
-        console.log('NUMBER ROOM', typeof roomNumber)
+
         let storedMessage = messages.filter((message) =>
             message.room_id === roomNumber
             && message.action === "send-message"
@@ -208,16 +203,7 @@ const ChatRoom = () => {
         const fetchMessages = async () => {
             try {
                 const data = await getMessagesByRoom(roomNumber);
-                // Enable it only for few message to avoid too much data in bdd - use localstorage instead
                 setSavedMessages(data);
-                // @TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
-                // console.log("get messages by room =====> ", data);
-                // console.log("saved messages =====> ", savedMessages);
-                // if (data.messages && data.messages.length > 0) {
-                //     setMessages([...data.messages]);
-                // } else {
-                //     setMessages((prevMessages) => [...prevMessages]);
-                // }
             } catch (error) {
                 console.error('Erreur:', error);
             }
@@ -230,8 +216,6 @@ const ChatRoom = () => {
 
 
 const onMessageAction = (action: string, personName: string) => {
-    console.log('action ', action)
-    console.log('personName ', personName)
 
     if (action) {
         if (action === "hub-joined") {
@@ -284,8 +268,6 @@ const onMessageAction = (action: string, personName: string) => {
         setSendermessage(e.target.value)
         setAction('message-saved')
     }
-
-    console.log("connected user ==>", connectedUsers)
 
     return (
         <main className="main-container">

@@ -30,7 +30,6 @@ export default function UserList() {
     const fetchData = async () => {
       try {
         const data = await getUserList();
-        console.log('userlist data', data);
         setUserList(data);
         setIsLoading(false);
       } catch (error) {
@@ -38,7 +37,7 @@ export default function UserList() {
       }
     };
 
-    fetchData().then(r => console.log('retour promesse: ', r));
+    fetchData()
 
   },[]);
 

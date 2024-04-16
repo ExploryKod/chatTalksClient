@@ -38,7 +38,7 @@ export const RoomUpdateModal = ({title,selectedRoom, roomList, setRoomList, setO
             if (response.ok) {
                 const data = await response.json();
                 toastMessage(data.message, toastOptionsSuccess);
-                console.log(data)
+
                 setRoomList(values => {
                     return values.map(item => item.id === selectedRoom.id ? {...item, ...updatedRoomData} : item)
                 })

@@ -39,7 +39,6 @@ export const UpdateUserModal = ({selectedUser, userList, setUserList, setOpenUpd
             if (response.ok) {
                 const data = await response.json();
                 toastMessage(data.message, toastOptionsSuccess);
-                console.log(data)
                 setUserList(values => {
                     return values.map(item => item.id === selectedUser.id ? {...item, ...updatedData} : item)
                 })

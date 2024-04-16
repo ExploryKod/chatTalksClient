@@ -42,7 +42,6 @@ export default function RoomList() {
         const fetchRoomData = async () => {
             try {
                 const data = await getRoomList();
-                console.log('roomlist data', data);
                 setRoomList(data);
                 setIsLoading(false);
             } catch (error) {
