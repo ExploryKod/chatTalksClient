@@ -13,6 +13,7 @@ import { FaUserCog } from "react-icons/fa";
 import { Tooltip } from "./Tooltip.tsx";
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import {RoomUpdateModal} from "./RoomUpdateModal.tsx";
+import {Loader} from "./Loader.tsx";
 
 export default function RoomList() {
     const [openConfirmRoomModal, setOpenConfirmRoomModal] = useState(false);
@@ -66,6 +67,9 @@ export default function RoomList() {
         <>
             {isLoading ? (
                 <div className="loader-lists">
+                    <div className="loader-container">
+                        <Loader />
+                    </div>
                     <p className={"loader-text"}>En attente des salles de chat ...</p>
                 </div>
             ): (
