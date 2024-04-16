@@ -11,7 +11,7 @@
 Evaluation pour le cour de HETIC WEB3 - SOLUTION FRONT 
 
 ### Equipe conceptrice: 
-- [Amaury FRANSSEN](https://github.com/ExploryKod) 
+- [Amaury](https://github.com/ExploryKod) 
 - [Nassim](https://github.com/NasssDev)
 - [Ashraf](https://github.com/Achkey)
 - [Maxime](https://github.com/Jylt-wNz)
