@@ -154,12 +154,11 @@ const ChatRoom = () => {
                         sendermessage: msg?.message,
                         action: msg?.action,
                         id: null,
-                        content: null,
-                        username: null,
+                        content: msg?.message,
+                        username: msg?.sender?.name,
                         room_id: roomNumber ? roomNumber : null,
                         user_id: null,
                         created_at: null,
-
                     }
                 ]);
 
@@ -201,13 +200,17 @@ const ChatRoom = () => {
                 const data = await getMessagesByRoom(roomNumber);
                 setSavedMessages(data);
                 // TODO : finir la BDD pour pouvoir utiliser les messages enregistrés
-                // console.log("get messages by room =====> ", data);
+                console.log("get messages by room =====> ", data);
                 // console.log("saved messages =====> ", savedMessages);
-                // if (data.messages && data.messages.length > 0) {
-                //     setMessages([...data.messages]);
-                // } else {
-                //     setMessages((prevMessages) => [...prevMessages]);
-                // }
+                if (data.messages && data.messages.length > 0) {
+                    setMessages([...data.messages]);
+                    setMessages((prevMessages) => {
+                        console.log('prevMessages', prevMessages)
+                        return [...prevMessages]
+                    });
+                } else {
+                    setMessages((prevMessages) => [...prevMessages]);
+                }
             } catch (error) {
                 console.error('Erreur:', error);
             }
@@ -260,9 +263,9 @@ const ChatRoom = () => {
     return (
         <main className="main-container">
             <div className={"flex-childs-column --flex-centered"}>
-                <div className="margin-y-40">
+                <div className="margin-y-30">
                     <h1 className="category-title --left under-line"> {name} </h1>
-                    <h2 className="category-text --left text-darkBlue"> Bienvenue {username} </h2>
+                    {/*<h2 className="category-text --left text-darkBlue"> Bienvenue {username} </h2>*/}
                     <p className="category-text --left text-darkpink"> {description}</p>
                 </div>
                 {(username && username.length > 0) && (
@@ -280,17 +283,17 @@ const ChatRoom = () => {
                         </button>
                         {messages
                             .filter((message) =>
-                                message.sendermessage != ""
-                                && message.sendername != undefined
-                                && message.sendername != "")
+                                message.content != ""
+                                && message.username != undefined
+                                && message.username != "")
                             .map((message, index) => (
                                 <div key={index} className={`logs-container__log 
-                        ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.sendername === username ? 'log-user' : 'log-other'}`}>
+                        ${message.action != "send-message" ? "user-action" : "user-talk"} ${message.username === username ? 'log-user' : 'log-other'}`}>
                                     <div className="log__message"><BiSolidUserVoice className="voice-icon"/>&nbsp;
-                                        <span className="message__content">{message?.sendermessage}</span>
+                                        <span className="message__content">{message?.content}</span>
                                     </div>
-                                    <div className="log__name">
-                                        <p>{message.sendername}</p>
+                                    <div className={`log__name ${message.username !== username && '--other'}`}>
+                                        <p>{message.username}</p>
                                     </div>
                                 </div>
                             ))}
@@ -298,10 +301,6 @@ const ChatRoom = () => {
             </div>
             {username && username.length > 0 ? (
                 <form className="message-form margin-top-20" onSubmit={sendMessage}>
-                    <div className="message-form__submit">
-                        <GiTalk className="talk-icon"/>
-                        <input type="submit" className="message-send" value="Parler"/>
-                    </div>
 
                     <input
                         type="text"
@@ -310,6 +309,10 @@ const ChatRoom = () => {
                         value={messageInput.message}
                         onChange={handleMessageChange}
                     />
+                    <div className="message-form__submit">
+                        <GiTalk className="talk-icon"/>
+                        <input type="submit" className="message-send" value="Parler"/>
+                    </div>
                 </form>) : (
                 <div className="categories-container">
                     <h2 className="category-text text-lightLavender padding-30 bgd-black"> Veuillez vous déconnecter
