@@ -299,12 +299,14 @@
   padding: 15px 20px;
   margin: 5px 20px; /* Ajout de marges pour ne pas coller aux extrémités */
   background-color: $darkBlue;
-  border-radius: $round-sm
+  border-radius: $round-sm;
 }
 
 .discussion-info {
   display: flex;
   flex-direction: column;
+  position: relative;
+  min-height: 60px;
 }
 
 .discussion-name {
@@ -318,4 +320,25 @@
   font-size: 16px;
   color: $lightLavender;
   margin-top: 5px; /* Espacement entre le nom de la discussion et le dernier message */
+}
+// add .last-message-date to the extrem right of his parent
+.last-message-date {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 14px;
+  color: $lightLavender;
+}
+
+.delete-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: white;
+  right: 0;
+  cursor: pointer;
 }
