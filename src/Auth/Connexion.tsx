@@ -137,7 +137,7 @@ return (
               </div>
               <div className="form-elem">
                 <label htmlFor="password-register"></label>
-                <input type="text" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
+                <input type="password" name="password" id="password-register" placeholder="Choisir un mot de passe" onChange={handleRegisterChange} required />
                 <div className="margin-top-5 padding-20">
                   {(isError && isError != "") && <p className={`text-red`}>{isError}</p>}
                 </div>
@@ -164,7 +164,7 @@ return (
                   <input type="text" name="username" id="username" placeholder="Votre pseudo" onChange={handleChange} required />
                 </div>
                 <div className="form-elem">
-                  <input type="text" name="password" id="password" placeholder="Mot de passe" onChange={handleChange} required />
+                  <input type="password" name="password" id="password" placeholder="Mot de passe" onChange={handleChange} required />
                 </div>
                 <div className="form-elem">
                   <button type="submit" className="button-container">
