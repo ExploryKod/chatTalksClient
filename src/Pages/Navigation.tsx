@@ -1,5 +1,5 @@
 import {Fragment } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import {Outlet, Link, useNavigate, useLocation} from 'react-router-dom';
 import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
 import { LogOut } from 'lucide-react';
@@ -11,7 +11,7 @@ const Navigation = () => {
     const { removeToken, removeUsername, removeAdminStatus, admin } = useLoggedStore();
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
     const avatarImg :string = "https://picsum.photos/id/1011/500/500"
-
+    const location  = useLocation();
     const handleLogout = () => {
         removeToken();
         removeUsername();
@@ -32,13 +32,13 @@ const Navigation = () => {
                     </div>
                 </div>
                 <div className='nav-links-container --vertical second-nav'>
-                    <Link className='nav-link board' to='/'>
+                    <Link style={location.pathname === "/" ? {color: "salmon"}: {}} className='nav-link board' to='/'>
                         Board
                     </Link>
-                    <Link to={"/user-discussions"} className="nav-link user-discussions">
+                    <Link style={location.pathname === "/user-discussions" ? {color: "salmon"}: {}} to={"/user-discussions"} className="nav-link user-discussions">
                         Mes Discussions
                     </Link>
-                    <Link className='nav-link salon' to='/chat'>
+                    <Link style={location.pathname === "/chat" ? {color: "salmon"}: {}} className='nav-link salon' to='/chat'>
                         Salon
                     </Link>
                     {admin !== "1" && (
