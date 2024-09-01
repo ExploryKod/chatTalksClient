@@ -4,7 +4,6 @@ import Profile from "./Pages/Profile";
 import Connexion from "./Auth/Connexion";
 import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
-import BecomeAdmin from "./Pages/BecomeAdmin.tsx";
 import {Credits} from "./Pages/Credits.tsx";
 import { ErrorBoundary } from 'react-error-boundary'
 import { useState } from "react";
