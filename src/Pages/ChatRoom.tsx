@@ -7,7 +7,7 @@ import {useLoggedStore} from "../StateManager/userStore.ts";
 import type {Message, RoomMessage, ISavedMessage } from '../Types/typeChat.d.ts';
 import useFlashMessage from "../Hook/useFlashMessage.tsx";
 import useGetMessagesByRoom from "../Hook/useGetMessagesByRoom.tsx";
-import {OldMessages} from "../Component/OldMessages.tsx";
+//import {OldMessages} from "../Component/OldMessages.tsx";
 import {useMessagesStore} from "../StateManager/roomStore.ts";
 
 
@@ -27,8 +27,8 @@ const ChatRoom = () => {
         target: {id: "", name: roomNumber}
     });
     const [socket, setSocket] = useState<WebSocket | null>(null);
-    const {getMessagesByRoom, setSavedMessages, savedMessages} = useGetMessagesByRoom();
-    const [openHistory, setOpenHistory] = useState<boolean>(false)
+    const {getMessagesByRoom, setSavedMessages} = useGetMessagesByRoom();
+    //const [openHistory, setOpenHistory] = useState<boolean>(false)
     const {setRoomId, setSendername, setSendermessage, setAction} = useMessagesStore()
 
     // UseRef and other queries
@@ -274,8 +274,8 @@ const onMessageAction = (action: string, personName: string) => {
         <main className="main-container">
             <div className={"flex-childs-column --flex-centered"}>
                 <div className="margin-y-40">
-                    <h1 className="category-title --left"> {name} </h1>
-                    <p className="category-text --left text-darkpink"> {description}</p>
+                    <h1 className="--left category-title"> {name} </h1>
+                    <p className="--left text-darkpink category-text"> {description}</p>
                     <div className="connected-users-wrapper">
                         {connectedUsers.filter((user) => user.username != ""
                             && user.roomId != ""
@@ -299,10 +299,10 @@ const onMessageAction = (action: string, personName: string) => {
                         ? "chat-active" : ""}
                       `} ref={messageContainerRef}
                     >
-                        <button type={"button"} className={`btn-mini
+                        {/* <button type={"button"} className={`btn-mini
                     ${(savedMessages.messages && savedMessages.messages.length > 3) ? "width-150 c-pointer p-events-auto opacity-100" : "width-0 c-pointer-none p-events-none opacity-0"}`}
                                 onClick={() => setOpenHistory(true)}>Historique
-                        </button>
+                        </button> */}
                         {messages
                             .filter((message) =>
                                 message.sendermessage != ""
@@ -324,7 +324,7 @@ const onMessageAction = (action: string, personName: string) => {
                     </div>)}
             </div>
             {username && username.length > 0 ? (
-                <form className="message-form margin-top-10" onSubmit={sendMessage}>
+                <form className="margin-top-10 message-form" onSubmit={sendMessage}>
                     <div className="message-form__submit">
                         <GiTalk className="talk-icon"/>
                         <input type="submit" className="message-send" value="Parler"/>
@@ -339,12 +339,12 @@ const onMessageAction = (action: string, personName: string) => {
                     />
                 </form>) : (
                 <div className="categories-container">
-                    <h2 className="category-text text-lightLavender padding-30 bgd-black">
+                    <h2 className="text-lightLavender bgd-black category-text padding-30">
                         Veuillez vous déconnecter puis vous reconnecter pour chatter </h2>
                 </div>
             )}
-            {openHistory &&
-                <OldMessages messages={messages} savedMessages={savedMessages} setOpenHistory={setOpenHistory}/>}
+            {/* {openHistory &&
+                <OldMessages messages={messages} savedMessages={savedMessages} setOpenHistory={setOpenHistory}/>} */}
         </main>
     );
 };

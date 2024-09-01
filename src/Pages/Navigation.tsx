@@ -8,7 +8,7 @@ const Navigation = () => {
 
     const navigate = useNavigate();
     const { toastMessage, createDefaultToastOptions } = useFlashMessage('');
-    const { removeToken, removeUsername, removeAdminStatus, admin } = useLoggedStore();
+    const { removeToken, removeUsername, removeAdminStatus } = useLoggedStore();
     const toastOptionsSuccess = createDefaultToastOptions({type: 'success', position: 'top-center', autoClose: 3000});
     const avatarImg :string = "https://picsum.photos/id/1011/500/500"
 
@@ -23,27 +23,24 @@ const Navigation = () => {
 
     return (
         <Fragment>
-            <div className='navigation --vertical --justify-between padding-top-30'>
-                <div className='nav-links-container --vertical first-nav'>
-                    <div className="nav-link avatar">
-                        <div className="avatar-container margin-bottom-30">
+            <div className='padding-top-30 --justify-between --vertical navigation'>
+                <div className='--vertical first-nav nav-links-container'>
+                    <div className="avatar nav-link">
+                        <div className="margin-bottom-30 avatar-container">
                             <img className="avatar-container__image" src={avatarImg} alt="avatar"/>
                         </div>
                     </div>
                 </div>
-                <div className='nav-links-container --vertical second-nav'>
-                    <Link className='nav-link board' to='/'>
-                        Board
+                <div className='--vertical nav-links-container second-nav'>
+                    <Link className='board nav-link' to='/'>
+                        Mon board
                     </Link>
                     <Link className='nav-link salon' to='/chat'>
-                        Salon
+                        Les Salons
                     </Link>
-                    {admin !== "1" && (
-                        <Link className="nav-link admin" to={"/become-admin"}>Devenir Adminstrateur</Link>
-                    )}
                 </div>
-                <div className='nav-links-container --vertical last-nav'>
-                    <button className='nav-link exit-btn' onClick={handleLogout}>
+                <div className='--vertical last-nav nav-links-container'>
+                    <button className='exit-btn nav-link' onClick={handleLogout}>
                         <span>Se déconnecter</span>
                         <span className="exit-btn__icon"><LogOut  size={24} /></span>
                     </button>

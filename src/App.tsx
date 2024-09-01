@@ -55,11 +55,6 @@ function App() {
                             <ChatBoard/>
                         </NeedAuth>
                     }/>
-                    <Route path='/become-admin' element={
-                        <NeedAuth>
-                            <BecomeAdmin/>
-                        </NeedAuth>
-                    }/>
                 </Route>
                 <Route path='/credits' element={<Credits/>}/>
                 <Route path='/connexion' element={<Connexion/>}/>
