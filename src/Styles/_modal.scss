@@ -217,7 +217,11 @@
       background-color: $warning;
     }
 
-    &.bg-sucess {
+    &.bg-light {
+      background: $light;
+    }
+
+    &.bg-sucess, &.bg-success {
       background-color: $success;
     }
 

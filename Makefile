@@ -2,7 +2,7 @@ CURRENT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
 ROOT_DIR=$(CURRENT_DIR)
 CURRENT_USER=
 DOCKER_NAME=vite_docker
-DOCKER_COMPOSE?=docker-compose
+DOCKER_COMPOSE?=docker compose
 DOCKER_EXEC_TOOLS_APP=$(CURRENT_USER) docker exec -it $(DOCKER_NAME) sh
 NODE_INSTALL="npm i"
 SERVER_RUN="npm run dev"
@@ -35,15 +35,6 @@ server_build:
 
 neat_place:
 	$(DOCKER_EXEC_TOOLS_APP) -c "rm -rf dist && rm -rf src/css && mkdir src/css && touch src/css/index.css"
-
-#copy_css:
-#	$(DOCKER_EXEC_TOOLS_APP) -c "cp -r dist/assets src/css && sh -c 'cp src/css/assets/index-*.css src/css/index.css' && rm -rf src/css/assets"
-#
-#replace_css_import:
-#	$(DOCKER_EXEC_TOOLS_APP) -c "echo 'import \"./css/index.css\"' | cat - src/main.tsx > src/main.tsx.tmp && mv src/main.tsx.tmp src/main.tsx"
-#
-#comment_css_import:
-#	$(DOCKER_EXEC_TOOLS_APP) -c "sed -i 's/import \"css\/index.css\"//g' src/main.tsx"
 
 install_sass:
 	$(DOCKER_EXEC_TOOLS_APP) -c "npm install -g sass"
