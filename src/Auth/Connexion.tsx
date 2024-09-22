@@ -5,7 +5,7 @@ import { useLoggedStore } from '../StateManager/userStore';
 import useFlashMessage from '../Hook/useFlashMessage';
 import '../Styles/_flashMessage.scss';
 import { usePasswordMeter } from "../Hook/usePasswordMeter.tsx";
-import {Loader} from "../Component/Loader.tsx";
+
 
 
 const Connexion = () => {
