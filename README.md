@@ -25,6 +25,8 @@ Lien vers le repo de l'API en ligne (branch main) : https://github.com/ExploryKo
 
 Lien vers le repository du backend (site de test local) : https://github.com/ExploryKod/chatTalksDocker
 
+Lien vers le repo de l'application mobile : [Consulter](https://github.com/ExploryKod/chatTalksMobile)
+
 ## Installation en local 
 
 Créer un fichier .env à la racine et copier ce code en changeant les données :
