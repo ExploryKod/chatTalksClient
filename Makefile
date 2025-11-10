@@ -10,7 +10,7 @@ SERVER_BUILD="npm run build"
 old_css_filename="src/css/index-*.css"
 new_css_filename="src/css/index.css"
 
-.PHONY: build install dev up start first stop restart clear
+.PHONY: build install dev up start first stop restart clear fix-perms
 
 down:
 	$(DOCKER_COMPOSE) down
@@ -18,6 +18,9 @@ down:
 build:
 	$(DOCKER_COMPOSE) up --build --no-recreate -d
 
+fix-perms:
+	@echo "Fixing node_modules permissions using Docker..."
+	@$(DOCKER_EXEC_TOOLS_APP) -c "rm -rf /srv/app/node_modules" 2>/dev/null || echo "Container not running, will fix on next build"
 
 install:
 	$(DOCKER_EXEC_TOOLS_APP) -c $(NODE_INSTALL)
@@ -54,9 +57,9 @@ toasty: install_toast
 
 start: up dev
 
-uppy: build install dev
+uppy: build fix-perms install dev
 
-first: down build install dev
+first: down build fix-perms install dev
 
 npm_build: server_build
 
