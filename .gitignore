@@ -1,3 +1,5 @@
 node_modules
 /node_modules
 saving.tsx
+.env
+.idea

@@ -147,6 +147,13 @@ return (
                 </button>
               </div>
               <div className="form-elem">
+                <p className="demo-notice-text">
+                  <span className="demo-notice-icon">⚠</span> Ceci est un site de démo. Vous pouvez vous connecter 
+                  avec un faux compte donc avec un faux email car la confirmation par e-mail est désactivée. N&apos;utilisez pas votre vrai e-mail ni
+                  d&apos;autres données personnelles durant la visite.
+                </p>
+              </div>
+              <div className="form-elem">
                 <p> Déjà inscris ? <span className="to-connexion-link" onClick={handleToggle}>Se connecter</span>
                 </p>
               </div>
@@ -169,6 +176,13 @@ return (
                   </button>
                 </div>
                 <div className="form-elem">
+                  <p className="demo-notice-text">
+                    <span className="demo-notice-icon">⚠</span> Ceci est un site de démo. Vous pouvez vous connecter avec un faux compte car la
+                    confirmation par e-mail est désactivée. N&apos;utilisez pas votre vrai e-mail ni
+                    d&apos;autres données personnelles durant la visite.
+                  </p>
+                </div>
+                <div className="form-elem">
                 <p>
                   <span className="to-connexion-link" onClick={handleToggle}>Créer son compte</span>
                 </p>
@@ -178,10 +192,19 @@ return (
           </div>
         )}
       </div>
+      <div className="connexion__credits">
+        <Link to="/credits">Crédits</Link>
+
+        <Link to="/mentions-legales">Mentions légales</Link>
+    
+        <Link to="/politique-de-confidentialite">Politique de confidentialité</Link>
+
+        <Link to="/conditions-generales">CGU</Link>
+
+        <Link to="/politique-cookies">Politique cookies</Link>
+      </div>
     </div>
-    <div className="connexion__credits">
-      <Link to="/credits">Crédits</Link>
-    </div>
+
   </main>
 );
 };

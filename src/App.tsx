@@ -4,6 +4,10 @@ import Profile from "./Pages/Profile";
 import Connexion from "./Auth/Connexion";
 import ChatBoard from "./Pages/ChatBoard";
 import Navigation from "./Pages/Navigation";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import TermsOfUse from "./Pages/TermsOfUse";
+import CookiePolicy from "./Pages/CookiePolicy";
+import LegalNotice from "./Pages/LegalNotice";
 import {Credits} from "./Pages/Credits.tsx";
 import { ErrorBoundary } from 'react-error-boundary'
 import { useState } from "react";
@@ -57,6 +61,10 @@ function App() {
                 </Route>
                 <Route path='/credits' element={<Credits/>}/>
                 <Route path='/connexion' element={<Connexion/>}/>
+                <Route path='/politique-de-confidentialite' element={<PrivacyPolicy/>}/>
+                <Route path='/conditions-generales' element={<TermsOfUse/>}/>
+                <Route path='/politique-cookies' element={<CookiePolicy/>}/>
+                <Route path='/mentions-legales' element={<LegalNotice/>}/>
             </Routes>
         </BrowserRouter>
         </ErrorBoundary>

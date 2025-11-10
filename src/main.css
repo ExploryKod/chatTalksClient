@@ -327,6 +327,57 @@ li {
   color: #161c3d;
 }
 
+/* Demo Notice Modal Styles */
+.demo-notice-modal {
+  max-width: 300px;
+  width: 90%;
+  min-width: 250px;
+}
+
+.demo-notice-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+.demo-notice-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.demo-notice-cat-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  animation: float 3s ease-in-out infinite;
+}
+
+.demo-notice-cat-icon:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.demo-notice-body p {
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0;
+  color: #161C3D;
+}
+
 .table-container {
   max-width: 1000px;
   width: 80%;
